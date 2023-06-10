@@ -44,6 +44,15 @@
     #game-image {
       max-width: 50%; /* Adjust the image size as needed */
     }
+    #game-title {
+      margin-top: 10px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    #game-description {
+      margin-top: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -53,8 +62,14 @@
       <a href="profile.html" class="header-btn">Profile</a>
     </div>
     <h2>Moderation</h2>
-    <div id="url-input">
-      <input type="text" id="image-url" placeholder="Enter image URL" onchange="updateGameImage()">
+    <div id="game-title-input">
+      <input type="text" id="game-title" placeholder="Game Title" onchange="updateGameTitle()">
+    </div>
+    <div id="game-description-input">
+      <textarea id="game-description" placeholder="Game Description" onchange="updateGameDescription()"></textarea>
+    </div>
+    <div id="image-url-input">
+      <input type="text" id="image-url" placeholder="Image URL" onchange="updateGameImage()">
     </div>
     <div id="image-container">
       <img id="game-image" src="" alt="Game Image">
@@ -62,6 +77,18 @@
   </div>
 
   <script>
+    function updateGameTitle() {
+      var gameTitle = document.getElementById('game-title').value;
+      var gameTitleElement = window.opener.document.getElementById('game-of-the-day');
+      gameTitleElement.textContent = "The Game of Today is: " + gameTitle;
+    }
+
+    function updateGameDescription() {
+      var gameDescription = document.getElementById('game-description').value;
+      var gameDescriptionElement = window.opener.document.getElementById('game-description');
+      gameDescriptionElement.textContent = gameDescription;
+    }
+
     function updateGameImage() {
       var imageUrl = document.getElementById('image-url').value;
       var gameImageElement = window.opener.document.getElementById('game-image');
