@@ -7,12 +7,18 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #446999;
-      padding: 50px;
+      margin: 0;
+      padding: 0;
     }
     .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .form-container {
       max-width: 400px;
@@ -91,7 +97,7 @@
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div id="image-container">
-      <img id="game-image" src="https://cdn.discordapp.com/attachments/992580932110393394/1117058892870987826/image.png" alt="Game Image">
+      <img id="game-image" src="" alt="Game Image">
     </div>
   </div>
 
