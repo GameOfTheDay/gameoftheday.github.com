@@ -138,8 +138,8 @@
     }
 
     function updateGameImage(imageSrc) {
-      var gameImageElement = document.getElementById("game-image");
-      gameImageElement.src = imageSrc;
+      localStorage.setItem("gameImage", imageSrc);
+      window.location.href = "index.html";
     }
 
     function allowDrop(event) {
