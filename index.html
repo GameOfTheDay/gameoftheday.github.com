@@ -80,7 +80,22 @@
     #game-image {
       max-width: 50%; /* Adjust the image size as needed */
     }
+    .drop-box {
+      width: 100%;
+      padding: 50px;
+      border: 2px dashed #ccc;
+      text-align: center;
+      color: #888;
+      font-size: 18px;
+    }
   </style>
+  <script>
+    var gameImageSrc = localStorage.getItem("gameImage");
+    if (gameImageSrc) {
+      var gameImageElement = document.getElementById("game-image");
+      gameImageElement.src = gameImageSrc;
+    }
+  </script>
 </head>
 <body>
   <div class="container">
@@ -94,7 +109,10 @@
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div id="image-container">
-      <img id="game-image" src="" alt="Game Image">
+      <img id="game-image" src="https://cdn.discordapp.com/attachments/992580932110393394/1117058892870987826/image.png" alt="Game Image">
+    </div>
+    <div id="drop-box" class="drop-box" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+      Drop or paste an image here
     </div>
   </div>
 
@@ -110,12 +128,6 @@
   <script>
     // Define an array of usernames with administrator permissions
     var adminUsernames = ["Raven", "AdminUser1", "AdminUser2"]; // Add or remove usernames as needed
-
-    var gameImageSrc = localStorage.getItem("gameImage");
-    if (gameImageSrc) {
-      var gameImageElement = document.getElementById("game-image");
-      gameImageElement.src = gameImageSrc;
-    }
 
     function redirectToSignIn() {
       // Hide the initial page and show the sign-in page
@@ -169,13 +181,22 @@
       document.getElementById("profile-link").style.display = "block";
       document.getElementById("profile-link").textContent = "Profile";
 
-      window.location.href = "index.html";
+      // Show the game image if available
+      var gameImageSrc = localStorage.getItem("gameImage");
+      if (gameImageSrc) {
+        var gameImageElement = document.getElementById("game-image");
+        gameImageElement.src = gameImageSrc;
+      }
+
+      // Hide the sign-in page
+      document.getElementById("sign-in-page").style.display = "none";
     }
 
     function signOut() {
       localStorage.removeItem("username");
       localStorage.removeItem("isAdmin");
       localStorage.removeItem("loggedIn");
+      localStorage.removeItem("gameImage");
 
       // Update button visibility
       document.getElementById("signin-btn").style.display = "block";
@@ -183,18 +204,53 @@
       document.getElementById("moderation-btn").style.display = "none";
       document.getElementById("profile-link").style.display = "none";
 
-      window.location.href = "index.html";
+      // Show default game image
+      var defaultImageSrc = "https://cdn.discordapp.com/attachments/992580932110393394/1117058892870987826/image.png";
+      var gameImageElement = document.getElementById("game-image");
+      gameImageElement.src = defaultImageSrc;
     }
 
+    function handleDrop(event) {
+      event.preventDefault();
+
+      if (event.dataTransfer.items) {
+        // Get the image file from the dropped items
+        var file = event.dataTransfer.items[0].getAsFile();
+        processImageFile(file);
+      } else {
+        // Get the image file from the dropped files
+        var file = event.dataTransfer.files[0];
+        processImageFile(file);
+      }
+    }
+
+    function handleDragOver(event) {
+      event.preventDefault();
+    }
+
+    function processImageFile(file) {
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        var imageSrc = event.target.result;
+        var gameImageElement = document.getElementById("game-image");
+        gameImageElement.src = imageSrc;
+        localStorage.setItem("gameImage", imageSrc);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Check if the user is already signed in
     var loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn === "true") {
+    if (loggedIn) {
       var username = localStorage.getItem("username");
+      var isAdmin = localStorage.getItem("isAdmin") === "true";
+
+      // Update button visibility
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("signout-btn").style.display = "block";
-      document.getElementById("profile-link").style.display = "block";
-      document.getElementById("profile-link").textContent = "Profile";
-      var isAdmin = localStorage.getItem("isAdmin") === "true";
       document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
+      document.getElementById("profile-link").style.display = "block";
+      document.getElementById("profile-link").textContent = "Profile (" + username + ")";
     }
   </script>
 </body>
