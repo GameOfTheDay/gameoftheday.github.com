@@ -39,15 +39,20 @@
     .header-box {
       background-color: #0a92f8;
       padding: 10px;
+      overflow: hidden; /* Ensures proper alignment of elements */
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to Game of the Day</h1>
-    <div id="user-info" style="text-align: right;">
-      <a id="profile-link" href="profile.html">Profile</a>
-      <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
+    <div class="header-box">
+      <h1>Welcome to Game of the Day</h1>
+      <div id="user-info" style="text-align: right;">
+        <span id="username-display"></span>
+        <a id="profile-link" href="profile.html">Profile</a>
+        <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
+        <button id="moderation-btn" onclick="redirectToModeration()">Moderation</button>
+      </div>
     </div>
     <button id="signin-btn" onclick="redirectToSignIn()">Sign In</button>
   </div>
@@ -70,7 +75,32 @@
       document.getElementById("sign-in-page").style.display = "block";
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("profile-link").style.display = "none";
+      document.getElementById("moderation-btn").style.display = "none";
+    }
+
+    function redirectToModeration() {
+      // Redirect to the Moderation page
+      window.location.href = "moderation.html";
+    }
+
+    function generateRandomPassword(length) {
+      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      var password = "";
+      for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters.charAt(randomIndex);
+      }
+      return password;
+    }
+
+    function showRandomPasswordPrompt() {
+      var passwordInput = document.getElementById("password-input");
+      var passwordLength = 10; // Adjust the length of the generated password as needed
+      var generatedPassword = generateRandomPassword(passwordLength);
+      var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
+      if (useGeneratedPassword) {
+        passwordInput.value = generatedPassword;
+      }
     }
 
     function signIn() {
@@ -98,7 +128,9 @@
     var loggedIn = localStorage.getItem("loggedIn");
     if (loggedIn === "true") {
       var username = localStorage.getItem("username");
-      document.getElementById("user-info").innerHTML = '<a id="profile-link" href="profile.html">Profile</a><button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>';
+      document.getElementById("username-display").textContent = "Profile";
+      var isAdmin = localStorage.getItem("isAdmin") === "true";
+      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
     }
   </script>
 </body>
