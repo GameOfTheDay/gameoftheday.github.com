@@ -81,6 +81,13 @@
       max-width: 50%; /* Adjust the image size as needed */
     }
   </style>
+  <script>
+    var gameImageSrc = localStorage.getItem("gameImage");
+    if (gameImageSrc) {
+      var gameImageElement = document.getElementById("game-image");
+      gameImageElement.src = gameImageSrc;
+    }
+  </script>
 </head>
 <body>
   <div class="container">
