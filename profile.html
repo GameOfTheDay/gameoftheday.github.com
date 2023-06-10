@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Profile</title>
+  <title>Game of the Day</title>
   <style>
     /* CSS styling for the page */
     body {
       font-family: Arial, sans-serif;
       background-color: #446999;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .form-input {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .form-submit {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #ce5454;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .signout-btn {
+      float: right;
     }
     .header-box {
       background-color: #0a92f8;
@@ -16,7 +45,6 @@
     .header-box h1 {
       margin: 0;
       text-align: center; /* Center the text */
-      color: white;
     }
     .header-btn {
       display: inline-block;
@@ -38,12 +66,35 @@
   </style>
 </head>
 <body>
-  <div class="header-box">
-    <h1>Welcome to Game of the Day</h1>
-    <a href="index.html" class="header-btn">Back to Home</a>
+  <div class="container">
+    <div class="header-box">
+      <h1 style="margin-top: 10px;"><span id="username"></span></h1>
+      <div id="user-info" style="text-align: right;">
+        <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
+        <button id="users-btn" onclick="redirectToUsers()">Users</button>
+      </div>
+    </div>
+    <button id="back-btn" onclick="redirectToHome()">Back to Home</button>
   </div>
 
-  <!-- Your profile content goes here -->
+  <script>
+    // Retrieve the username from local storage
+    var username = localStorage.getItem("username");
+    // Set the username in the page
+    document.getElementById("username").textContent = "Welcome, " + username;
 
+    function signOut() {
+      localStorage.removeItem("username");
+      window.location.href = "index.html";
+    }
+
+    function redirectToHome() {
+      window.location.href = "index.html";
+    }
+
+    function redirectToUsers() {
+      window.location.href = "users.html";
+    }
+  </script>
 </body>
 </html>
