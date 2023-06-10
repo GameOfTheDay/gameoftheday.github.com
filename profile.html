@@ -101,12 +101,7 @@
     function addProfileButtons() {
       var btnContainer = document.getElementById("btn-container");
 
-      if (isCurrentUserProfile) {
-        // Current user's profile
-        var welcomeMessage = document.createElement("p");
-        welcomeMessage.textContent = "Welcome, " + username;
-        btnContainer.appendChild(welcomeMessage);
-      } else {
+      if (!isCurrentUserProfile) {
         // Other user's profile
         var messageButton = createButton("Message User", "messageUser");
         var challengeButton = createButton("Challenge Friend", "challengeFriend");
