@@ -41,9 +41,6 @@
       background-color: #3dc5a0;
       padding: 10px;
       overflow: hidden; /* Ensures proper alignment of elements */
-    }
-    .header-box h1 {
-      margin: 0;
       text-align: center; /* Center the text */
     }
     .header-btn {
@@ -71,6 +68,13 @@
     .secondary-header-box .header-btn {
       margin-right: 10px;
     }
+    #image-container {
+      text-align: center; /* Center the image */
+      margin-top: 20px; /* Add some space below the header */
+    }
+    #game-image {
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -82,10 +86,10 @@
       <a id="profile-link" href="profile.html" class="header-btn">Profile</a>
     </div>
     <div class="header-box">
-      <h1>Here's the game of the day!</h1>
+      <h2 id="game-of-the-day">The game of today is: X</h2>
     </div>
     <div class="header-box">
-      <h2 id="game-of-the-day">The game of today is: X</h2>
+      <h1>Game of the Day</h1>
     </div>
     <div id="image-container">
       <img id="game-image" src="" alt="Game Image">
