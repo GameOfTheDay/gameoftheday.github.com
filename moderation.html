@@ -73,7 +73,7 @@
       <input type="text" id="game-title" placeholder="Game Title" onchange="updateGameTitle()">
     </div>
     <div id="game-description-input">
-      <textarea id="game-description" placeholder="Game Description" onchange="updateGameDescription()"></textarea>
+      <textarea id="game-description" placeholder="Game Description" oninput="updateGameDescription()"></textarea>
     </div>
     <div id="image-url-input">
       <input type="text" id="image-url" placeholder="Image URL" onchange="updateGameImage()">
@@ -106,6 +106,7 @@
       var gameDescription = document.getElementById('game-description').value;
       var gameDescriptionElement = window.opener.document.getElementById('game-description');
       gameDescriptionElement.textContent = gameDescription;
+      localStorage.setItem('gameDescriptionSize', gameDescriptionElement.style.fontSize); // Store the font size in local storage
       showNotification('Game Description updated successfully!');
     }
 
@@ -115,6 +116,15 @@
       gameImageElement.src = imageUrl;
       showNotification('Game Image updated successfully!');
     }
+
+    // Load the stored font size for the game description
+    window.addEventListener('load', function() {
+      var gameDescriptionSize = localStorage.getItem('gameDescriptionSize');
+      if (gameDescriptionSize) {
+        var gameDescriptionElement = document.getElementById('game-description');
+        gameDescriptionElement.style.fontSize = gameDescriptionSize;
+      }
+    });
   </script>
 </body>
 </html>
