@@ -67,7 +67,12 @@
       var loggedInUser = localStorage.getItem("username");
 
       // Check if the logged-in user matches the profile being viewed
-      if (loggedInUser !== username) {
+      if (loggedInUser === username) {
+        // Create the welcome message for the logged-in user
+        var welcomeMessage = document.createElement("p");
+        welcomeMessage.innerText = "Welcome, " + username;
+        profileInfo.appendChild(welcomeMessage);
+      } else {
         // Create the "Message User" button
         var messageButton = document.createElement("button");
         messageButton.innerText = "Message User";
