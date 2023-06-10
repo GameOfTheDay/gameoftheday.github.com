@@ -127,7 +127,7 @@
         snake.unshift(head);
 
         // Check for collision with food
-        if (head.x === food.x && head.y === food.y) {
+        if (isFoodCollision(head, food)) {
           // Increase score and generate new food position
           score++;
           scoreElement.textContent = "Score: " + score;
@@ -182,6 +182,10 @@
         });
       }
 
+      function isFoodCollision(head, food) {
+        return head.x === food.x && head.y === food.y;
+      }
+
       function gameOver() {
         clearInterval(gameInterval);
         btnPlay.style.display = "block";
@@ -191,7 +195,7 @@
       }
 
       // Initialize the game interval
-      gameInterval = setInterval(move, 200); // Adjust the interval to control the speed of the snake
+      gameInterval = setInterval(move, 200);
 
       // Handle keyboard events to change snake direction
       document.addEventListener("keydown", function (event) {
