@@ -48,6 +48,23 @@
     .profile-info button:hover {
       background-color: #b33a3a;
     }
+    .header-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: white;
+      color: #0a92f8;
+      border: none;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .header-btn:hover {
+      background-color: #f8f8f8;
+    }
+    .header-btn:active {
+      background-color: #e8e8e8;
+    }
   </style>
 </head>
 <body>
@@ -64,7 +81,9 @@
       </div>
     </div>
 
-    <button id="back-btn" onclick="redirectToUsers()">Back to Users</button>
+    <button id="back-btn" onclick="redirectToHome()">Back to Home</button>
+    <button id="users-btn" onclick="redirectToUsers()">Users</button>
+    <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
   </div>
 
   <script>
@@ -75,8 +94,16 @@
     // Set the username in the page
     document.getElementById("username").textContent = username;
 
+    function redirectToHome() {
+      window.location.href = "index.html";
+    }
+
     function redirectToUsers() {
       window.location.href = "users.html";
+    }
+
+    function signOut() {
+      window.location.href = "index.html";
     }
   </script>
 </body>
