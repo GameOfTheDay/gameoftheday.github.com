@@ -62,8 +62,9 @@
     .line {
       position: absolute;
       top: 50%;
-      left: 0;
-      width: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 40px); /* Adjust the width to leave a 20-pixel gap on each side */
       height: 2px;
       background-color: white; /* Change the color of the line here */
     }
