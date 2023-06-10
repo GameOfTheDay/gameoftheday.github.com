@@ -55,6 +55,9 @@
   </div>
 
   <script>
+    // Check if the username is available in localStorage
+    var loggedInUser = localStorage.getItem("username");
+
     // Retrieve the username from the query parameter
     var urlParams = new URLSearchParams(window.location.search);
     var username = urlParams.get("username");
@@ -63,10 +66,7 @@
     if (username) {
       // Display the profile name on the page
       var profileName = document.getElementById("profile-name");
-      profileName.innerText = (username === localStorage.getItem("username")) ? "My Profile" : username + "'s Profile";
-
-      // Retrieve the username from local storage
-      var loggedInUser = localStorage.getItem("username");
+      profileName.innerText = (username === loggedInUser) ? "My Profile" : username + "'s Profile";
 
       // Create the profile info element
       var profileInfo = document.getElementById("profile-info");
