@@ -1,1 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snake Game</title>
+  <style>
+    /* CSS styling for the page */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #446999;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header-box {
+      background-color: #0a92f8;
+      padding: 10px;
+      overflow: hidden; /* Ensures proper alignment of elements */
+    }
+    .header-box h1 {
+      margin: 0;
+      text-align: center; /* Center the text */
+    }
+    .header-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: white;
+      color: #0a92f8;
+      border: none;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .header-btn:hover {
+      background-color: #f8f8f8;
+    }
+    .header-btn:active {
+      background-color: #e8e8e8;
+    }
+    #game-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 20px;
+    }
+    #score {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    #game-board {
+      border: 1px solid #000;
+      background-color: #fff;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .snake-node {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #0a92f8;
+    }
+    .food-node {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ce5454;
+    }
+    .btn-play-again {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ce5454;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-box">
+      <h1>Snake Game</h1>
+    </div>
+
+    <div id="game-screen">
+      <div id="score"></div>
+      <div id="game-board"></div>
+      <button id="btn-play" class="btn-play-again" onclick="play()">Play</button>
+    </div>
+
+    <button id="btn-profile" class="header-btn" onclick="redirectToProfile()">My Profile</button>
+    <button id="btn-home" class="header-btn" onclick="redirectToHome()">Home</button>
+  </div>
+
+  <script>
+    var gameBoard = document.getElementById("game-board");
+    var scoreElement = document.getElementById("score");
+    var btnPlay = document.getElementById("btn-play");
+    var btnProfile = document.getElementById("btn-profile");
+    var btnHome = document.getElementById("btn-home");
+    var gameInterval;
+    var score = 0;
+
+    function play() {
+      btnPlay.style.display = "none";
+      btnProfile.style.display = "none";
+      btnHome.style.display = "none";
+      scoreElement.textContent = "Score: 0";
+
+      // Snake initial position and direction
+      var snake = [{ x: 150, y: 150 }];
+      var dx = 20;
+      var dy = 0;
+
+      // Generate initial food position
+      var food = generateFoodPosition();
+
+      function move() {
+        // Move the snake
+        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+        snake.unshift(head);
+
+        // Check for collision with food
+        if (head.x === food.x && head.y === food.y) {
+          // Increase score and generate new food position
+          score++;
+          scoreElement.textContent = "Score: " + score;
+          food = generateFoodPosition();
+        } else {
+          // Remove the tail if no collision with food
+          snake.pop();
+        }
+
+        // Check for game over conditions
+        if (
+          head.x < 0 ||
+          head.x >= gameBoard.clientWidth ||
+          head.y < 0 ||
+          head.y >= gameBoard.clientHeight ||
+          checkCollision(head, snake.slice(1))
+        ) {
+          gameOver();
+        }
+
+        // Clear the game board
+        gameBoard.innerHTML = "";
+
+        // Draw the snake
+        snake.forEach(function (node) {
+          const snakeNode = document.createElement("div");
+          snakeNode.className = "snake-node";
+          snakeNode.style.left = node.x + "px";
+          snakeNode.style.top = node.y + "px";
+          gameBoard.appendChild(snakeNode);
+        });
+
+        // Draw the food
+        const foodNode = document.createElement("div");
+        foodNode.className = "food-node";
+        foodNode.style.left = food.x + "px";
+        foodNode.style.top = food.y + "px";
+        gameBoard.appendChild(foodNode);
+      }
+
+      function generateFoodPosition() {
+        const maxX = (gameBoard.clientWidth / 20) * 20 - 20;
+        const maxY = (gameBoard.clientHeight / 20) * 20 - 20;
+        const x = Math.floor(Math.random() * maxX);
+        const y = Math.floor(Math.random() * maxY);
+        return { x: x - (x % 20), y: y - (y % 20) };
+      }
+
+      function checkCollision(head, body) {
+        return body.some(function (node) {
+          return node.x === head.x && node.y === head.y;
+        });
+      }
+
+      function gameOver() {
+        clearInterval(gameInterval);
+        btnPlay.style.display = "block";
+        btnProfile.style.display = "inline-block";
+        btnHome.style.display = "inline-block";
+        scoreElement.textContent = "Game Over. Play again?";
+      }
+
+      // Initialize the game interval
+      gameInterval = setInterval(move, 100);
+
+      // Handle keyboard events to change snake direction
+      document.addEventListener("keydown", function (event) {
+        const keyPressed = event.key;
+        if (keyPressed === "ArrowUp" && dy !== 20) {
+          dx = 0;
+          dy = -20;
+        } else if (keyPressed === "ArrowDown" && dy !== -20) {
+          dx = 0;
+          dy = 20;
+        } else if (keyPressed === "ArrowLeft" && dx !== 20) {
+          dx = -20;
+          dy = 0;
+        } else if (keyPressed === "ArrowRight" && dx !== -20) {
+          dx = 20;
+          dy = 0;
+        }
+      });
+    }
+
+    function redirectToProfile() {
+      window.location.href = "profile.html";
+    }
+
+    function redirectToHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
 
