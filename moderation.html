@@ -63,6 +63,14 @@
     .header-btn:active {
       background-color: #e8e8e8;
     }
+    .user-list {
+      margin-top: 20px;
+      list-style: none;
+      padding: 0;
+    }
+    .user-list li {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -75,7 +83,10 @@
         <button id="home-btn" class="header-btn" onclick="redirectToIndex()">Home</button>
       </div>
     </div>
-    <!-- Add your moderation content here -->
+    <h2>Registered Users</h2>
+    <ul id="user-list" class="user-list">
+      <!-- Usernames will be added dynamically here -->
+    </ul>
   </div>
 
   <script>
@@ -96,7 +107,22 @@
       var username = localStorage.getItem("username");
       document.getElementById("profile-link").textContent = username;
     }
+
+    // Fetch and display the list of registered users
+    var userList = JSON.parse(localStorage.getItem("userList")) || [];
+
+    function displayUserList() {
+      var userListElement = document.getElementById("user-list");
+      userListElement.innerHTML = "";
+
+      userList.forEach(function (user) {
+        var listItem = document.createElement("li");
+        listItem.textContent = user;
+        userListElement.appendChild(listItem);
+      });
+    }
+
+    displayUserList();
   </script>
 </body>
 </html>
-
