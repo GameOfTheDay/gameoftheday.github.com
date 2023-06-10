@@ -43,8 +43,8 @@
       overflow: hidden; /* Ensures proper alignment of elements */
     }
     .header-box h1 {
-      margin-top: 0;
-      margin-bottom: 10px;
+      margin: 0;
+      text-align: center; /* Center the text */
     }
     .header-btn {
       display: inline-block;
@@ -68,7 +68,7 @@
 <body>
   <div class="container">
     <div class="header-box">
-      <h1>Welcome to Game of the Day</h1>
+      <h1 style="margin-top: 10px;">Welcome to Game of the Day</h1>
       <div id="user-info" style="text-align: right;">
         <a id="profile-link" href="profile.html" class="header-btn">Profile</a>
         <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
