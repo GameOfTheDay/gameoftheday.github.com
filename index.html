@@ -39,23 +39,15 @@
     .header-box {
       background-color: #0a92f8;
       padding: 10px;
-      text-align: right;
-      margin-bottom: 20px;
-    }
-    .header-box button {
-      margin-left: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header-box">
-      <button id="moderation-btn" onclick="redirectToModeration()">Moderation</button>
-      <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
-    </div>
     <h1>Welcome to Game of the Day</h1>
     <div id="user-info" style="text-align: right;">
-      <span id="username-display"></span>
+      <a id="profile-link" href="profile.html">Profile</a>
+      <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
     </div>
     <button id="signin-btn" onclick="redirectToSignIn()">Sign In</button>
   </div>
@@ -78,32 +70,7 @@
       document.getElementById("sign-in-page").style.display = "block";
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("moderation-btn").style.display = "none";
-    }
-
-    function redirectToModeration() {
-      // Redirect to the Moderation page
-      window.location.href = "moderation.html";
-    }
-
-    function generateRandomPassword(length) {
-      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      var password = "";
-      for (var i = 0; i < length; i++) {
-        var randomIndex = Math.floor(Math.random() * characters.length);
-        password += characters.charAt(randomIndex);
-      }
-      return password;
-    }
-
-    function showRandomPasswordPrompt() {
-      var passwordInput = document.getElementById("password-input");
-      var passwordLength = 10; // Adjust the length of the generated password as needed
-      var generatedPassword = generateRandomPassword(passwordLength);
-      var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
-      if (useGeneratedPassword) {
-        passwordInput.value = generatedPassword;
-      }
+      document.getElementById("profile-link").style.display = "none";
     }
 
     function signIn() {
@@ -131,10 +98,7 @@
     var loggedIn = localStorage.getItem("loggedIn");
     if (loggedIn === "true") {
       var username = localStorage.getItem("username");
-      document.getElementById("username-display").textContent = "My name: " + username;
-      var isAdmin = localStorage.getItem("isAdmin") === "true";
-      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
-      document.getElementById("signout-btn").style.display = "block";
+      document.getElementById("user-info").innerHTML = '<a id="profile-link" href="profile.html">Profile</a><button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>';
     }
   </script>
 </body>
