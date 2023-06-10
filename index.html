@@ -73,11 +73,11 @@
     .secondary-header-box .header-btn {
       margin-right: 10px;
     }
-    #image-container {
+    .image-container {
       text-align: center; /* Center the image */
       margin-top: 20px; /* Add some space below the header */
     }
-    #game-image {
+    .game-image {
       max-width: 50%; /* Adjust the image size as needed */
     }
     .drop-box {
@@ -90,168 +90,114 @@
     }
   </style>
   <script>
-    var gameImageSrc = localStorage.getItem("gameImage");
-    if (gameImageSrc) {
-      var gameImageElement = document.getElementById("game-image");
-      gameImageElement.src = gameImageSrc;
-    }
-  </script>
-</head>
-<body>
-  <div class="container">
-    <div class="secondary-header-box">
-      <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
-      <button id="signout-btn" class="signout-btn" onclick="signOut()" style="display: none;">Sign Out</button>
-      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn" style="display: none;">Moderation</button>
-      <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
-    </div>
-    <div class="header-box">
-      <h2 id="game-of-the-day">The Game of Today is: X</h2>
-    </div>
-    <div id="image-container">
-      <img id="game-image" src="https://cdn.discordapp.com/attachments/992580932110393394/1117058892870987826/image.png" alt="Game Image">
-    </div>
-    <div id="drop-box" class="drop-box" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
-      Drop or paste an image here
-    </div>
-  </div>
-
-  <div id="sign-in-page" class="container" style="display: none;">
-    <h2>Sign In</h2>
-    <div class="form-container">
-      <input type="text" id="username-input" class="form-input" placeholder="Username">
-      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
-      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
-    </div>
-  </div>
-
-  <script>
-    // Define an array of usernames with administrator permissions
-    var adminUsernames = ["Raven", "AdminUser1", "AdminUser2"]; // Add or remove usernames as needed
-
     function redirectToSignIn() {
-      // Hide the initial page and show the sign-in page
-      document.getElementById("sign-in-page").style.display = "block";
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("moderation-btn").style.display = "none";
-      document.getElementById("profile-link").style.display = "none";
-    }
-
-    function redirectToModeration() {
-      // Redirect to the Moderation page
-      window.location.href = "moderation.html";
-    }
-
-    function generateRandomPassword(length) {
-      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      var password = "";
-      for (var i = 0; i < length; i++) {
-        var randomIndex = Math.floor(Math.random() * characters.length);
-        password += characters.charAt(randomIndex);
-      }
-      return password;
-    }
-
-    function showRandomPasswordPrompt() {
-      var passwordInput = document.getElementById("password-input");
-      var passwordLength = 10; // Adjust the length of the generated password as needed
-      var generatedPassword = generateRandomPassword(passwordLength);
-      var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
-      if (useGeneratedPassword) {
-        passwordInput.value = generatedPassword;
-      }
-    }
-
-    function signIn() {
-      var username = document.getElementById("username-input").value;
-      var password = document.getElementById("password-input").value;
-
-      // Additional validation or checks can be performed here
-
-      localStorage.setItem("username", username);
-      var isAdmin = adminUsernames.includes(username);
-      localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
-      localStorage.setItem("loggedIn", "true");
-
-      // Update button visibility
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "block";
-      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
-      document.getElementById("profile-link").style.display = "block";
-      document.getElementById("profile-link").textContent = "Profile";
-
-      // Show the game image if available
-      var gameImageSrc = localStorage.getItem("gameImage");
-      if (gameImageSrc) {
-        var gameImageElement = document.getElementById("game-image");
-        gameImageElement.src = gameImageSrc;
-      }
-
-      // Hide the sign-in page
-      document.getElementById("sign-in-page").style.display = "none";
+      // Redirect to the sign-in page
+      window.location.href = "signin.html";
     }
 
     function signOut() {
-      localStorage.removeItem("username");
-      localStorage.removeItem("isAdmin");
-      localStorage.removeItem("loggedIn");
-      localStorage.removeItem("gameImage");
-
-      // Update button visibility
-      document.getElementById("signin-btn").style.display = "block";
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("moderation-btn").style.display = "none";
-      document.getElementById("profile-link").style.display = "none";
-
-      // Show default game image
-      var defaultImageSrc = "https://cdn.discordapp.com/attachments/992580932110393394/1117058892870987826/image.png";
-      var gameImageElement = document.getElementById("game-image");
-      gameImageElement.src = defaultImageSrc;
+      // Clear the local storage and redirect to the sign-in page
+      localStorage.clear();
+      window.location.href = "signin.html";
     }
 
-    function handleDrop(event) {
-      event.preventDefault();
-
-      if (event.dataTransfer.items) {
-        // Get the image file from the dropped items
-        var file = event.dataTransfer.items[0].getAsFile();
-        processImageFile(file);
-      } else {
-        // Get the image file from the dropped files
-        var file = event.dataTransfer.files[0];
-        processImageFile(file);
-      }
+    function redirectToModeration() {
+      // Redirect to the moderation page
+      window.location.href = "moderation.html";
     }
 
-    function handleDragOver(event) {
-      event.preventDefault();
-    }
-
-    function processImageFile(file) {
+    function handleImageUpload(event) {
+      var file = event.target.files[0];
       var reader = new FileReader();
       reader.onload = function (event) {
         var imageSrc = event.target.result;
-        var gameImageElement = document.getElementById("game-image");
-        gameImageElement.src = imageSrc;
         localStorage.setItem("gameImage", imageSrc);
+        var gameImageElement = document.getElementById("gameImage");
+        gameImageElement.src = imageSrc;
+        gameImageElement.style.display = "block";
       };
       reader.readAsDataURL(file);
     }
 
-    // Check if the user is already signed in
-    var loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn) {
-      var username = localStorage.getItem("username");
-      var isAdmin = localStorage.getItem("isAdmin") === "true";
+    function saveGameData() {
+      var gameTitle = document.getElementById("gameTitle").value;
+      var gameDescription = document.getElementById("gameDescription").value;
+      var gameImage = localStorage.getItem("gameImage");
 
-      // Update button visibility
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "block";
-      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
-      document.getElementById("profile-link").style.display = "block";
-      document.getElementById("profile-link").textContent = "Profile (" + username + ")";
+      // Save the game data to the local storage
+      localStorage.setItem("gameTitle", gameTitle);
+      localStorage.setItem("gameDescription", gameDescription);
+      localStorage.setItem("gameImage", gameImage);
+
+      // Redirect to the moderation page
+      window.location.href = "moderation.html";
     }
+
+    function loadGameData() {
+      var gameTitle = localStorage.getItem("gameTitle");
+      var gameDescription = localStorage.getItem("gameDescription");
+      var gameImage = localStorage.getItem("gameImage");
+
+      if (gameTitle && gameDescription && gameImage) {
+        var gameTitleElement = document.getElementById("gameTitle");
+        gameTitleElement.innerHTML = gameTitle;
+
+        var gameDescriptionElement = document.getElementById("gameDescription");
+        gameDescriptionElement.innerHTML = gameDescription;
+
+        var gameImageElement = document.getElementById("gameImage");
+        gameImageElement.src = gameImage;
+        gameImageElement.style.display = "block";
+      }
+    }
+
+    window.onload = function () {
+      loadGameData();
+    };
   </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header-box">
+      <button class="header-btn" onclick="redirectToSignIn()">Home</button>
+      <button class="header-btn" onclick="redirectToModeration()">Moderation</button>
+      <button class="header-btn signout-btn" onclick="signOut()">Sign Out</button>
+    </div>
+
+    <div class="secondary-header-box">
+      <h2>Game of the Day</h2>
+    </div>
+
+    <div class="image-container">
+      <img id="gameImage" class="game-image" style="display: none;" />
+    </div>
+
+    <div class="drop-box">
+      <input
+        type="file"
+        id="fileUpload"
+        accept="image/*"
+        style="display: none;"
+        onchange="handleImageUpload(event)"
+      />
+      <label for="fileUpload">Drag and drop or click to upload an image</label>
+    </div>
+
+    <div class="form-container">
+      <input
+        type="text"
+        id="gameTitle"
+        class="form-input"
+        placeholder="Enter game title"
+      />
+      <textarea
+        id="gameDescription"
+        class="form-input"
+        placeholder="Enter game description"
+        rows="4"
+      ></textarea>
+      <button class="form-submit" onclick="saveGameData()">Save</button>
+    </div>
+  </div>
 </body>
 </html>
