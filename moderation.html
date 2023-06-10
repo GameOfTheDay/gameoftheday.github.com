@@ -7,6 +7,7 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #446999;
+      padding: 50px;
     }
     .container {
       max-width: 800px;
@@ -71,6 +72,14 @@
     .user-list li {
       margin-bottom: 10px;
     }
+    .dropbox {
+      border: 2px dashed white;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -87,6 +96,9 @@
     <ul id="user-list" class="user-list">
       <!-- Usernames will be added dynamically here -->
     </ul>
+    <div class="dropbox" ondragover="allowDrop(event)" ondrop="handleDrop(event)">
+      <p>Drop an image here to update the game image</p>
+    </div>
   </div>
 
   <script>
@@ -123,9 +135,7 @@
     }
 
     displayUserList();
-  </script>
 
-  <script>
     function handleDrop(event) {
       event.preventDefault();
       var image = event.dataTransfer.files[0];
