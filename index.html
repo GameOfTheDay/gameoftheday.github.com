@@ -48,19 +48,30 @@
       overflow: hidden;
       text-align: center; /* Center the text */
       margin-top: 20px; /* Add margin at the top */
+      height: calc(100vh - 70px); /* Adjust the height based on your needs */
+      position: relative; /* Enable positioning for the lines */
     }
-    .secondary-header-box h2 {
-      color: white;
+    .top-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 100vw; /* Extend the line to cover the entire width of the viewport */
+      background-color: black; /* Change the color of the line here */
     }
-    #image-container {
-      text-align: center; /* Center the image */
-      margin-top: 20px; /* Add some space below the header */
+    #sign-in-page {
+      display: none;
     }
-    #game-image {
-      max-width: 50%; /* Adjust the image size as needed */
+    #sign-out-btn {
+      display: none;
     }
     #game-of-the-day {
       color: white;
+    }
+    /* New CSS for the right header box */
+    .right-header-box {
+      float: right;
+      margin-top: -30px; /* Adjust the margin based on your needs */
     }
   </style>
 </head>
@@ -72,18 +83,21 @@
     <div class="header-box" id="signin-header">
       <div class="header-btn">
         <a id="signin-btn" onclick="redirectToSignIn()">Sign In</a>
+        <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
+      </div>
+      <!-- New right header box -->
+      <div class="header-box right-header-box">
+        <h2>Right Header Box</h2>
       </div>
     </div>
-    <div class="header-box" id="GameOfTheDay-Header">
+    <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
+      <div class="top-line"></div>
       <h2>Community</h2>
       <h2>Feedback</h2>
     </div>
-    <div id="image-container">
-      <img id="game-image" src="" alt="Game Image">
-    </div>
   </div>
 
-  <div id="sign-in-page" class="container" style="display: none;">
+  <div id="sign-in-page" class="container">
     <h2>Sign In</h2>
     <div class="form-container">
       <input type="text" id="username-input" class="form-input" placeholder="Username">
@@ -102,8 +116,24 @@
       document.getElementById("signin-btn").style.display = "none";
     }
 
-    // Rest of your JavaScript code...
+    function signIn() {
+      // Perform sign-in logic here
+      // ...
 
+      // Show the sign-out button and hide the sign-in button
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("sign-out-btn").style.display = "inline-block";
+    }
+
+    function signOut() {
+      // Perform sign-out logic here
+      // ...
+
+      // Show the sign-in button and hide the sign-out button
+      document.getElementById("signin-btn").style.display = "inline-block";
+      document.getElementById("sign-out-btn").style.display = "none";
+    }
   </script>
 </body>
 </html>
+
