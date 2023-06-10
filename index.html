@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Game Of The Day</title>
+  <title>Game of the Day</title>
   <style>
     /* CSS styling for the page */
     body {
@@ -40,7 +40,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to the Website</h1>
+    <h1>Welcome to Game of the Day</h1>
     <div id="user-info" style="text-align: right;">
       <span id="username-display"></span>
       <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
@@ -89,8 +89,42 @@
       var generatePassword = document.getElementById("generate-password-checkbox").checked;
 
       // You can perform additional validation or checks here if needed
-      
       if (generatePassword) {
         // Generate a random password
         password = generateRandomPassword();
-        document.getElementById("password-input").value = password
+        document.getElementById("password-input").value = password;
+      }
+
+      // Store the username in local storage for future use
+      localStorage.setItem("username", username);
+
+      // Check if the user has administrator permissions
+      var isAdmin = adminUsernames.includes(username);
+      localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
+
+      // Set the user as logged in
+      localStorage.setItem("loggedIn", "true");
+
+      // Redirect the user to the front page
+      window.location.href = "index.html";
+    }
+
+    function signOut() {
+      // Clear the stored username, admin status, and logged-in status
+      localStorage.removeItem("username");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("loggedIn");
+
+      // Redirect the user to the front page
+      window.location.href = "index.html";
+    }
+
+    // Check if the user is logged in and display the username
+    var loggedIn = localStorage.getItem("loggedIn");
+    if (loggedIn === "true") {
+      var username = localStorage.getItem("username");
+      document.getElementById("username-display").textContent = "My name: " + username;
+    }
+  </script>
+</body>
+</html>
