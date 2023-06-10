@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Moderation Panel</title>
+  <title>Moderation</title>
   <style>
     /* CSS styling for the page */
     body {
@@ -65,121 +65,113 @@
     .header-btn:active {
       background-color: rgba(255, 255, 255, 0.4);
     }
-    .secondary-header-box {
+    .game-card {
       background-color: #04c1cc;
-      padding: 10px;
-      overflow: hidden;
+      color: white;
+      padding: 20px;
+      margin-bottom: 20px;
     }
-    .secondary-header-box .header-btn {
-      margin-right: 10px;
+    .game-card .game-title {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
-    #image-container {
-      text-align: center; /* Center the image */
-      margin-top: 20px; /* Add some space below the header */
+    .game-card .game-image {
+      max-width: 200px;
     }
-    #game-image {
-      max-width: 50%; /* Adjust the image size as needed */
+    .game-card .game-description {
+      margin-top: 10px;
     }
   </style>
   <script>
-    var gameImageSrc = localStorage.getItem("gameImage");
-    if (gameImageSrc) {
-      var gameImageElement = document.getElementById("game-image");
-      gameImageElement.src = gameImageSrc;
+    function redirectToSignIn() {
+      // Redirect to the sign-in page
+      window.location.href = "signin.html";
     }
 
-    // Handle dropped or pasted image
-    document.addEventListener("paste", handleImagePaste);
-    document.addEventListener("drop", handleImageDrop);
+    function signOut() {
+      // Clear the local storage and redirect to the sign-in page
+      localStorage.clear();
+      window.location.href = "signin.html";
+    }
 
-    function handleImagePaste(event) {
-      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-      for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        if (item.type.indexOf("image") === 0) {
-          var blob = item.getAsFile();
-          updateGameImage(blob);
-          break;
-        }
+    window.onload = function () {
+      // Check if user is logged in
+      var userToken = localStorage.getItem("userToken");
+      if (!userToken) {
+        // Redirect to sign-in page if not logged in
+        redirectToSignIn();
       }
-    }
 
-    function handleImageDrop(event) {
-      event.preventDefault();
-      var files = event.dataTransfer.files;
-      if (files.length > 0) {
-        updateGameImage(files[0]);
+      // Get game data from local storage or API
+      var games = localStorage.getItem("games");
+      if (!games) {
+        // Simulate API request
+        setTimeout(function () {
+          var fakeGameData = [
+            {
+              id: 1,
+              title: "Game 1",
+              description: "This is game 1",
+              image: "game1.jpg"
+            },
+            {
+              id: 2,
+              title: "Game 2",
+              description: "This is game 2",
+              image: "game2.jpg"
+            },
+            {
+              id: 3,
+              title: "Game 3",
+              description: "This is game 3",
+              image: "game3.jpg"
+            }
+          ];
+          localStorage.setItem("games", JSON.stringify(fakeGameData));
+          displayGames(fakeGameData);
+        }, 1000);
+      } else {
+        displayGames(JSON.parse(games));
       }
-    }
+    };
 
-    function updateGameImage(file) {
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        var gameImageElement = document.getElementById("game-image");
-        gameImageElement.src = event.target.result;
-        localStorage.setItem("gameImage", event.target.result);
-      };
-      reader.readAsDataURL(file);
+    function displayGames(games) {
+      var gameContainer = document.getElementById("gameContainer");
+      gameContainer.innerHTML = "";
+
+      games.forEach(function (game) {
+        var gameCard = document.createElement("div");
+        gameCard.className = "game-card";
+
+        var gameTitle = document.createElement("h2");
+        gameTitle.className = "game-title";
+        gameTitle.textContent = game.title;
+
+        var gameImage = document.createElement("img");
+        gameImage.className = "game-image";
+        gameImage.src = game.image;
+        gameImage.alt = "Game Image";
+
+        var gameDescription = document.createElement("p");
+        gameDescription.className = "game-description";
+        gameDescription.textContent = game.description;
+
+        gameCard.appendChild(gameTitle);
+        gameCard.appendChild(gameImage);
+        gameCard.appendChild(gameDescription);
+
+        gameContainer.appendChild(gameCard);
+      });
     }
   </script>
 </head>
 <body>
   <div class="container">
-    <div class="secondary-header-box">
-      <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
-      <button id="signout-btn" class="signout-btn" onclick="signOut()" style="display: none;">Sign Out</button>
-      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn" style="display: none;">Moderation</button>
-      <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
-    </div>
     <div class="header-box">
-      <h1>Moderation Panel</h1>
+      <h1>Moderation</h1>
+      <button class="header-btn" onclick="signOut()">Sign Out</button>
     </div>
-    <div id="image-container">
-      <img id="game-image" src="" alt="Game Image">
-    </div>
+    <div id="gameContainer"></div>
   </div>
-
-  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
-  <script>
-    var firebaseConfig = {
-      // Add your Firebase configuration here
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    // Get the Firebase Auth and Firestore instances
-    var auth = firebase.auth();
-    var firestore = firebase.firestore();
-
-    // Check if a user is already signed in
-    auth.onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in
-        document.getElementById("signin-btn").style.display = "none";
-        document.getElementById("signout-btn").style.display = "block";
-        document.getElementById("moderation-btn").style.display = "block";
-        document.getElementById("profile-link").style.display = "block";
-      } else {
-        // No user is signed in
-        document.getElementById("signin-btn").style.display = "block";
-        document.getElementById("signout-btn").style.display = "none";
-        document.getElementById("moderation-btn").style.display = "none";
-        document.getElementById("profile-link").style.display = "none";
-      }
-    });
-
-    function signOut() {
-      auth.signOut();
-    }
-
-    function redirectToSignIn() {
-      window.location.href = "signin.html";
-    }
-
-    function redirectToModeration() {
-      window.location.href = "moderation.html";
-    }
-  </script>
 </body>
 </html>
