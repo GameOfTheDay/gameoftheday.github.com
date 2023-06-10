@@ -16,3 +16,43 @@
     .header-box {
       background-color: #0a92f8;
       padding: 10px;
+      overflow: hidden; /* Ensures proper alignment of elements */
+      margin-bottom: 20px;
+    }
+    .header-box h1 {
+      margin: 0;
+      text-align: center; /* Center the text */
+    }
+    .user-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .user-list li {
+      background-color: white;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-box">
+      <h1>Users</h1>
+    </div>
+    <ul class="user-list">
+      <li>Username 1</li>
+      <li>Username 2</li>
+      <li>Username 3</li>
+      <!-- Add more user names dynamically -->
+    </ul>
+    <button onclick="redirectToHome()">Back to Home</button>
+  </div>
+
+  <script>
+    function redirectToHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
