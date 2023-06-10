@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Moderation</title>
+  <title>Moderation Panel</title>
   <style>
     /* CSS styling for the page */
     body {
       font-family: Arial, sans-serif;
       background-color: #446999;
+      padding: 50px;
+      overflow-y: scroll; /* Enable vertical scrolling */
+      height: 1000px; /* Increase the scrolling distance */
     }
     .container {
       max-width: 800px;
@@ -38,130 +41,144 @@
       float: right;
     }
     .header-box {
-      background-color: #0a92f8;
+      background-color: #3dc5a0;
       padding: 10px;
       overflow: hidden; /* Ensures proper alignment of elements */
-    }
-    .header-box h1 {
-      margin-top: 0;
-      margin-bottom: 10px;
+      text-align: center; /* Center the text */
+      text-transform: capitalize; /* Capitalize the text */
     }
     .header-btn {
       display: inline-block;
       padding: 8px 16px;
-      background-color: white;
-      color: #0a92f8;
-      border: none;
+      background-color: transparent;
+      color: white;
+      border: 2px solid transparent;
       text-decoration: none;
       font-size: 16px;
       cursor: pointer;
       margin-right: 10px;
     }
     .header-btn:hover {
-      background-color: #f8f8f8;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: white;
     }
     .header-btn:active {
-      background-color: #e8e8e8;
+      background-color: rgba(255, 255, 255, 0.4);
     }
-    .user-list {
-      margin-top: 20px;
-      list-style: none;
-      padding: 0;
+    .secondary-header-box {
+      background-color: #04c1cc;
+      padding: 10px;
+      overflow: hidden;
     }
-    .user-list li {
-      margin-bottom: 10px;
+    .secondary-header-box .header-btn {
+      margin-right: 10px;
     }
-    .drop-box {
-      width: 100%;
-      height: 200px;
-      border: 2px dashed #f8f8f8;
-      background-color: #e8e8e8;
-      text-align: center;
-      line-height: 200px;
-      color: #999999;
-      font-size: 16px;
-      cursor: pointer;
+    #image-container {
+      text-align: center; /* Center the image */
+      margin-top: 20px; /* Add some space below the header */
+    }
+    #game-image {
+      max-width: 50%; /* Adjust the image size as needed */
     }
   </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header-box">
-      <h1>Moderation</h1>
-      <div id="user-info" style="text-align: right;">
-        <a id="profile-link" href="profile.html" class="header-btn">Profile</a>
-        <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
-        <button id="home-btn" class="header-btn" onclick="redirectToIndex()">Home</button>
-      </div>
-    </div>
-    <h2>Registered Users</h2>
-    <ul id="user-list" class="user-list">
-      <!-- Usernames will be added dynamically here -->
-    </ul>
-    <div id="drop-box" class="drop-box" onpaste="handlePaste(event)">
-      Drop or paste an image here
-    </div>
-  </div>
-
   <script>
-    function redirectToIndex() {
-      window.location.href = "index.html";
+    var gameImageSrc = localStorage.getItem("gameImage");
+    if (gameImageSrc) {
+      var gameImageElement = document.getElementById("game-image");
+      gameImageElement.src = gameImageSrc;
     }
 
-    function signOut() {
-      localStorage.removeItem("username");
-      localStorage.removeItem("isAdmin");
-      localStorage.removeItem("loggedIn");
+    // Handle dropped or pasted image
+    document.addEventListener("paste", handleImagePaste);
+    document.addEventListener("drop", handleImageDrop);
 
-      window.location.href = "index.html";
-    }
-
-    var loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn === "true") {
-      var username = localStorage.getItem("username");
-      document.getElementById("profile-link").textContent = username;
-    }
-
-    // Fetch and display the list of registered users
-    var userList = JSON.parse(localStorage.getItem("userList")) || [];
-
-    function displayUserList() {
-      var userListElement = document.getElementById("user-list");
-      userListElement.innerHTML = "";
-
-      userList.forEach(function (user) {
-        var listItem = document.createElement("li");
-        listItem.textContent = user;
-        userListElement.appendChild(listItem);
-      });
-    }
-
-    displayUserList();
-
-    function handlePaste(event) {
+    function handleImagePaste(event) {
       var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-      for (var index in items) {
-        var item = items[index];
-        if (item.kind === "file") {
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.type.indexOf("image") === 0) {
           var blob = item.getAsFile();
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            var imageSrc = e.target.result;
-            updateGameImage(imageSrc);
-          };
-          reader.readAsDataURL(blob);
-        } else if (item.kind === "string" && item.type === "text/plain") {
-          item.getAsString(function (text) {
-            // Assuming the text is a valid image URL
-            updateGameImage(text);
-          });
+          updateGameImage(blob);
+          break;
         }
       }
     }
 
-    function updateGameImage(imageSrc) {
-      localStorage.setItem("gameImage", imageSrc);
-      redirectToIndex(); // Redirect to index.html to update the "Game Image"
+    function handleImageDrop(event) {
+      event.preventDefault();
+      var files = event.dataTransfer.files;
+      if (files.length > 0) {
+        updateGameImage(files[0]);
+      }
+    }
+
+    function updateGameImage(file) {
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        var gameImageElement = document.getElementById("game-image");
+        gameImageElement.src = event.target.result;
+        localStorage.setItem("gameImage", event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="secondary-header-box">
+      <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
+      <button id="signout-btn" class="signout-btn" onclick="signOut()" style="display: none;">Sign Out</button>
+      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn" style="display: none;">Moderation</button>
+      <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
+    </div>
+    <div class="header-box">
+      <h1>Moderation Panel</h1>
+    </div>
+    <div id="image-container">
+      <img id="game-image" src="" alt="Game Image">
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+  <script>
+    var firebaseConfig = {
+      // Add your Firebase configuration here
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Get the Firebase Auth and Firestore instances
+    var auth = firebase.auth();
+    var firestore = firebase.firestore();
+
+    // Check if a user is already signed in
+    auth.onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in
+        document.getElementById("signin-btn").style.display = "none";
+        document.getElementById("signout-btn").style.display = "block";
+        document.getElementById("moderation-btn").style.display = "block";
+        document.getElementById("profile-link").style.display = "block";
+      } else {
+        // No user is signed in
+        document.getElementById("signin-btn").style.display = "block";
+        document.getElementById("signout-btn").style.display = "none";
+        document.getElementById("moderation-btn").style.display = "none";
+        document.getElementById("profile-link").style.display = "none";
+      }
+    });
+
+    function signOut() {
+      auth.signOut();
+    }
+
+    function redirectToSignIn() {
+      window.location.href = "signin.html";
+    }
+
+    function redirectToModeration() {
+      window.location.href = "moderation.html";
     }
   </script>
 </body>
