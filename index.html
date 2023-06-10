@@ -73,12 +73,16 @@
       float: right;
       margin-top: -75px; /* Adjust the margin based on your needs */
       margin-right: -400px; /* Move the box to the right by 20 pixels */
+      height: 200px; /* Default height */
+      width: 200px; /* Default width */
     }
     /* New CSS for the left header box */
     .left-header-box {
       float: left;
       margin-top: -75px; /* Adjust the margin based on your needs */
       margin-left: -400px; /* Move the box to the left by 20 pixels */
+      height: 200px; /* Default height */
+      width: 200px; /* Default width */
     }
   </style>
 </head>
@@ -96,10 +100,18 @@
     <!-- New left header box -->
     <div class="header-box left-header-box">
       <h2>Left Header Box</h2>
+      <label for="left-header-height">Height:</label>
+      <input type="number" id="left-header-height" onchange="updateHeaderBoxDimensions('left-header-box', 'height', this.value)">
+      <label for="left-header-width">Width:</label>
+      <input type="number" id="left-header-width" onchange="updateHeaderBoxDimensions('left-header-box', 'width', this.value)">
     </div>
     <!-- New right header box -->
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
+      <label for="right-header-height">Height:</label>
+      <input type="number" id="right-header-height" onchange="updateHeaderBoxDimensions('right-header-box', 'height', this.value)">
+      <label for="right-header-width">Width:</label>
+      <input type="number" id="right-header-width" onchange="updateHeaderBoxDimensions('right-header-box', 'width', this.value)">
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
@@ -143,6 +155,11 @@
       // Show the sign-in button and hide the sign-out button
       document.getElementById("signin-btn").style.display = "inline-block";
       document.getElementById("sign-out-btn").style.display = "none";
+    }
+
+    function updateHeaderBoxDimensions(boxId, property, value) {
+      var box = document.getElementById(boxId);
+      box.style[property] = value + 'px';
     }
   </script>
 </body>
