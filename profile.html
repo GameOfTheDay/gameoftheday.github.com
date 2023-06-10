@@ -1,7 +1,8 @@
+User
 <!DOCTYPE html>
 <html>
 <head>
-  <title>User Profile</title>
+  <title>Game of the Day</title>
   <style>
     /* CSS styling for the page */
     body {
@@ -12,6 +13,30 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .form-input {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .form-submit {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #ce5454;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .signout-btn {
+      float: right;
     }
     .header-box {
       background-color: #0a92f8;
@@ -44,62 +69,24 @@
 <body>
   <div class="container">
     <div class="header-box">
-      <h1><span id="profile-name"></span></h1>
+      <h1 style="margin-top: 10px;"><span id="username"></span></h1>
       <div id="user-info" style="text-align: right;">
-        <button id="back-btn" class="header-btn" onclick="redirectToHome()">Back to Home</button>
-        <button id="users-btn" class="header-btn" onclick="redirectToUsers()">Users</button>
+        <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
+        <button id="users-btn" onclick="redirectToUsers()">Users</button>
       </div>
     </div>
-
-    <div id="profile-info"></div>
+    <button id="back-btn" onclick="redirectToHome()">Back to Home</button>
   </div>
 
   <script>
-    // Check if the username is available in localStorage
-    var loggedInUser = localStorage.getItem("username");
+    // Retrieve the username from local storage
+    var username = localStorage.getItem("username");
+    // Set the username in the page
+    document.getElementById("username").textContent = "Welcome, " + username;
 
-    // Retrieve the username from the query parameter
-    var urlParams = new URLSearchParams(window.location.search);
-    var username = urlParams.get("username");
-
-    // Check if the username is available
-    if (username) {
-      // Display the profile name on the page
-      var profileName = document.getElementById("profile-name");
-      profileName.innerText = (username === loggedInUser) ? "My Profile" : username + "'s Profile";
-
-      // Create the profile info element
-      var profileInfo = document.getElementById("profile-info");
-
-      // Check if the logged-in user matches the profile being viewed
-      if (loggedInUser === username) {
-        // Create the welcome message for the logged-in user
-        var welcomeMessage = document.createElement("p");
-        welcomeMessage.innerText = "Welcome, " + username;
-        profileInfo.appendChild(welcomeMessage);
-      } else {
-        // Create the "Message User" button
-        var messageButton = document.createElement("button");
-        messageButton.innerText = "Message User";
-        messageButton.onclick = function() {
-          // Implement the logic to handle messaging the user
-          // You can redirect to a message page or perform any other action
-          // specific to messaging the user
-          console.log("Message User clicked");
-        };
-        profileInfo.appendChild(messageButton);
-
-        // Create the "Challenge Friend" button
-        var challengeButton = document.createElement("button");
-        challengeButton.innerText = "Challenge Friend";
-        challengeButton.onclick = function() {
-          // Implement the logic to handle challenging the user
-          // You can redirect to a challenge page or perform any other action
-          // specific to challenging the user
-          console.log("Challenge Friend clicked");
-        };
-        profileInfo.appendChild(challengeButton);
-      }
+    function signOut() {
+      localStorage.removeItem("username");
+      window.location.href = "index.html";
     }
 
     function redirectToHome() {
