@@ -53,11 +53,15 @@
     <div class="form-container">
       <input type="text" id="username-input" class="form-input" placeholder="Username">
       <input type="password" id="password-input" class="form-input" placeholder="Password">
+      <input type="checkbox" id="generate-password-checkbox"> Generate random password
       <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
     </div>
   </div>
 
   <script>
+    // Define an array of usernames with administrator permissions
+    var adminUsernames = ["Raven", "AdminUser1", "AdminUser2"]; // Add or remove usernames as needed
+
     function redirectToSignIn() {
       // Hide the initial page and show the sign-in page
       document.getElementById("sign-in-page").style.display = "block";
@@ -65,40 +69,29 @@
       document.getElementById("signout-btn").style.display = "none";
     }
 
+    function generateRandomPassword() {
+      // Generate a random password using desired logic
+      // This is just a simple example, you can customize it to fit your needs
+      var length = 10;
+      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      var password = "";
+      for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters.charAt(randomIndex);
+      }
+      return password;
+    }
+
     function signIn() {
       // Get the username and password input values
       var username = document.getElementById("username-input").value;
       var password = document.getElementById("password-input").value;
-      
+      var generatePassword = document.getElementById("generate-password-checkbox").checked;
+
       // You can perform additional validation or checks here if needed
       
-      // Store the username in local storage for future use
-      localStorage.setItem("username", username);
-      
-      // Set the user as logged in
-      localStorage.setItem("loggedIn", "true");
-
-      // Redirect the user to the front page
-      window.location.href = "index.html";
-    }
-
-    function signOut() {
-      // Clear the stored username and logged in status
-      localStorage.removeItem("username");
-      localStorage.removeItem("loggedIn");
-
-      // Redirect the user to the front page
-      window.location.href = "index.html";
-    }
-
-    // Check if the user is logged in and display the username
-    var loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn === "true") {
-      var username = localStorage.getItem("username");
-      document.getElementById("username-display").textContent = "My name: " + username;
-      document.getElementById("signout-btn").style.display = "block";
-    }
-  </script>
-</body>
-</html>
+      if (generatePassword) {
+        // Generate a random password
+        password = generateRandomPassword();
+        document.getElementById("password-input").value = password
 
