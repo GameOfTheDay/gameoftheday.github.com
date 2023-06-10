@@ -53,6 +53,13 @@
       margin-top: 10px;
       font-size: 16px;
     }
+    #notification-box {
+      background-color: #32a852;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -76,24 +83,37 @@
     </div>
   </div>
 
+  <div id="notification-box"></div>
+
   <script>
+    function showNotification(message) {
+      var notificationBox = document.getElementById('notification-box');
+      notificationBox.textContent = message;
+      notificationBox.style.display = 'block';
+      setTimeout(function() {
+        notificationBox.style.display = 'none';
+      }, 2000);
+    }
+
     function updateGameTitle() {
       var gameTitle = document.getElementById('game-title').value;
-      var gameTitleElement = window.opener.document.getElementById('game-of-the-day');
-      gameTitleElement.textContent = "The Game of Today is: " + gameTitle;
+      var gameTitleElement = window.opener.document.getElementById('game-title');
+      gameTitleElement.textContent = gameTitle;
+      showNotification('Game Title updated successfully!');
     }
 
     function updateGameDescription() {
       var gameDescription = document.getElementById('game-description').value;
       var gameDescriptionElement = window.opener.document.getElementById('game-description');
       gameDescriptionElement.textContent = gameDescription;
+      showNotification('Game Description updated successfully!');
     }
 
     function updateGameImage() {
       var imageUrl = document.getElementById('image-url').value;
       var gameImageElement = window.opener.document.getElementById('game-image');
       gameImageElement.src = imageUrl;
-      document.getElementById('image-url').value = '';
+      showNotification('Game Image updated successfully!');
     }
   </script>
 </body>
