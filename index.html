@@ -73,78 +73,123 @@
     .secondary-header-box .header-btn {
       margin-right: 10px;
     }
-    .image-container {
+    #image-container {
       text-align: center; /* Center the image */
       margin-top: 20px; /* Add some space below the header */
     }
-    .game-image {
+    #game-image {
       max-width: 50%; /* Adjust the image size as needed */
     }
-    .drop-box {
-      width: 100%;
-      padding: 50px;
-      border: 2px dashed #ccc;
-      text-align: center;
-      color: #888;
-      font-size: 18px;
-    }
   </style>
-  <script>
-    function redirectToSignIn() {
-      // Redirect to the sign-in page
-      window.location.href = "signin.html";
-    }
-
-    function signOut() {
-      // Clear the local storage and redirect to the sign-in page
-      localStorage.clear();
-      window.location.href = "signin.html";
-    }
-
-    function redirectToModeration() {
-      // Redirect to the moderation page
-      window.location.href = "moderation.html";
-    }
-
-    function handleImageUpload(event) {
-      var file = event.target.files[0];
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        var imageSrc = event.target.result;
-        localStorage.setItem("gameImage", imageSrc);
-        var gameImageElement = document.getElementById(".gameImage");
-        gameImageElement.setAttribute("src", imageSrc);
-        gameImageElement.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    }
-
-    window.onload = function () {
-      var gameImage = localStorage.getItem("gameImage");
-      var gameImageElement = document.getElementById("gameImage");
-      if (gameImage) {
-        gameImageElement.setAttribute("src", gameImage);
-        gameImageElement.style.display = "block";
-      }
-    };
-  </script>
 </head>
 <body>
   <div class="container">
-    <div class="header-box">
-      <h1>Game of the Day</h1>
-      <button class="header-btn" onclick="signOut()">Sign Out</button>
-    </div>
     <div class="secondary-header-box">
-      <button class="header-btn" onclick="redirectToModeration()">Moderation</button>
+      <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
+      <button id="signout-btn" class="signout-btn" onclick="signOut()" style="display: none;">Sign Out</button>
+      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn" style="display: none;">Moderation</button>
+      <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
     </div>
-    <div class="image-container">
-      <img id="gameImage" class="game-image" src="" alt="Game Image">
+    <div class="header-box">
+      <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
-    <div class="drop-box">
-      <h2>Upload Game Image</h2>
-      <input type="file" accept="image/*" onchange="handleImageUpload(event)">
+    <div id="image-container">
+      <img id="game-image" src="" alt="Game Image">
     </div>
   </div>
+
+  <div id="sign-in-page" class="container" style="display: none;">
+    <h2>Sign In</h2>
+    <div class="form-container">
+      <input type="text" id="username-input" class="form-input" placeholder="Username">
+      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
+      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
+    </div>
+  </div>
+
+  <script>
+    // Define an array of usernames with administrator permissions
+    var adminUsernames = ["Raven", "AdminUser1", "AdminUser2"]; // Add or remove usernames as needed
+
+    function redirectToSignIn() {
+      // Hide the initial page and show the sign-in page
+      document.getElementById("sign-in-page").style.display = "block";
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "none";
+      document.getElementById("moderation-btn").style.display = "none";
+      document.getElementById("profile-link").style.display = "none";
+    }
+
+    function redirectToModeration() {
+      // Redirect to the Moderation page
+      window.location.href = "moderation.html";
+    }
+
+    function generateRandomPassword(length) {
+      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      var password = "";
+      for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters.charAt(randomIndex);
+      }
+      return password;
+    }
+
+    function showRandomPasswordPrompt() {
+      var passwordInput = document.getElementById("password-input");
+      var passwordLength = 10; // Adjust the length of the generated password as needed
+      var generatedPassword = generateRandomPassword(passwordLength);
+      var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
+      if (useGeneratedPassword) {
+        passwordInput.value = generatedPassword;
+      }
+    }
+
+    function signIn() {
+      var username = document.getElementById("username-input").value;
+      var password = document.getElementById("password-input").value;
+
+      // Additional validation or checks can be performed here
+
+      localStorage.setItem("username", username);
+      var isAdmin = adminUsernames.includes(username);
+      localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
+      localStorage.setItem("loggedIn", "true");
+
+      // Update button visibility
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "block";
+      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
+      document.getElementById("profile-link").style.display = "block";
+      document.getElementById("profile-link").textContent = "Profile";
+
+      window.location.href = "index.html";
+    }
+
+    function signOut() {
+      localStorage.removeItem("username");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("loggedIn");
+
+      // Update button visibility
+      document.getElementById("signin-btn").style.display = "block";
+      document.getElementById("signout-btn").style.display = "none";
+      document.getElementById("moderation-btn").style.display = "none";
+      document.getElementById("profile-link").style.display = "none";
+
+      window.location.href = "index.html";
+    }
+
+    var loggedIn = localStorage.getItem("loggedIn");
+    if (loggedIn === "true") {
+      var username = localStorage.getItem("username");
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "block";
+      document.getElementById("profile-link").style.display = "block";
+      document.getElementById("profile-link").textContent = "Profile";
+      var isAdmin = localStorage.getItem("isAdmin") === "true";
+      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
+    }
+  </script>
 </body>
 </html>
