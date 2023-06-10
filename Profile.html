@@ -1,1 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Page</title>
+</head>
+<body>
+  <h1>Profile Page</h1>
+  <div id="profile-info"></div>
+
+  <script>
+    function displayProfileInfo() {
+      var username = localStorage.getItem("username");
+      var isAdmin = localStorage.getItem("isAdmin") === "true";
+
+      var profileInfo = document.getElementById("profile-info");
+      profileInfo.innerHTML = "<p>Username: " + username + "</p>" +
+                              "<p>Admin: " + (isAdmin ? "Yes" : "No") + "</p>";
+    }
+
+    displayProfileInfo();
+  </script>
+</body>
+</html>
 
