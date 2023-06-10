@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Moderation</title>
+  <title>Moderation Page</title>
   <style>
     /* CSS styling for the page */
     body {
@@ -16,162 +16,46 @@
       margin: 0 auto;
       padding: 20px;
     }
-    .form-container {
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    .form-input {
-      display: block;
-      margin-bottom: 10px;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-    }
-    .form-submit {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background-color: #ce5454;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .signout-btn {
-      float: right;
-    }
-    .header-box {
-      background-color: #3dc5a0;
-      padding: 10px;
-      overflow: hidden; /* Ensures proper alignment of elements */
-      text-align: center; /* Center the text */
-      text-transform: capitalize; /* Capitalize the text */
-    }
-    .header-btn {
-      display: inline-block;
-      padding: 8px 16px;
-      background-color: transparent;
-      color: white;
-      border: 2px solid transparent;
-      text-decoration: none;
-      font-size: 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    .header-btn:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      border-color: white;
-    }
-    .header-btn:active {
-      background-color: rgba(255, 255, 255, 0.4);
-    }
-    .game-card {
-      background-color: #04c1cc;
-      color: white;
+    .dropbox {
+      border: 2px dashed #ce5454;
       padding: 20px;
-      margin-bottom: 20px;
+      text-align: center;
+      color: #ce5454;
+      cursor: pointer;
     }
-    .game-card .game-title {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .game-card .game-image {
-      max-width: 200px;
-    }
-    .game-card .game-description {
-      margin-top: 10px;
+    #game-image {
+      max-width: 50%; /* Adjust the image size as needed */
     }
   </style>
-  <script>
-    function redirectToSignIn() {
-      // Redirect to the sign-in page
-      window.location.href = "signin.html";
-    }
-
-    function signOut() {
-      // Clear the local storage and redirect to the sign-in page
-      localStorage.clear();
-      window.location.href = "signin.html";
-    }
-
-    window.onload = function () {
-      // Check if user is logged in
-      var userToken = localStorage.getItem("userToken");
-      if (!userToken) {
-        // Redirect to sign-in page if not logged in
-        redirectToSignIn();
-      }
-
-      // Get game data from local storage or API
-      var games = localStorage.getItem("games");
-      if (!games) {
-        // Simulate API request
-        setTimeout(function () {
-          var fakeGameData = [
-            {
-              id: 1,
-              title: "Game 1",
-              description: "This is game 1",
-              image: "game1.jpg"
-            },
-            {
-              id: 2,
-              title: "Game 2",
-              description: "This is game 2",
-              image: "game2.jpg"
-            },
-            {
-              id: 3,
-              title: "Game 3",
-              description: "This is game 3",
-              image: "game3.jpg"
-            }
-          ];
-          localStorage.setItem("games", JSON.stringify(fakeGameData));
-          displayGames(fakeGameData);
-        }, 1000);
-      } else {
-        displayGames(JSON.parse(games));
-      }
-    };
-
-    function displayGames(games) {
-      var gameContainer = document.getElementById("gameContainer");
-      gameContainer.innerHTML = "";
-
-      games.forEach(function (game) {
-        var gameCard = document.createElement("div");
-        gameCard.className = "game-card";
-
-        var gameTitle = document.createElement("h2");
-        gameTitle.className = "game-title";
-        gameTitle.textContent = game.title;
-
-        var gameImage = document.createElement("img");
-        gameImage.className = "game-image";
-        gameImage.src = game.image;
-        gameImage.alt = "Game Image";
-
-        var gameDescription = document.createElement("p");
-        gameDescription.className = "game-description";
-        gameDescription.textContent = game.description;
-
-        gameCard.appendChild(gameTitle);
-        gameCard.appendChild(gameImage);
-        gameCard.appendChild(gameDescription);
-
-        gameContainer.appendChild(gameCard);
-      });
-    }
-  </script>
 </head>
 <body>
   <div class="container">
-    <div class="header-box">
-      <h1>Moderation</h1>
-      <button class="header-btn" onclick="signOut()">Sign Out</button>
-    </div>
-    <div id="gameContainer"></div>
+    <h2>Moderation Page</h2>
+    <div class="dropbox" onpaste="handleImagePaste(event)">Drop or paste an image here</div>
   </div>
+
+  <script>
+    function handleImagePaste(event) {
+      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.type.indexOf('image') === 0) {
+          var blob = item.getAsFile();
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            var imageDataUrl = event.target.result;
+            updateGameImage(imageDataUrl);
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    }
+
+    function updateGameImage(imageDataUrl) {
+      var gameImageElement = window.opener.document.getElementById('game-image');
+      gameImageElement.src = imageDataUrl;
+    }
+  </script>
 </body>
 </html>
