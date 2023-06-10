@@ -75,9 +75,8 @@
 
     <div class="profile-info">
       <h2 id="username"></h2>
-      <div class="btn-container">
-        <button id="message-btn">Message User</button>
-        <button id="challenge-btn">Challenge Friend</button>
+      <div class="btn-container" id="btn-container">
+        <!-- The buttons will be dynamically added here -->
       </div>
     </div>
 
@@ -94,6 +93,53 @@
     // Set the username in the page
     document.getElementById("username").textContent = username;
 
+    // Check if the profile belongs to the current user
+    var currentUser = localStorage.getItem("username");
+    var isCurrentUserProfile = username === currentUser;
+
+    // Function to add buttons based on the profile type
+    function addProfileButtons() {
+      var btnContainer = document.getElementById("btn-container");
+
+      if (isCurrentUserProfile) {
+        // Current user's profile
+        var welcomeMessage = document.createElement("p");
+        welcomeMessage.textContent = "Welcome, " + username;
+        btnContainer.appendChild(welcomeMessage);
+      } else {
+        // Other user's profile
+        var messageButton = createButton("Message User", "messageUser");
+        var challengeButton = createButton("Challenge Friend", "challengeFriend");
+
+        btnContainer.appendChild(messageButton);
+        btnContainer.appendChild(challengeButton);
+      }
+    }
+
+    // Function to create a button
+    function createButton(text, id) {
+      var button = document.createElement("button");
+      button.textContent = text;
+      button.setAttribute("id", id);
+      button.addEventListener("click", buttonClick);
+      return button;
+    }
+
+    // Event handler for button clicks
+    function buttonClick(event) {
+      var buttonId = event.target.id;
+
+      if (buttonId === "messageUser") {
+        // Redirect to the message page
+        // Implement the logic for the message page
+        alert("Implement the logic for the message page");
+      } else if (buttonId === "challengeFriend") {
+        // Redirect to the challenge page
+        // Implement the logic for the challenge page
+        alert("Implement the logic for the challenge page");
+      }
+    }
+
     function redirectToHome() {
       window.location.href = "index.html";
     }
@@ -103,8 +149,12 @@
     }
 
     function signOut() {
+      localStorage.removeItem("username");
       window.location.href = "index.html";
     }
+
+    // Add the profile buttons
+    addProfileButtons();
   </script>
 </body>
 </html>
