@@ -16,12 +16,30 @@
       margin: 0 auto;
       padding: 20px;
     }
-    .dropbox {
-      border: 2px dashed #ce5454;
-      padding: 20px;
-      text-align: center;
-      color: #ce5454;
+    .header-box {
+      background-color: lightblue;
+      padding: 10px;
+      overflow: hidden; /* Ensures proper alignment of elements */
+      text-align: center; /* Center the text */
+      text-transform: capitalize; /* Capitalize the text */
+    }
+    .header-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: white;
+      border: 2px solid transparent;
+      text-decoration: none;
+      font-size: 16px;
       cursor: pointer;
+      margin-right: 10px;
+    }
+    .header-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: white;
+    }
+    .header-btn:active {
+      background-color: rgba(255, 255, 255, 0.4);
     }
     #game-image {
       max-width: 50%; /* Adjust the image size as needed */
@@ -30,31 +48,25 @@
 </head>
 <body>
   <div class="container">
+    <div class="header-box">
+      <a href="index.html" class="header-btn">Home</a>
+      <a href="profile.html" class="header-btn">Profile</a>
+    </div>
     <h2>Moderation</h2>
-    <div class="dropbox" onpaste="handleImagePaste(event)">Drop or paste an image here</div>
+    <div id="url-input">
+      <input type="text" id="image-url" placeholder="Enter image URL" onchange="updateGameImage()">
+    </div>
+    <div id="image-container">
+      <img id="game-image" src="" alt="Game Image">
+    </div>
   </div>
 
   <script>
-    function handleImagePaste(event) {
-      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-      for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        if (item.type.indexOf('image') === 0) {
-          var blob = item.getAsFile();
-          var reader = new FileReader();
-          reader.onload = function(event) {
-            var imageDataUrl = event.target.result;
-            updateGameImage(imageDataUrl);
-          };
-          reader.readAsDataURL(blob);
-          break;
-        }
-      }
-    }
-
-    function updateGameImage(imageDataUrl) {
+    function updateGameImage() {
+      var imageUrl = document.getElementById('image-url').value;
       var gameImageElement = window.opener.document.getElementById('game-image');
-      gameImageElement.src = imageDataUrl;
+      gameImageElement.src = imageUrl;
+      document.getElementById('image-url').value = '';
     }
   </script>
 </body>
