@@ -22,32 +22,6 @@
       margin: 0;
       text-align: center; /* Center the text */
     }
-    .profile-info {
-      background-color: #04c1cc;
-      padding: 20px;
-      margin-top: 10px;
-      color: white;
-    }
-    .profile-info h2 {
-      margin-top: 0;
-      text-align: center;
-    }
-    .profile-info .btn-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .profile-info button {
-      padding: 10px 20px;
-      background-color: #ce5454;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    .profile-info button:hover {
-      background-color: #b33a3a;
-    }
     .header-btn {
       display: inline-block;
       padding: 8px 16px;
@@ -73,83 +47,54 @@
       <h1>User Profile</h1>
     </div>
 
-    <div class="profile-info">
-      <h2 id="username"></h2>
-      <div class="btn-container" id="btn-container">
-        <!-- The buttons will be dynamically added here -->
-      </div>
-    </div>
+    <div id="profile-info"></div>
 
     <button id="back-btn" onclick="redirectToHome()">Back to Home</button>
-    <button id="users-btn" onclick="redirectToUsers()">Users</button>
-    <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
   </div>
 
   <script>
     // Retrieve the username from the query parameter
-    var params = new URLSearchParams(window.location.search);
-    var username = params.get("username");
+    var urlParams = new URLSearchParams(window.location.search);
+    var username = urlParams.get("username");
 
-    // Set the username in the page
-    document.getElementById("username").textContent = username;
+    // Check if the username is available
+    if (username) {
+      // Display the username on the page
+      var profileInfo = document.getElementById("profile-info");
+      profileInfo.innerHTML = "<h2>" + username + "</h2>";
 
-    // Check if the profile belongs to the current user
-    var currentUser = localStorage.getItem("username");
-    var isCurrentUserProfile = username === currentUser;
+      // Retrieve the username from local storage
+      var loggedInUser = localStorage.getItem("username");
 
-    // Function to add buttons based on the profile type
-    function addProfileButtons() {
-      var btnContainer = document.getElementById("btn-container");
+      // Check if the logged-in user matches the profile being viewed
+      if (loggedInUser !== username) {
+        // Create the "Message User" button
+        var messageButton = document.createElement("button");
+        messageButton.innerText = "Message User";
+        messageButton.onclick = function() {
+          // Implement the logic to handle messaging the user
+          // You can redirect to a message page or perform any other action
+          // specific to messaging the user
+          console.log("Message User clicked");
+        };
+        profileInfo.appendChild(messageButton);
 
-      if (!isCurrentUserProfile) {
-        // Other user's profile
-        var messageButton = createButton("Message User", "messageUser");
-        var challengeButton = createButton("Challenge Friend", "challengeFriend");
-
-        btnContainer.appendChild(messageButton);
-        btnContainer.appendChild(challengeButton);
-      }
-    }
-
-    // Function to create a button
-    function createButton(text, id) {
-      var button = document.createElement("button");
-      button.textContent = text;
-      button.setAttribute("id", id);
-      button.addEventListener("click", buttonClick);
-      return button;
-    }
-
-    // Event handler for button clicks
-    function buttonClick(event) {
-      var buttonId = event.target.id;
-
-      if (buttonId === "messageUser") {
-        // Redirect to the message page
-        // Implement the logic for the message page
-        alert("Implement the logic for the message page");
-      } else if (buttonId === "challengeFriend") {
-        // Redirect to the challenge page
-        // Implement the logic for the challenge page
-        alert("Implement the logic for the challenge page");
+        // Create the "Challenge Friend" button
+        var challengeButton = document.createElement("button");
+        challengeButton.innerText = "Challenge Friend";
+        challengeButton.onclick = function() {
+          // Implement the logic to handle challenging the user
+          // You can redirect to a challenge page or perform any other action
+          // specific to challenging the user
+          console.log("Challenge Friend clicked");
+        };
+        profileInfo.appendChild(challengeButton);
       }
     }
 
     function redirectToHome() {
       window.location.href = "index.html";
     }
-
-    function redirectToUsers() {
-      window.location.href = "users.html";
-    }
-
-    function signOut() {
-      localStorage.removeItem("username");
-      window.location.href = "index.html";
-    }
-
-    // Add the profile buttons
-    addProfileButtons();
   </script>
 </body>
 </html>
