@@ -1,1 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to the Website</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Website</h1>
+    <div id="my-name" style="text-align: right;"></div>
+  </div>
+
+  <script>
+    // Retrieve the username from local storage
+    var username = localStorage.getItem("username");
+    
+    // Display the username in the "My name" section
+    document.getElementById("my-name").innerHTML = "My name: " + username;
+
+    // Redirect the user to the front page after a few seconds
+    setTimeout(function() {
+      window.location.href = "index.html";
+    }, 3000); // Redirect after 3 seconds (adjust the delay as needed)
+  </script>
+</body>
+</html>
 
