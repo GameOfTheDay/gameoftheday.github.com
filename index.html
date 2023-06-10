@@ -81,9 +81,9 @@
   <div class="container">
     <div class="secondary-header-box">
       <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
-      <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
-      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn">Moderation</button>
-      <a id="profile-link" href="profile.html" class="header-btn">Profile</a>
+      <button id="signout-btn" class="signout-btn" onclick="signOut()" style="display: none;">Sign Out</button>
+      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn" style="display: none;">Moderation</button>
+      <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
     </div>
     <div class="header-box">
       <h2 id="game-of-the-day">The game of today is: X</h2>
@@ -154,6 +154,13 @@
       localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
       localStorage.setItem("loggedIn", "true");
 
+      // Update button visibility
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "block";
+      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
+      document.getElementById("profile-link").style.display = "block";
+      document.getElementById("profile-link").textContent = "Profile";
+
       window.location.href = "index.html";
     }
 
@@ -161,6 +168,12 @@
       localStorage.removeItem("username");
       localStorage.removeItem("isAdmin");
       localStorage.removeItem("loggedIn");
+
+      // Update button visibility
+      document.getElementById("signin-btn").style.display = "block";
+      document.getElementById("signout-btn").style.display = "none";
+      document.getElementById("moderation-btn").style.display = "none";
+      document.getElementById("profile-link").style.display = "none";
 
       window.location.href = "index.html";
     }
@@ -170,7 +183,6 @@
       var username = localStorage.getItem("username");
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("signout-btn").style.display = "block";
-      document.getElementById("moderation-btn").style.display = "block";
       document.getElementById("profile-link").style.display = "block";
       document.getElementById("profile-link").textContent = "Profile";
       var isAdmin = localStorage.getItem("isAdmin") === "true";
