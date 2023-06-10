@@ -44,14 +44,17 @@
     #game-image {
       max-width: 50%; /* Adjust the image size as needed */
     }
-    #game-title {
+    #game-title-input {
       margin-top: 10px;
-      font-size: 24px;
-      font-weight: bold;
     }
-    #game-description {
+    #game-description-input {
       margin-top: 10px;
-      font-size: 16px;
+    }
+    #image-url-input {
+      margin-top: 10px;
+    }
+    #image-container {
+      margin-top: 10px;
     }
     #notification-box {
       background-color: #32a852;
@@ -70,13 +73,13 @@
     </div>
     <h2>Moderation</h2>
     <div id="game-title-input">
-      <input type="text" id="game-title" placeholder="Game Title" onchange="updateGameTitle()">
+      <input type="text" id="game-title" placeholder="Game Title" onkeydown="handleEnter(event, updateGameTitle)">
     </div>
     <div id="game-description-input">
-      <textarea id="game-description" placeholder="Game Description" oninput="updateGameDescription()"></textarea>
+      <textarea id="game-description" placeholder="Game Description" onkeydown="handleEnter(event, updateGameDescription)"></textarea>
     </div>
     <div id="image-url-input">
-      <input type="text" id="image-url" placeholder="Image URL" onchange="updateGameImage()">
+      <input type="text" id="image-url" placeholder="Image URL" onkeydown="handleEnter(event, updateGameImage)">
     </div>
     <div id="image-container">
       <img id="game-image" src="" alt="Game Image">
@@ -95,6 +98,12 @@
       }, 2000);
     }
 
+    function handleEnter(event, callback) {
+      if (event.keyCode === 13) {
+        callback();
+      }
+    }
+
     function updateGameTitle() {
       var gameTitle = document.getElementById('game-title').value;
       var gameTitleElement = window.opener.document.getElementById('game-title');
@@ -106,7 +115,6 @@
       var gameDescription = document.getElementById('game-description').value;
       var gameDescriptionElement = window.opener.document.getElementById('game-description');
       gameDescriptionElement.textContent = gameDescription;
-      localStorage.setItem('gameDescriptionSize', gameDescriptionElement.style.fontSize); // Store the font size in local storage
       showNotification('Game Description updated successfully!');
     }
 
@@ -116,15 +124,6 @@
       gameImageElement.src = imageUrl;
       showNotification('Game Image updated successfully!');
     }
-
-    // Load the stored font size for the game description
-    window.addEventListener('load', function() {
-      var gameDescriptionSize = localStorage.getItem('gameDescriptionSize');
-      if (gameDescriptionSize) {
-        var gameDescriptionElement = document.getElementById('game-description');
-        gameDescriptionElement.style.fontSize = gameDescriptionSize;
-      }
-    });
   </script>
 </body>
 </html>
