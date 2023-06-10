@@ -112,91 +112,38 @@
       reader.onload = function (event) {
         var imageSrc = event.target.result;
         localStorage.setItem("gameImage", imageSrc);
-        var gameImageElement = document.getElementById("gameImage");
-        gameImageElement.src = imageSrc;
+        var gameImageElement = document.getElementById(".gameImage");
+        gameImageElement.setAttribute("src", imageSrc);
         gameImageElement.style.display = "block";
       };
       reader.readAsDataURL(file);
     }
 
-    function saveGameData() {
-      var gameTitle = document.getElementById("gameTitle").value;
-      var gameDescription = document.getElementById("gameDescription").value;
+    window.onload = function () {
       var gameImage = localStorage.getItem("gameImage");
-
-      // Save the game data to the local storage
-      localStorage.setItem("gameTitle", gameTitle);
-      localStorage.setItem("gameDescription", gameDescription);
-      localStorage.setItem("gameImage", gameImage);
-
-      // Redirect to the moderation page
-      window.location.href = "moderation.html";
-    }
-
-    function loadGameData() {
-      var gameTitle = localStorage.getItem("gameTitle");
-      var gameDescription = localStorage.getItem("gameDescription");
-      var gameImage = localStorage.getItem("gameImage");
-
-      if (gameTitle && gameDescription && gameImage) {
-        var gameTitleElement = document.getElementById("gameTitle");
-        gameTitleElement.innerHTML = gameTitle;
-
-        var gameDescriptionElement = document.getElementById("gameDescription");
-        gameDescriptionElement.innerHTML = gameDescription;
-
-        var gameImageElement = document.getElementById("gameImage");
-        gameImageElement.src = gameImage;
+      var gameImageElement = document.getElementById("gameImage");
+      if (gameImage) {
+        gameImageElement.setAttribute("src", gameImage);
         gameImageElement.style.display = "block";
       }
-    }
-
-    window.onload = function () {
-      loadGameData();
     };
   </script>
 </head>
 <body>
   <div class="container">
     <div class="header-box">
-      <button class="header-btn" onclick="redirectToSignIn()">Home</button>
-      <button class="header-btn" onclick="redirectToModeration()">Moderation</button>
-      <button class="header-btn signout-btn" onclick="signOut()">Sign Out</button>
+      <h1>Game of the Day</h1>
+      <button class="header-btn" onclick="signOut()">Sign Out</button>
     </div>
-
     <div class="secondary-header-box">
-      <h2>Game of the Day</h2>
+      <button class="header-btn" onclick="redirectToModeration()">Moderation</button>
     </div>
-
     <div class="image-container">
-      <img id="gameImage" class="game-image" style="display: none;" />
+      <img id="gameImage" class="game-image" src="" alt="Game Image">
     </div>
-
     <div class="drop-box">
-      <input
-        type="file"
-        id="fileUpload"
-        accept="image/*"
-        style="display: none;"
-        onchange="handleImageUpload(event)"
-      />
-      <label for="fileUpload">Drag and drop or click to upload an image</label>
-    </div>
-
-    <div class="form-container">
-      <input
-        type="text"
-        id="gameTitle"
-        class="form-input"
-        placeholder="Enter game title"
-      />
-      <textarea
-        id="gameDescription"
-        class="form-input"
-        placeholder="Enter game description"
-        rows="4"
-      ></textarea>
-      <button class="form-submit" onclick="saveGameData()">Save</button>
+      <h2>Upload Game Image</h2>
+      <input type="file" accept="image/*" onchange="handleImageUpload(event)">
     </div>
   </div>
 </body>
