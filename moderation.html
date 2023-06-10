@@ -124,5 +124,27 @@
 
     displayUserList();
   </script>
+
+  <script>
+    function handleDrop(event) {
+      event.preventDefault();
+      var image = event.dataTransfer.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var imageSrc = e.target.result;
+        updateGameImage(imageSrc);
+      };
+      reader.readAsDataURL(image);
+    }
+
+    function updateGameImage(imageSrc) {
+      var gameImageElement = document.getElementById("game-image");
+      gameImageElement.src = imageSrc;
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+  </script>
 </body>
 </html>
