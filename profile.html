@@ -68,6 +68,9 @@
       // Retrieve the username from local storage
       var loggedInUser = localStorage.getItem("username");
 
+      // Create the profile info element
+      var profileInfo = document.getElementById("profile-info");
+
       // Check if the logged-in user matches the profile being viewed
       if (loggedInUser === username) {
         // Create the welcome message for the logged-in user
