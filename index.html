@@ -81,13 +81,6 @@
       max-width: 50%; /* Adjust the image size as needed */
     }
   </style>
-  <script>
-    var gameImageSrc = localStorage.getItem("gameImage");
-    if (gameImageSrc) {
-      var gameImageElement = document.getElementById("game-image");
-      gameImageElement.src = gameImageSrc;
-    }
-  </script>
 </head>
 <body>
   <div class="container">
@@ -101,7 +94,7 @@
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div id="image-container">
-      <img id="game-image" src="https://cdn.discordapp.com/attachments/992580932110393394/1117058892870987826/image.png" alt="Game Image">
+      <img id="game-image" src="" alt="Game Image">
     </div>
   </div>
 
@@ -117,6 +110,12 @@
   <script>
     // Define an array of usernames with administrator permissions
     var adminUsernames = ["Raven", "AdminUser1", "AdminUser2"]; // Add or remove usernames as needed
+
+    var gameImageSrc = localStorage.getItem("gameImage");
+    if (gameImageSrc) {
+      var gameImageElement = document.getElementById("game-image");
+      gameImageElement.src = gameImageSrc;
+    }
 
     function redirectToSignIn() {
       // Hide the initial page and show the sign-in page
