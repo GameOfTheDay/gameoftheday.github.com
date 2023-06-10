@@ -31,163 +31,177 @@
       position: absolute;
       width: 20px;
       height: 20px;
-      background-color: #ce5454;
+      background-color: #ce5454; /* Modify this color to change the food color */
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Snake Game</h1>
-    <div class="game-board" tabindex="0"></div>
+    <div class="game-board" id="game-board"></div>
     <p id="score">Score: 0</p>
-    <p id="game-over" style="display: none;">Game Over! Play again?</p>
-    <div>
-      <button onclick="startGame()">Play</button>
-      <button onclick="redirectToProfile()">My Profile</button>
-      <button onclick="redirectToHome()">Home</button>
-    </div>
+    <p id="game-over"></p>
+    <button onclick="startGame()">Play</button>
+    <button onclick="resetGame()">Reset</button>
+    <button onclick="redirectToProfile()">My Profile</button>
+    <button onclick="redirectToHome()">Home</button>
   </div>
 
   <script>
-    // Game variables
-    var canvasSize = 400;
-    var gridSize = 20;
-    var snake = [{ x: 200, y: 200 }];
-    var food = { x: 0, y: 0 };
-    var direction = "";
-    var nextDirection = "";
-    var intervalId;
-    var score = 0;
-    var gameBoard = document.querySelector(".game-board");
-    var scoreElement = document.getElementById("score");
-    var gameOverElement = document.getElementById("game-over");
+    // Constants
+    const gameBoardSize = 20;
+    const snakeSpeed = 200; // Adjust this value to change the snake speed
 
-    // Handle keyboard controls
-    document.addEventListener("keydown", function(event) {
-      var keyPressed = event.key.toLowerCase();
-      if (
-        (keyPressed === "w" || keyPressed === "arrowup") &&
-        direction !== "down"
-      ) {
-        nextDirection = "up";
-      } else if (
-        (keyPressed === "s" || keyPressed === "arrowdown") &&
-        direction !== "up"
-      ) {
-        nextDirection = "down";
-      } else if (
-        (keyPressed === "a" || keyPressed === "arrowleft") &&
-        direction !== "right"
-      ) {
-        nextDirection = "left";
-      } else if (
-        (keyPressed === "d" || keyPressed === "arrowright") &&
-        direction !== "left"
-      ) {
-        nextDirection = "right";
-      }
-    });
+    // Variables
+    let gameBoard;
+    let snake;
+    let food;
+    let direction;
+    let score;
+    let isGameOver;
 
-    // Start the game
+    // Game initialization
     function startGame() {
-      snake = [{ x: 200, y: 200 }];
-      direction = "";
-      nextDirection = "";
+      gameBoard = document.getElementById("game-board");
+      snake = [{ x: 10, y: 10 }];
+      food = getRandomFoodPosition();
+      direction = { x: 0, y: 0 };
       score = 0;
-      scoreElement.textContent = "Score: " + score;
-      gameOverElement.style.display = "none";
-      generateFood();
-      gameBoard.innerHTML = "";
-      gameBoard.focus();
-      intervalId = setInterval(moveSnake, 200); // Adjust the interval for slower movement
+      isGameOver = false;
+
+      // Remove existing snake and food nodes
+      clearGameBoard();
+
+      // Add snake and food nodes to the game board
+      drawSnake();
+      drawFood();
+
+      // Start the game loop
+      main();
     }
 
-    // Generate food at a random position
-    function generateFood() {
-      var foodX = getRandomPosition();
-      var foodY = getRandomPosition();
-      food = { x: foodX, y: foodY };
-      var foodNode = createNode(foodX, foodY, "food-node");
-      gameBoard.appendChild(foodNode);
-    }
-
-    // Move the snake
-    function moveSnake() {
-      var head = { x: snake[0].x, y: snake[0].y };
-      direction = nextDirection;
-
-      if (direction === "up") {
-        head.y -= gridSize;
-      } else if (direction === "down") {
-        head.y += gridSize;
-      } else if (direction === "left") {
-        head.x -= gridSize;
-      } else if (direction === "right") {
-        head.x += gridSize;
-      }
-
-      if (isCollision(head) || isSnakeCollision(head)) {
-        clearInterval(intervalId);
-        gameOverElement.style.display = "block";
+    // Game loop
+    function main() {
+      if (isGameOver) {
         return;
       }
 
+      // Update snake position
+      updateSnake();
+
+      // Check for game over conditions
+      if (isSnakeCollision() || isSnakeOutsideBoard()) {
+        gameOver();
+        return;
+      }
+
+      // Check for food consumption
+      if (isFoodConsumed()) {
+        // Increase the score
+        score++;
+        // Generate new food position
+        food = getRandomFoodPosition();
+        // Add a new tail segment to the snake
+        extendSnake();
+      }
+
+      // Clear game board
+      clearGameBoard();
+
+      // Draw snake and food nodes
+      drawSnake();
+      drawFood();
+
+      // Update score display
+      updateScore();
+
+      // Repeat the game loop
+      setTimeout(main, snakeSpeed);
+    }
+
+    // Update the snake position
+    function updateSnake() {
+      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
       snake.unshift(head);
-
-      if (head.x === food.x && head.y === food.y) {
-        score += 10;
-        scoreElement.textContent = "Score: " + score;
-        generateFood();
-      } else {
-        snake.pop();
-      }
-
-      renderSnake();
+      snake.pop();
     }
 
-    // Check if the snake hits the wall
-    function isCollision(head) {
-      return (
-        head.x < 0 ||
-        head.x >= canvasSize ||
-        head.y < 0 ||
-        head.y >= canvasSize
-      );
+    // Check if the snake collides with itself or walls
+    function isSnakeCollision() {
+      const head = snake[0];
+      return snake.some((segment, index) => index !== 0 && segment.x === head.x && segment.y === head.y);
     }
 
-    // Check if the snake collides with itself
-    function isSnakeCollision(head) {
-      for (var i = 1; i < snake.length; i++) {
-        if (head.x === snake[i].x && head.y === snake[i].y) {
-          return true;
-        }
-      }
-      return false;
+    // Check if the snake goes outside the game board
+    function isSnakeOutsideBoard() {
+      const head = snake[0];
+      return head.x < 0 || head.x >= gameBoardSize || head.y < 0 || head.y >= gameBoardSize;
     }
 
-    // Render the snake on the game board
-    function renderSnake() {
-      gameBoard.innerHTML = "";
-      snake.forEach(function(node) {
-        var snakeNode = createNode(node.x, node.y, "snake-node");
+    // Check if the snake consumes the food
+    function isFoodConsumed() {
+      const head = snake[0];
+      return head.x === food.x && head.y === food.y;
+    }
+
+    // Extend the snake by adding a new tail segment
+    function extendSnake() {
+      const tail = { x: snake[snake.length - 1].x, y: snake[snake.length - 1].y };
+      snake.push(tail);
+    }
+
+    // Game over logic
+    function gameOver() {
+      isGameOver = true;
+      document.getElementById("game-over").textContent = "Game Over! Score: " + score;
+    }
+
+    // Draw the snake nodes on the game board
+    function drawSnake() {
+      snake.forEach((segment, index) => {
+        const snakeNode = document.createElement("div");
+        snakeNode.style.gridRowStart = segment.y + 1;
+        snakeNode.style.gridColumnStart = segment.x + 1;
+        snakeNode.classList.add("snake-node");
         gameBoard.appendChild(snakeNode);
       });
     }
 
-    // Create a node at the specified position and class name
-    function createNode(x, y, className) {
-      var node = document.createElement("div");
-      node.className = className;
-      node.style.left = x + "px";
-      node.style.top = y + "px";
-      return node;
+    // Draw the food node on the game board
+    function drawFood() {
+      const foodNode = document.createElement("div");
+      foodNode.style.gridRowStart = food.y + 1;
+      foodNode.style.gridColumnStart = food.x + 1;
+      foodNode.classList.add("food-node");
+      gameBoard.appendChild(foodNode);
     }
 
-    // Get a random position for food generation
-    function getRandomPosition() {
-      return (
-        Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize
-      );
+    // Clear the game board by removing all nodes
+    function clearGameBoard() {
+      while (gameBoard.firstChild) {
+        gameBoard.removeChild(gameBoard.firstChild);
+      }
+    }
+
+    // Generate a random position for the food
+    function getRandomFoodPosition() {
+      return {
+        x: Math.floor(Math.random() * gameBoardSize),
+        y: Math.floor(Math.random() * gameBoardSize),
+      };
+    }
+
+    // Update the score display
+    function updateScore() {
+      document.getElementById("score").textContent = "Score: " + score;
+    }
+
+    // Reset the game
+    function resetGame() {
+      clearGameBoard();
+      document.getElementById("score").textContent = "Score: 0";
+      document.getElementById("game-over").textContent = "";
+      isGameOver = false;
     }
 
     // Redirect to profile.html
@@ -199,6 +213,20 @@
     function redirectToHome() {
       window.location.href = "index.html";
     }
+
+    // Keyboard controls
+    document.addEventListener("keydown", (event) => {
+      const key = event.key.toLowerCase();
+      if (key === "w" && direction.y !== 1) {
+        direction = { x: 0, y: -1 };
+      } else if (key === "s" && direction.y !== -1) {
+        direction = { x: 0, y: 1 };
+      } else if (key === "a" && direction.x !== 1) {
+        direction = { x: -1, y: 0 };
+      } else if (key === "d" && direction.x !== -1) {
+        direction = { x: 1, y: 0 };
+      }
+    });
   </script>
 </body>
 </html>
