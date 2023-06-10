@@ -63,17 +63,6 @@
       text-align: center;
       display: none;
     }
-    .save-changes-btn {
-      display: inline-block;
-      padding: 8px 16px;
-      background-color: #ce5454;
-      color: white;
-      border: none;
-      text-decoration: none;
-      font-size: 16px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
   </style>
 </head>
 <body>
@@ -85,15 +74,12 @@
     <h2>Moderation</h2>
     <div id="game-title-input">
       <input type="text" id="game-title" placeholder="Game Title" onkeydown="handleEnter(event, updateGameTitle)">
-      <button class="save-changes-btn" onclick="updateGameTitle()">Save Changes</button>
     </div>
     <div id="game-description-input">
       <textarea id="game-description" placeholder="Game Description" onkeydown="handleEnter(event, updateGameDescription)"></textarea>
-      <button class="save-changes-btn" onclick="updateGameDescription()">Save Changes</button>
     </div>
     <div id="image-url-input">
       <input type="text" id="image-url" placeholder="Image URL" onkeydown="handleEnter(event, updateGameImage)">
-      <button class="save-changes-btn" onclick="updateGameImage()">Save Changes</button>
     </div>
     <div id="image-container">
       <img id="game-image" src="" alt="Game Image">
