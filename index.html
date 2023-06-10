@@ -22,9 +22,10 @@
       overflow: hidden; /* Ensures proper alignment of elements */
       text-align: center; /* Center the text */
       text-transform: capitalize; /* Capitalize the text */
+      display: flex;
+      justify-content: space-between;
     }
     .header-btn {
-      display: inline-block;
       padding: 8px 16px;
       background-color: transparent;
       color: white;
@@ -45,9 +46,10 @@
       background-color: black;
       padding: 10px;
       overflow: hidden;
+      text-align: center; /* Center the text */
     }
-    .secondary-header-box .header-btn {
-      margin-right: 10px;
+    .secondary-header-box h2 {
+      color: white;
     }
     #image-container {
       text-align: center; /* Center the image */
@@ -65,15 +67,16 @@
   <div class="container">
     <div class="header-box">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
+      <div class="header-btn">
+        <a id="signin-btn" onclick="redirectToSignIn()">Sign In</a>
+      </div>
     </div>
     <div id="image-container">
       <img id="game-image" src="" alt="Game Image">
     </div>
     <div class="secondary-header-box">
-      <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
-      <button id="signout-btn" class="signout-btn" onclick="signOut()" style="display: none;">Sign Out</button>
-      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn" style="display: none;">Moderation</button>
-      <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
+      <h2>Community</h2>
+      <h2>Feedback</h2>
     </div>
   </div>
 
@@ -94,85 +97,9 @@
       // Hide the initial page and show the sign-in page
       document.getElementById("sign-in-page").style.display = "block";
       document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("moderation-btn").style.display = "none";
-      document.getElementById("profile-link").style.display = "none";
     }
 
-    function redirectToModeration() {
-      // Redirect to the Moderation page
-      window.location.href = "moderation.html";
-    }
-
-    function generateRandomPassword(length) {
-      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      var password = "";
-      for (var i = 0; i < length; i++) {
-        var randomIndex = Math.floor(Math.random() * characters.length);
-        password += characters.charAt(randomIndex);
-      }
-      return password;
-    }
-
-    function showRandomPasswordPrompt() {
-      var passwordInput = document.getElementById("password-input");
-      var passwordLength = 10; // Adjust the length of the generated password as needed
-      var generatedPassword = generateRandomPassword(passwordLength);
-
-      var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
-      if (useGeneratedPassword) {
-        passwordInput.value = generatedPassword;
-      } else {
-        passwordInput.value = ""; // Clear the password input field
-        passwordInput.removeAttribute("onfocus"); // Remove the onfocus event
-      }
-    }
-
-    function signIn() {
-      var username = document.getElementById("username-input").value;
-      var password = document.getElementById("password-input").value;
-
-      // Additional validation or checks can be performed here
-
-      localStorage.setItem("username", username);
-      var isAdmin = adminUsernames.includes(username);
-      localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
-      localStorage.setItem("loggedIn", "true");
-
-      // Update button visibility
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "block";
-      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
-      document.getElementById("profile-link").style.display = "block";
-      document.getElementById("profile-link").textContent = "Profile";
-
-      window.location.href = "index.html";
-    }
-
-    function signOut() {
-      localStorage.removeItem("username");
-      localStorage.removeItem("isAdmin");
-      localStorage.removeItem("loggedIn");
-
-      // Update button visibility
-      document.getElementById("signin-btn").style.display = "inline-block";
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("moderation-btn").style.display = "none";
-      document.getElementById("profile-link").style.display = "none";
-
-      window.location.href = "index.html";
-    }
-
-    var loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn === "true") {
-      var username = localStorage.getItem("username");
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "block";
-      document.getElementById("profile-link").style.display = "block";
-      document.getElementById("profile-link").textContent = "Profile";
-      var isAdmin = localStorage.getItem("isAdmin") === "true";
-      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
-    }
+    // Rest of the code...
   </script>
 </body>
 </html>
