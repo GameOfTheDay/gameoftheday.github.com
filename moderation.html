@@ -7,7 +7,6 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #446999;
-      padding: 50px;
     }
     .container {
       max-width: 800px;
@@ -72,12 +71,15 @@
     .user-list li {
       margin-bottom: 10px;
     }
-    .dropbox {
-      border: 2px dashed white;
-      padding: 20px;
+    .drop-box {
+      width: 100%;
+      height: 200px;
+      border: 2px dashed #f8f8f8;
+      background-color: #e8e8e8;
       text-align: center;
-      color: white;
-      margin-top: 20px;
+      line-height: 200px;
+      color: #999999;
+      font-size: 16px;
       cursor: pointer;
     }
   </style>
@@ -96,8 +98,8 @@
     <ul id="user-list" class="user-list">
       <!-- Usernames will be added dynamically here -->
     </ul>
-    <div class="dropbox" ondragover="allowDrop(event)" ondrop="handleDrop(event)">
-      <p>Drop an image here to update the game image</p>
+    <div id="drop-box" class="drop-box" onpaste="handlePaste(event)">
+      Drop or paste an image here
     </div>
   </div>
 
@@ -136,24 +138,30 @@
 
     displayUserList();
 
-    function handleDrop(event) {
-      event.preventDefault();
-      var image = event.dataTransfer.files[0];
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var imageSrc = e.target.result;
-        updateGameImage(imageSrc);
-      };
-      reader.readAsDataURL(image);
+    function handlePaste(event) {
+      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (var index in items) {
+        var item = items[index];
+        if (item.kind === "file") {
+          var blob = item.getAsFile();
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var imageSrc = e.target.result;
+            updateGameImage(imageSrc);
+          };
+          reader.readAsDataURL(blob);
+        } else if (item.kind === "string" && item.type === "text/plain") {
+          item.getAsString(function (text) {
+            // Assuming the text is a valid image URL
+            updateGameImage(text);
+          });
+        }
+      }
     }
 
     function updateGameImage(imageSrc) {
       localStorage.setItem("gameImage", imageSrc);
       window.location.href = "index.html";
-    }
-
-    function allowDrop(event) {
-      event.preventDefault();
     }
   </script>
 </body>
