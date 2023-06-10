@@ -115,9 +115,13 @@
       var passwordInput = document.getElementById("password-input");
       var passwordLength = 10; // Adjust the length of the generated password as needed
       var generatedPassword = generateRandomPassword(passwordLength);
+
       var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
       if (useGeneratedPassword) {
         passwordInput.value = generatedPassword;
+      } else {
+        passwordInput.value = ""; // Clear the password input field
+        passwordInput.removeAttribute("onfocus"); // Remove the onfocus event
       }
     }
 
