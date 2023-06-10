@@ -52,8 +52,7 @@
     <h2>Sign In</h2>
     <div class="form-container">
       <input type="text" id="username-input" class="form-input" placeholder="Username">
-      <input type="password" id="password-input" class="form-input" placeholder="Password">
-      <input type="checkbox" id="generate-password-checkbox"> Generate random password
+      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
       <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
     </div>
   </div>
@@ -69,10 +68,7 @@
       document.getElementById("signout-btn").style.display = "none";
     }
 
-    function generateRandomPassword() {
-      // Generate a random password using desired logic
-      // This is just a simple example, you can customize it to fit your needs
-      var length = 10;
+    function generateRandomPassword(length) {
       var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       var password = "";
       for (var i = 0; i < length; i++) {
@@ -82,44 +78,38 @@
       return password;
     }
 
+    function showRandomPasswordPrompt() {
+      var passwordInput = document.getElementById("password-input");
+      var passwordLength = 10; // Adjust the length of the generated password as needed
+      var generatedPassword = generateRandomPassword(passwordLength);
+      var useGeneratedPassword = confirm("Use the generated password?\n\n" + generatedPassword);
+      if (useGeneratedPassword) {
+        passwordInput.value = generatedPassword;
+      }
+    }
+
     function signIn() {
-      // Get the username and password input values
       var username = document.getElementById("username-input").value;
       var password = document.getElementById("password-input").value;
-      var generatePassword = document.getElementById("generate-password-checkbox").checked;
 
-      // You can perform additional validation or checks here if needed
-      if (generatePassword) {
-        // Generate a random password
-        password = generateRandomPassword();
-        document.getElementById("password-input").value = password;
-      }
+      // Additional validation or checks can be performed here
 
-      // Store the username in local storage for future use
       localStorage.setItem("username", username);
-
-      // Check if the user has administrator permissions
       var isAdmin = adminUsernames.includes(username);
       localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
-
-      // Set the user as logged in
       localStorage.setItem("loggedIn", "true");
 
-      // Redirect the user to the front page
       window.location.href = "index.html";
     }
 
     function signOut() {
-      // Clear the stored username, admin status, and logged-in status
       localStorage.removeItem("username");
       localStorage.removeItem("isAdmin");
       localStorage.removeItem("loggedIn");
 
-      // Redirect the user to the front page
       window.location.href = "index.html";
     }
 
-    // Check if the user is logged in and display the username
     var loggedIn = localStorage.getItem("loggedIn");
     if (loggedIn === "true") {
       var username = localStorage.getItem("username");
