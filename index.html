@@ -45,6 +45,7 @@
     .header-box h1 {
       margin: 0;
       text-align: center; /* Center the text */
+      color: white;
     }
     .header-btn {
       display: inline-block;
@@ -63,22 +64,27 @@
     .header-btn:active {
       background-color: #e8e8e8;
     }
-    .header-btn-container {
-      text-align: right;
+    .secondary-header-box {
+      background-color: white;
+      padding: 10px;
+      overflow: hidden;
+    }
+    .secondary-header-box .header-btn {
+      margin-right: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header-box">
-      <h1 style="margin-top: 10px;">Welcome to Game of the Day</h1>
-      <div class="header-btn-container">
-        <a id="profile-link" href="profile.html" class="header-btn" style="display: none;">Profile</a>
-        <button id="signout-btn" class="header-btn" style="display: none;" onclick="signOut()">Sign Out</button>
-        <button id="moderation-btn" class="header-btn" style="display: none;" onclick="redirectToModeration()">Moderation</button>
-      </div>
+    <div class="secondary-header-box">
+      <a id="signin-btn" onclick="redirectToSignIn()" class="header-btn">Sign In</a>
+      <button id="signout-btn" class="signout-btn" onclick="signOut()">Sign Out</button>
+      <button id="moderation-btn" onclick="redirectToModeration()" class="header-btn">Moderation</button>
+      <a id="profile-link" href="profile.html" class="header-btn">Profile</a>
     </div>
-    <button id="signin-btn" onclick="redirectToSignIn()">Sign In</button>
+    <div class="header-box">
+      <h1>Welcome to Game of the Day</h1>
+    </div>
   </div>
 
   <div id="sign-in-page" class="container" style="display: none;">
@@ -98,6 +104,9 @@
       // Hide the initial page and show the sign-in page
       document.getElementById("sign-in-page").style.display = "block";
       document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "none";
+      document.getElementById("moderation-btn").style.display = "none";
+      document.getElementById("profile-link").style.display = "none";
     }
 
     function redirectToModeration() {
@@ -150,13 +159,13 @@
     var loggedIn = localStorage.getItem("loggedIn");
     if (loggedIn === "true") {
       var username = localStorage.getItem("username");
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "block";
+      document.getElementById("moderation-btn").style.display = "block";
+      document.getElementById("profile-link").style.display = "block";
       document.getElementById("profile-link").textContent = "Profile";
-      document.getElementById("profile-link").style.display = "inline-block";
-      document.getElementById("signout-btn").style.display = "inline-block";
       var isAdmin = localStorage.getItem("isAdmin") === "true";
-      document.getElementById("moderation-btn").style.display = isAdmin ? "inline-block" : "none";
-    } else {
-      document.getElementById("signin-btn").style.display = "inline-block";
+      document.getElementById("moderation-btn").style.display = isAdmin ? "block" : "none";
     }
   </script>
 </body>
