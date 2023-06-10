@@ -15,6 +15,9 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      display: flex; /* Use flexbox for container */
+      flex-wrap: wrap; /* Wrap elements to next line if necessary */
+      justify-content: space-between; /* Position elements with space between */
     }
     .header-box {
       background-color: black;
@@ -22,8 +25,7 @@
       overflow: hidden; /* Ensures proper alignment of elements */
       text-align: center; /* Center the text */
       text-transform: capitalize; /* Capitalize the text */
-      display: flex;
-      justify-content: space-between;
+      flex-basis: 49%; /* Set width to 49% for two columns */
     }
     .header-btn {
       padding: 8px 16px;
@@ -47,6 +49,8 @@
       padding: 10px;
       overflow: hidden;
       text-align: center; /* Center the text */
+      flex-basis: 100%; /* Set width to 100% for full width */
+      margin-top: 20px; /* Add margin at the top */
     }
     .secondary-header-box h2 {
       color: white;
@@ -67,16 +71,18 @@
   <div class="container">
     <div class="header-box">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
+    </div>
+    <div class="header-box">
       <div class="header-btn">
         <a id="signin-btn" onclick="redirectToSignIn()">Sign In</a>
       </div>
     </div>
-    <div id="image-container">
-      <img id="game-image" src="" alt="Game Image">
-    </div>
     <div class="secondary-header-box">
       <h2>Community</h2>
       <h2>Feedback</h2>
+    </div>
+    <div id="image-container">
+      <img id="game-image" src="" alt="Game Image">
     </div>
   </div>
 
@@ -99,7 +105,8 @@
       document.getElementById("signin-btn").style.display = "none";
     }
 
-    // Rest of the code...
+    // Rest of your JavaScript code...
+
   </script>
 </body>
 </html>
