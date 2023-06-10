@@ -45,19 +45,11 @@
     .secondary-header-box {
       background-color: black;
       padding: 10px;
-      overflow: hidden;
+      overflow: visible; /* Allow content to extend outside */
       text-align: center; /* Center the text */
       margin-top: 20px; /* Add margin at the top */
       height: calc(100vh - 70px); /* Adjust the height based on your needs */
-      /* Removed position: relative; */
-    }
-    .top-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 2px;
-      width: 100vw; /* Extend the line to cover the entire width of the viewport */
-      background-color: black; /* Change the color of the line here */
+      position: relative; /* Enable positioning for the lines */
     }
     #sign-in-page {
       display: none;
