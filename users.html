@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Registered Users</title>
+  <title>User List</title>
   <style>
     /* CSS styling for the page */
     body {
       font-family: Arial, sans-serif;
       background-color: #446999;
+      padding: 50px;
+      overflow-y: scroll; /* Enable vertical scrolling */
+      height: 1000px; /* Increase the scrolling distance */
     }
     .container {
       max-width: 800px;
@@ -14,48 +17,108 @@
       padding: 20px;
     }
     .header-box {
-      background-color: #0a92f8;
+      background-color: #3dc5a0;
       padding: 10px;
       overflow: hidden; /* Ensures proper alignment of elements */
+      text-align: center; /* Center the text */
+      text-transform: capitalize; /* Capitalize the text */
     }
-    .header-box h1 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      color: white;
-    }
-    .user-list {
-      list-style-type: none;
-      padding: 0;
-      margin-bottom: 20px;
-    }
-    .user-list-item {
-      background-color: white;
+    .user-box {
+      background-color: #04c1cc;
       padding: 10px;
-      margin-bottom: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .user-box:hover .user-info {
+      display: block;
+    }
+    .user-info {
+      display: none;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 200px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+    .user-info a {
+      display: block;
+      margin-bottom: 5px;
+      color: #000;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header-box">
-      <h1>Registered Users</h1>
-      <a href="index.html" style="color: white;">Back to Home</a>
+      <h2>User List</h2>
     </div>
-    <ul class="user-list" id="user-list"></ul>
+
+    <div id="user-list">
+      <!-- User boxes will be dynamically generated here -->
+    </div>
   </div>
 
   <script>
-    // Retrieve the list of registered usernames from local storage
-    var registeredUsernames = JSON.parse(localStorage.getItem("registeredUsernames")) || [];
+    // Mock data of user names
+    var users = [
+      { name: "Raven" },
+      { name: "User1" },
+      { name: "User2" },
+      // Add more user objects here
+    ];
 
-    // Display the registered usernames in the user list
-    var userList = document.getElementById("user-list");
-    for (var i = 0; i < registeredUsernames.length; i++) {
-      var username = registeredUsernames[i];
-      var listItem = document.createElement("li");
-      listItem.className = "user-list-item";
-      listItem.textContent = username;
-      userList.appendChild(listItem);
+    // Generate user boxes dynamically
+    var userListElement = document.getElementById("user-list");
+    users.forEach(function(user) {
+      var userBox = document.createElement("div");
+      userBox.classList.add("user-box");
+
+      var userName = document.createElement("h3");
+      userName.textContent = user.name;
+      userBox.appendChild(userName);
+
+      var userInfo = document.createElement("div");
+      userInfo.classList.add("user-info");
+
+      var addFriendLink = document.createElement("a");
+      addFriendLink.href = "#";
+      addFriendLink.textContent = "Add Friend";
+      userInfo.appendChild(addFriendLink);
+
+      var viewProfileLink = document.createElement("a");
+      viewProfileLink.href = "profile.html"; // Replace with the actual profile page URL
+      viewProfileLink.textContent = "View Profile";
+      userInfo.appendChild(viewProfileLink);
+
+      var messageUserLink = document.createElement("a");
+      messageUserLink.href = "#";
+      messageUserLink.textContent = "Message User";
+      userInfo.appendChild(messageUserLink);
+
+      userBox.appendChild(userInfo);
+      userListElement.appendChild(userBox);
+    });
+
+    // Add event listeners to user boxes for hover effect
+    var userBoxes = document.getElementsByClassName("user-box");
+    for (var i = 0; i < userBoxes.length; i++) {
+      userBoxes[i].addEventListener("mouseover", showUserInfo);
+      userBoxes[i].addEventListener("mouseout", hideUserInfo);
+    }
+
+    function showUserInfo() {
+      var userInfo = this.getElementsByClassName("user-info")[0];
+      userInfo.style.display = "block";
+    }
+
+    function hideUserInfo() {
+      var userInfo = this.getElementsByClassName("user-info")[0];
+      userInfo.style.display = "none";
     }
   </script>
 </body>
