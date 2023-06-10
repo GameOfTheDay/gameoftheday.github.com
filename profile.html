@@ -1,24 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Profile Page</title>
+  <title>Game of the Day - Profile</title>
+  <style>
+    /* CSS styling for the page */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #446999;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header-box {
+      background-color: #0a92f8;
+      padding: 10px;
+      overflow: hidden; /* Ensures proper alignment of elements */
+    }
+    .header-box h1 {
+      margin: 0;
+      text-align: center; /* Center the text */
+    }
+    .header-btn-container {
+      text-align: right;
+    }
+    .header-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: white;
+      color: #0a92f8;
+      border: none;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .header-btn:hover {
+      background-color: #f8f8f8;
+    }
+    .header-btn:active {
+      background-color: #e8e8e8;
+    }
+  </style>
 </head>
 <body>
-  <h1>Profile Page</h1>
-  <div id="profile-info"></div>
-
-  <script>
-    function displayProfileInfo() {
-      var username = localStorage.getItem("username");
-      var isAdmin = localStorage.getItem("isAdmin") === "true";
-
-      var profileInfo = document.getElementById("profile-info");
-      profileInfo.innerHTML = "<p>Username: " + username + "</p>" +
-                              "<p>Admin: " + (isAdmin ? "Yes" : "No") + "</p>";
-    }
-
-    displayProfileInfo();
-  </script>
+  <div class="container">
+    <div class="header-box">
+      <h1 style="margin-top: 10px;">Game of the Day</h1>
+      <div class="header-btn-container">
+        <a id="home-link" href="index.html" class="header-btn">Home</a>
+      </div>
+    </div>
+    <!-- Add your profile content here -->
+  </div>
 </body>
 </html>
-
