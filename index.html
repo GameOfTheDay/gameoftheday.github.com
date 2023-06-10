@@ -167,18 +167,18 @@
     }
 
     function signOut() {
-      localStorage.removeItem("username");
-      localStorage.removeItem("isAdmin");
-      localStorage.removeItem("loggedIn");
+  localStorage.removeItem("username");
+  localStorage.removeItem("isAdmin");
+  localStorage.removeItem("loggedIn");
 
-      // Update button visibility
-      document.getElementById("signin-btn").style.display = "block";
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("moderation-btn").style.display = "none";
-      document.getElementById("profile-link").style.display = "none";
+  // Update button visibility
+  document.getElementById("signin-btn").style.display = "inline-block";
+  document.getElementById("signout-btn").style.display = "none";
+  document.getElementById("moderation-btn").style.display = "none";
+  document.getElementById("profile-link").style.display = "none";
 
-      window.location.href = "index.html";
-    }
+  window.location.href = "index.html";
+}
 
     var loggedIn = localStorage.getItem("loggedIn");
     if (loggedIn === "true") {
