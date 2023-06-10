@@ -6,7 +6,7 @@
     /* CSS styling for the page */
     body {
       font-family: Arial, sans-serif;
-      background-color: #446999;
+      background-color: #502c6e; /* Darkish Purple */
     }
     .container {
       max-width: 800px;
@@ -21,6 +21,15 @@
     .header-box h1 {
       margin: 0;
       text-align: center; /* Center the text */
+    }
+    .secondary-header-box {
+      background-color: #0a92f8;
+      padding: 10px;
+      overflow: hidden; /* Ensures proper alignment of elements */
+      margin-top: 10px; /* Add margin between header boxes */
+    }
+    .secondary-header-box .header-btn {
+      margin-right: 10px;
     }
     .header-btn {
       display: inline-block;
@@ -43,14 +52,15 @@
 </head>
 <body>
   <div class="container">
+    <div class="secondary-header-box">
+      <button id="back-btn" onclick="redirectToHome()">Home</button>
+    </div>
+
     <div class="header-box">
       <h1>User Profile</h1>
     </div>
 
     <div id="profile-info"></div>
-
-    <button id="back-btn" onclick="redirectToHome()">Back to Home</button>
-    <button id="snake-btn" onclick="playSnake()">Play Snake</button>
   </div>
 
   <script>
@@ -100,10 +110,6 @@
 
     function redirectToHome() {
       window.location.href = "index.html";
-    }
-
-    function playSnake() {
-      window.location.href = "snake.html";
     }
   </script>
 </body>
