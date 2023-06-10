@@ -59,51 +59,19 @@
     </div>
 
     <div id="user-list">
-      <!-- User boxes will be dynamically generated here -->
+      <div class="user-box">
+        <h3>Raven</h3>
+        <div class="user-info">
+          <a href="#">Add Friend</a>
+          <a href="profile.html">View Profile</a>
+          <a href="#">Message User</a>
+        </div>
+      </div>
+      <!-- Add more user boxes here -->
     </div>
   </div>
 
   <script>
-    // Mock data of user names
-    var users = [
-      { name: "Raven" },
-      { name: "User1" },
-      { name: "User2" },
-      // Add more user objects here
-    ];
-
-    // Generate user boxes dynamically
-    var userListElement = document.getElementById("user-list");
-    users.forEach(function(user) {
-      var userBox = document.createElement("div");
-      userBox.classList.add("user-box");
-
-      var userName = document.createElement("h3");
-      userName.textContent = user.name;
-      userBox.appendChild(userName);
-
-      var userInfo = document.createElement("div");
-      userInfo.classList.add("user-info");
-
-      var addFriendLink = document.createElement("a");
-      addFriendLink.href = "#";
-      addFriendLink.textContent = "Add Friend";
-      userInfo.appendChild(addFriendLink);
-
-      var viewProfileLink = document.createElement("a");
-      viewProfileLink.href = "profile.html"; // Replace with the actual profile page URL
-      viewProfileLink.textContent = "View Profile";
-      userInfo.appendChild(viewProfileLink);
-
-      var messageUserLink = document.createElement("a");
-      messageUserLink.href = "#";
-      messageUserLink.textContent = "Message User";
-      userInfo.appendChild(messageUserLink);
-
-      userBox.appendChild(userInfo);
-      userListElement.appendChild(userBox);
-    });
-
     // Add event listeners to user boxes for hover effect
     var userBoxes = document.getElementsByClassName("user-box");
     for (var i = 0; i < userBoxes.length; i++) {
