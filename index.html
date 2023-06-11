@@ -23,6 +23,7 @@
       text-align: center; /* Center the text */
       text-transform: capitalize; /* Capitalize the text */
       margin-bottom: 20px; /* Add margin at the bottom */
+      position: relative; /* Enable positioning for the pop-up */
     }
     .header-btn {
       display: inline-block;
@@ -35,6 +36,7 @@
       cursor: pointer;
       margin-right: 10px;
       position: relative;
+      z-index: 2; /* Set a higher z-index for the button */
     }
     .header-btn:hover {
       background-color: rgba(255, 255, 255, 0.2);
@@ -94,9 +96,9 @@
       padding: 10px;
       display: none;
       text-align: center;
-      z-index: 1;
+      z-index: 3; /* Set a higher z-index for the pop-up */
     }
-    .show-popup {
+    .show-popup .popup {
       display: block;
     }
     .popup-item {
