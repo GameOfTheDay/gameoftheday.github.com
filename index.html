@@ -23,7 +23,6 @@
       text-align: center; /* Center the text */
       text-transform: capitalize; /* Capitalize the text */
       margin-bottom: 20px; /* Add margin at the bottom */
-      position: relative; /* Enable positioning for the pop-up */
     }
     .header-btn {
       display: inline-block;
@@ -35,8 +34,6 @@
       font-size: 16px;
       cursor: pointer;
       margin-right: 10px;
-      position: relative;
-      z-index: 2; /* Set a higher z-index for the button */
     }
     .header-btn:hover {
       background-color: rgba(255, 255, 255, 0.2);
@@ -53,6 +50,12 @@
       margin-top: 20px; /* Add margin at the top */
       height: calc(100vh - 70px); /* Adjust the height based on your needs */
       position: relative; /* Enable positioning for the lines */
+    }
+    #sign-in-page {
+      display: none;
+    }
+    #sign-out-btn {
+      display: none;
     }
     #game-of-the-day {
       color: white;
@@ -78,51 +81,18 @@
     .left-header-box h2 {
       color: white;
     }
-    /* CSS styling for the sign-in page */
-    .sign-in-container {
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    .form-input {
-      display: block;
-      margin-bottom: 10px;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-    }
-    .form-submit {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .generate-password-checkbox {
-      margin-bottom: 10px;
-    }
-    /* CSS for the sign-in prompt header box */
-    .sign-in-header-box {
-      background-color: crimson;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .sign-in-header-box h2 {
-      color: black;
-      margin: 0;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
-      <div class="header-btn" id="signout-btn" onclick="signOut()" style="display: none;">Sign Out</div>
     </div>
     <div class="header-box" id="signin-header">
-      <div class="header-btn" id="signin-btn" onclick="redirectToSignIn()">Sign In</div>
+      <div class="header-btn">
+        <a id="signin-btn" onclick="redirectToSignIn()">Sign In</a>
+        <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
+      </div>
     </div>
     <!-- New left header box -->
     <div class="header-box left-header-box">
@@ -140,76 +110,41 @@
     </div>
   </div>
 
-  <div id="sign-in-page" class="container" style="display: none;">
-    <div class="header-box sign-in-header-box">
-      <h2>Sign In</h2>
-    </div>
-    <div class="sign-in-container">
+  <div id="sign-in-page" class="container">
+    <h2>Sign In</h2>
+    <div class="form-container">
       <input type="text" id="username-input" class="form-input" placeholder="Username">
-      <input type="password" id="password-input" class="form-input" placeholder="Password">
-      <input type="checkbox" id="generate-password-checkbox" class="generate-password-checkbox"> Generate random password
+      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
       <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
     </div>
   </div>
 
   <script>
-    // Function to handle the sign-in process
-    function signIn() {
-      // Get the username and password input values
-      var username = document.getElementById("username-input").value;
-      var password = document.getElementById("password-input").value;
-      var generatePassword = document.getElementById("generate-password-checkbox").checked;
+    // Define an array of usernames with administrator permissions
+    var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
-      // You can perform additional validation or checks here if needed
-
-      if (generatePassword) {
-        // Generate a random password
-        password = generateRandomPassword();
-        document.getElementById("password-input").value = password;
-      }
-
-      // Simulating a sign-in process
-      // Replace this with your own sign-in logic
-
-      // Set a flag in localStorage to indicate the user is signed in
-      localStorage.setItem("signedIn", "true");
-
-      // Hide the sign-in page and show the username in the header
-      document.getElementById("sign-in-page").style.display = "none";
-      document.getElementById("signin-btn").style.visibility = "hidden";
-      document.getElementById("signout-btn").style.display = "inline-block";
-      document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X (Signed in as " + username + ")";
-    }
-
-    // Function to handle the sign-out process
-    function signOut() {
-      // Clear the flag in localStorage to indicate the user is signed out
-      localStorage.removeItem("signedIn");
-
-      // Hide the sign-out button and show the sign-in button
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("signin-btn").style.visibility = "visible";
-
-      // Reset the game of the day header
-      document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X";
-    }
-
-    // Function to simulate redirection to the sign-in page
     function redirectToSignIn() {
-      // Hide the game header and show the sign-in page
-      document.getElementById("game-header").style.display = "none";
-      document.getElementById("signin-header").style.display = "none";
+      // Hide the initial page and show the sign-in page
       document.getElementById("sign-in-page").style.display = "block";
+      document.getElementById("signin-btn").style.display = "none";
     }
 
-    // Function to generate a random password
-    function generateRandomPassword() {
-      // Replace this with your own logic to generate a random password
-      var password = ""; // Generated password will be stored here
+    function signIn() {
+      // Perform sign-in logic here
+      // ...
 
-      // Logic to generate the password
+      // Show the sign-out button and hide the sign-in button
+      document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("sign-out-btn").style.display = "inline-block";
+    }
 
-      return password;
+    function signOut() {
+      // Perform sign-out logic here
+      // ...
+
+      // Show the sign-in button and hide the sign-out button
+      document.getElementById("signin-btn").style.display = "inline-block";
+      document.getElementById("sign-out-btn").style.display = "none";
     }
   </script>
 </body>
