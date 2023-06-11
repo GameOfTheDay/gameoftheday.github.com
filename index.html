@@ -63,7 +63,7 @@
     /* New CSS for the right header box */
     .right-header-box {
       float: right;
-      margin-top: 0px; /* Adjust the margin based on your needs */
+      margin-top: -20px; /* Adjust the margin based on your needs */
       margin-right: -350px; /* Move the box to the left by 50 pixels */
       height: 1000px;
       width: 300px;
@@ -71,7 +71,7 @@
     /* New CSS for the left header box */
     .left-header-box {
       float: left;
-      margin-top: 0px; /* Adjust the margin based on your needs */
+      margin-top: -20px; /* Adjust the margin based on your needs */
       margin-left: -350px; /* Move the box to the left by 20 pixels */
       height: 1000px;
       width: 300px;
@@ -79,6 +79,18 @@
     /* CSS for text color in right-header-box and left-header-box */
     .right-header-box h2,
     .left-header-box h2 {
+      color: white;
+    }
+    /* New CSS for the additional header box */
+    .additional-header-box {
+      float: right;
+      margin-top: -20px; /* Adjust the margin based on your needs */
+      margin-right: 20px; /* Add gap between the header boxes */
+      height: 1000px;
+      width: 150px; /* Half the width of the right header box */
+    }
+    /* CSS for text color in additional-header-box */
+    .additional-header-box h2 {
       color: white;
     }
   </style>
@@ -101,6 +113,10 @@
     <!-- New right header box -->
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
+    </div>
+    <!-- New additional header box -->
+    <div class="header-box additional-header-box">
+      <h2>Additional Header Box</h2>
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
