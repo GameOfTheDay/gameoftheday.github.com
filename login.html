@@ -76,7 +76,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your password">
       </div>
-      <button type="submit" class="form-submit">Sign In</button>
+      <button type="submit" class="form-submit" id="submit-button">Sign In</button>
     </form>
     <div class="sign-up">
       <button id="sign-up-button">Don't have an account? Sign Up!</button>
@@ -115,15 +115,18 @@
 
     document.getElementById("sign-up-button").addEventListener("click", function() {
       var loginHeader = document.getElementById("login-header");
+      var submitButton = document.getElementById("submit-button");
       var signUpButton = document.getElementById("sign-up-button");
 
       if (loginHeader.innerText === "Login") {
         loginHeader.innerText = "Create an account";
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
+        submitButton.innerText = "Sign Up";
         signUpButton.innerText = "Login";
       } else {
         loginHeader.innerText = "Login";
+        submitButton.innerText = "Sign In";
         signUpButton.innerText = "Don't have an account? Sign Up!";
       }
     });
