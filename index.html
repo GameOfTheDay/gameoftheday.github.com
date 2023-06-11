@@ -34,6 +34,7 @@
       font-size: 16px;
       cursor: pointer;
       margin-right: 10px;
+      position: relative;
     }
     .header-btn:hover {
       background-color: rgba(255, 255, 255, 0.2);
@@ -81,6 +82,24 @@
     .left-header-box h2 {
       color: white;
     }
+    /* CSS for pop-up */
+    .popup {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 200px;
+      background-color: black;
+      color: white;
+      padding: 10px;
+      display: none;
+      text-align: center;
+    }
+    .show-popup .popup {
+      display: block;
+    }
+    .popup-item {
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -90,8 +109,12 @@
     </div>
     <div class="header-box" id="signin-header">
       <div class="header-btn">
-        <a id="signin-btn" onclick="redirectToSignIn()">Sign In</a>
-        <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
+        <a id="signin-btn">Sign In</a>
+        <div class="popup">
+          <div class="popup-item">Profile</div>
+          <div class="popup-item">Settings</div>
+          <div class="popup-item">Sign Out</div>
+        </div>
       </div>
     </div>
     <!-- New left header box -->
@@ -110,40 +133,37 @@
     </div>
   </div>
 
-  <div id="sign-in-page" class="container">
-    <h2>Sign In</h2>
-    <div class="form-container">
-      <input type="text" id="username-input" class="form-input" placeholder="Username">
-      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
-      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
-    </div>
-  </div>
-
   <script>
     // Define an array of usernames with administrator permissions
     var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
-    function redirectToSignIn() {
-      // Hide the initial page and show the sign-in page
-      document.getElementById("sign-in-page").style.display = "block";
-      document.getElementById("signin-btn").style.display = "none";
-    }
+    var signinBtn = document.getElementById("signin-btn");
+    var popup = document.querySelector(".popup");
 
-    function signIn() {
-      // Perform sign-in logic here
-      // ...
+    // Show the sign-in page when clicking "Sign In"
+    signinBtn.addEventListener("click", function(e) {
+      e.stopPropagation(); // Prevent event bubbling
 
-      // Show the sign-out button and hide the sign-in button
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("sign-out-btn").style.display = "inline-block";
-    }
+      // Toggle the pop-up visibility
+      popup.classList.toggle("show-popup");
+    });
+
+    // Hide the sign-in page when clicking outside the pop-up
+    document.addEventListener("click", function() {
+      popup.classList.remove("show-popup");
+    });
+
+    // Prevent the pop-up from closing when clicking inside it
+    popup.addEventListener("click", function(e) {
+      e.stopPropagation(); // Prevent event bubbling
+    });
 
     function signOut() {
       // Perform sign-out logic here
       // ...
 
       // Show the sign-in button and hide the sign-out button
-      document.getElementById("signin-btn").style.display = "inline-block";
+      signinBtn.style.display = "inline-block";
       document.getElementById("sign-out-btn").style.display = "none";
     }
   </script>
