@@ -141,57 +141,58 @@
   </div>
 
   <script>
-    // Function to handle the sign-in process
-    function signIn() {
-      // Get the username and password input values
-      var username = document.getElementById("username-input").value;
-      var password = document.getElementById("password-input").value;
-      var generatePassword = document.getElementById("generate-password-checkbox").checked;
+   // Function to handle the sign-in process
+function signIn() {
+  // Get the username and password input values
+  var username = document.getElementById("username-input").value;
+  var password = document.getElementById("password-input").value;
+  var generatePassword = document.getElementById("generate-password-checkbox").checked;
 
-      // You can perform additional validation or checks here if needed
+  // You can perform additional validation or checks here if needed
 
-      if (generatePassword) {
-        // Generate a random password
-        password = generateRandomPassword();
-        document.getElementById("password-input").value = password;
-      }
+  if (generatePassword) {
+    // Generate a random password
+    password = generateRandomPassword();
+    document.getElementById("password-input").value = password;
+  }
 
-      // Simulating a sign-in process
-      // Replace this with your own sign-in logic
+  // Simulating a sign-in process
+  // Replace this with your own sign-in logic
 
-      // Set a flag in localStorage to indicate the user is signed in
-      localStorage.setItem("signedIn", "true");
+  // Set a flag in localStorage to indicate the user is signed in
+  localStorage.setItem("signedIn", "true");
 
-      // Hide the sign-in page and show the username in the header
-      document.getElementById("sign-in-page").style.display = "none";
-      document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("signout-btn").style.display = "inline-block";
-      document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X (Signed in as " + username + ")";
-    }
+  // Hide the sign-in page and show the username in the header
+  document.getElementById("sign-in-page").style.display = "none";
+  document.getElementById("signin-btn").style.visibility = "hidden";
+  document.getElementById("signout-btn").style.display = "inline-block";
+  document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X (Signed in as " + username + ")";
+}
 
-    // Function to handle the sign-out process
-    function signOut() {
-      // Simulating a sign-out process
-      // Replace this with your own sign-out logic
+// Function to handle the sign-out process
+function signOut() {
+  // Simulating a sign-out process
+  // Replace this with your own sign-out logic
 
-      // Clear the flag in localStorage
-      localStorage.removeItem("signedIn");
+  // Clear the flag in localStorage
+  localStorage.removeItem("signedIn");
 
-      // Show the sign-in button and reset the game header
-      document.getElementById("signin-btn").style.display = "inline-block";
-      document.getElementById("signout-btn").style.display = "none";
-      document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X";
-    }
+  // Show the sign-in button and reset the game header
+  document.getElementById("signin-btn").style.visibility = "visible";
+  document.getElementById("signout-btn").style.display = "none";
+  document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X";
+}
 
-    // Check if the user is already signed in on page load
-    window.addEventListener("DOMContentLoaded", function() {
-      var signedIn = localStorage.getItem("signedIn");
-      if (signedIn) {
-        // Hide the sign-in button if the user is signed in
-        document.getElementById("signin-btn").style.display = "none";
-        document.getElementById("signout-btn").style.display = "inline-block";
-      }
-    });
+// Check if the user is already signed in on page load
+window.addEventListener("DOMContentLoaded", function() {
+  var signedIn = localStorage.getItem("signedIn");
+  if (signedIn) {
+    // Hide the sign-in button if the user is signed in
+    document.getElementById("signin-btn").style.visibility = "hidden";
+    document.getElementById("signout-btn").style.display = "inline-block";
+  }
+});
+
 
     // Function to generate a random password
     function generateRandomPassword() {
