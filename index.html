@@ -103,6 +103,7 @@
     }
     .popup-item {
       margin: 10px 0;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -115,9 +116,9 @@
       <div class="header-btn" id="signin-btn">
         Sign In
         <div class="popup" id="signin-popup">
-          <div class="popup-item">Profile</div>
-          <div class="popup-item">Settings</div>
-          <div class="popup-item">Sign Out</div>
+          <div class="popup-item" onclick="openProfile()">Profile</div>
+          <div class="popup-item" onclick="signOut()">Sign Out</div>
+          <div class="popup-item" onclick="openModeration()">Moderation</div>
         </div>
       </div>
     </div>
@@ -155,6 +156,25 @@
         popup.classList.remove("show-popup");
       }
     });
+
+    function openProfile() {
+      // Redirect to profile.html
+      window.location.href = "profile.html";
+    }
+
+    function openModeration() {
+      // Redirect to moderation.html
+      window.location.href = "moderation.html";
+    }
+
+    function signOut() {
+      // Perform sign-out logic here
+      // ...
+
+      // Show the sign-in button and hide the sign-out button
+      signinBtn.style.display = "inline-block";
+      document.getElementById("sign-out-btn").style.display = "none";
+    }
   </script>
 </body>
 </html>
