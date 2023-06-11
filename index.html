@@ -81,12 +81,29 @@
     .left-header-box h2 {
       color: white;
     }
+    /* CSS for the background box */
+    .background-box {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 5px;
+      margin-right: 10px;
+    }
+    /* CSS for the user name at the top right */
+    .user-name {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 5px;
+      color: white;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
+      <div class="user-name" id="user-name"></div>
     </div>
     <div class="header-box" id="signin-header">
       <div class="header-btn">
@@ -136,6 +153,16 @@
       // Show the sign-out button and hide the sign-in button
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("sign-out-btn").style.display = "inline-block";
+
+      // Update the user name at the top right
+      var username = document.getElementById("username-input").value;
+      document.getElementById("user-name").textContent = username;
+
+      // Check if the signed-in user is an administrator
+      var isAdmin = adminUsernames.includes(username);
+      if (isAdmin) {
+        document.getElementById("moderators-btn").style.display = "inline-block";
+      }
     }
 
     function signOut() {
@@ -145,6 +172,12 @@
       // Show the sign-in button and hide the sign-out button
       document.getElementById("signin-btn").style.display = "inline-block";
       document.getElementById("sign-out-btn").style.display = "none";
+
+      // Clear the user name at the top right
+      document.getElementById("user-name").textContent = "";
+
+      // Hide the moderators button
+      document.getElementById("moderators-btn").style.display = "none";
     }
   </script>
 </body>
