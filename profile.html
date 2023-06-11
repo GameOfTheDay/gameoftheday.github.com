@@ -21,6 +21,7 @@
       text-align: center; /* Center the text */
       text-transform: capitalize; /* Capitalize the text */
       margin-bottom: 20px; /* Add margin at the bottom */
+      position: relative; /* Enable positioning for the buttons */
     }
     .header-btn {
       display: inline-block;
@@ -50,9 +51,7 @@
       position: relative; /* Enable positioning for the lines */
     }
     #back-btn {
-      display: block;
-      margin: 0 auto;
-      margin-top: 10px;
+      display: inline-block;
       padding: 8px 16px;
       background-color: white;
       color: #0a92f8;
@@ -83,14 +82,13 @@
 </head>
 <body>
   <div class="container">
-    <div class="header-box" id="game-header">
-      <h2 id="game-of-the-day">The Game of Today is: X</h2>
+    <div class="header-box">
+      <button id="back-btn" onclick="redirectToHome()">Home</button>
+      <button id="sign-out-btn" onclick="signOut()">Sign Out</button>
       <div class="user-name" id="user-name"></div>
     </div>
 
-    <div class="header-box secondary-header-box">
-      <button id="back-btn" onclick="redirectToHome()">Home</button>
-    </div>
+    <div class="header-box secondary-header-box"></div>
 
     <div class="header-box">
       <h1>User Profile</h1>
@@ -101,4 +99,29 @@
 
   <script>
     // Retrieve the username from the query parameter
-    var urlParams.
+    var urlParams = new URLSearchParams(window.location.search);
+    var username = urlParams.get("username");
+
+    // Set the username in the user-name element
+    var userNameElement = document.getElementById("user-name");
+    userNameElement.textContent = "Hello, " + username;
+
+    // Function to redirect to the home page
+    function redirectToHome() {
+      // Replace this with your own logic to redirect to the home page
+      // For example, you can use window.location.href = "home.html";
+      // Here, we are just showing an alert
+      alert("Redirecting to Home");
+    }
+
+    // Function to sign out the user
+    function signOut() {
+      // Replace this with your own logic to sign out the user
+      // For example, you can clear cookies, remove data from local storage, or make a server-side request
+      // Here, we are just showing an alert and redirecting to the login page
+      alert("Signing out");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
