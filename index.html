@@ -29,7 +29,7 @@
       padding: 8px 16px;
       background-color: transparent;
       color: white;
-      border: 2px solid white; /* Add border to create a box */
+      border: 2px solid transparent;
       text-decoration: none;
       font-size: 16px;
       cursor: pointer;
@@ -42,17 +42,42 @@
     .header-btn:active {
       background-color: rgba(255, 255, 255, 0.4);
     }
-    .secondary-header-box {
-      background-color: black;
-      padding: 10px;
-      overflow: visible; /* Allow content to extend outside */
-      text-align: center; /* Center the text */
-      margin-top: 20px; /* Add margin at the top */
-      height: calc(100vh - 70px); /* Adjust the height based on your needs */
-      position: relative; /* Enable positioning for the lines */
-    }
     #sign-in-page {
       display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #sign-in-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #signin-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: white;
+      border: 2px solid transparent;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    #signin-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: white;
+    }
+    #signin-btn:active {
+      background-color: rgba(255, 255, 255, 0.4);
     }
     #sign-out-btn {
       display: none;
@@ -60,25 +85,10 @@
     #game-of-the-day {
       color: white;
     }
-    /* New CSS for the right header box */
-    .right-header-box {
-      float: right;
-      margin-top: 0px; /* Adjust the margin based on your needs */
-      margin-right: -350px; /* Move the box to the left by 50 pixels */
-      height: 1000px;
-      width: 300px;
-    }
-    /* New CSS for the left header box */
-    .left-header-box {
-      float: left;
-      margin-top: 0px; /* Adjust the margin based on your needs */
-      margin-left: -350px; /* Move the box to the left by 20 pixels */
-      height: 1000px;
-      width: 300px;
-    }
-    /* CSS for text color in right-header-box and left-header-box */
-    .right-header-box h2,
-    .left-header-box h2 {
+    #user-name {
+      position: absolute;
+      top: 0;
+      right: 20px;
       color: white;
     }
   </style>
@@ -87,6 +97,7 @@
   <div class="container">
     <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
+      <div id="user-name"></div>
     </div>
     <div class="header-box" id="signin-header">
       <div class="header-btn">
@@ -94,28 +105,22 @@
         <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
       </div>
     </div>
-    <!-- New left header box -->
-    <div class="header-box left-header-box">
-      <h2>Left Header Box</h2>
-    </div>
-    <!-- New right header box -->
-    <div class="header-box right-header-box">
-      <h2>Right Header Box</h2>
-    </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
-      <div class="line"></div> <!-- New line element -->
+      <div class="line"></div>
       <h2>Community</h2>
       <h2>Feedback</h2>
     </div>
   </div>
 
-  <div id="sign-in-page" class="container">
-    <h2>Sign In</h2>
-    <div class="form-container">
-      <input type="text" id="username-input" class="form-input" placeholder="Username">
-      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
-      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
+  <div id="sign-in-page">
+    <div id="sign-in-box">
+      <h2>Sign In</h2>
+      <div class="form-container">
+        <input type="text" id="username-input" class="form-input" placeholder="Username">
+        <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
+        <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
+      </div>
     </div>
   </div>
 
@@ -124,45 +129,34 @@
     var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
     function redirectToSignIn() {
-      // Hide the initial page and show the sign-in page
-      document.getElementById("sign-in-page").style.display = "block";
-      document.getElementById("signin-btn").style.display = "none";
+      // Show the sign-in page
+      document.getElementById("sign-in-page").style.display = "flex";
     }
 
     function signIn() {
       // Perform sign-in logic here
       // ...
 
-      // Store the signed-in state in localStorage
-      localStorage.setItem("signedIn", "true");
-
       // Show the sign-out button and hide the sign-in button
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("sign-out-btn").style.display = "inline-block";
+
+      // Get the entered username and display it in the header
+      var username = document.getElementById("username-input").value;
+      document.getElementById("user-name").textContent = "Welcome, " + username;
     }
 
     function signOut() {
       // Perform sign-out logic here
       // ...
 
-      // Remove the signed-in state from localStorage
-      localStorage.removeItem("signedIn");
-
       // Show the sign-in button and hide the sign-out button
       document.getElementById("signin-btn").style.display = "inline-block";
       document.getElementById("sign-out-btn").style.display = "none";
+
+      // Clear the displayed username
+      document.getElementById("user-name").textContent = "";
     }
-
-    // Check if the user is signed in when the page loads
-    document.addEventListener("DOMContentLoaded", function() {
-      var signedIn = localStorage.getItem("signedIn");
-
-      if (signedIn) {
-        // Show the sign-out button and hide the sign-in button
-        document.getElementById("signin-btn").style.display = "none";
-        document.getElementById("sign-out-btn").style.display = "inline-block";
-      }
-    });
   </script>
 </body>
 </html>
