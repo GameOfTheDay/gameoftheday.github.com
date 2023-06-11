@@ -97,37 +97,6 @@
       color: white;
       font-weight: bold;
     }
-    /* New CSS for the live chat */
-    #live-chat {
-      background-color: #f2f2f2;
-      padding: 10px;
-      margin-top: 20px;
-      border-radius: 4px;
-    }
-
-    #chat-messages {
-      height: 150px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-
-    #chat-input {
-      width: 80%;
-      padding: 5px;
-      margin-right: 10px;
-    }
-
-    #send-btn {
-      padding: 5px 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    #send-btn:hover {
-      background-color: #45a049;
-    }
   </style>
 </head>
 <body>
@@ -146,11 +115,6 @@
     </div>
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
-      <div id="live-chat">
-        <div id="chat-messages"></div>
-        <input type="text" id="chat-input" placeholder="Type your message...">
-        <button id="send-btn">Send</button>
-      </div>
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
@@ -170,47 +134,6 @@
   </div>
 
   <script>
-    // Function to handle sending a chat message
-    function sendMessage() {
-      var messageInput = document.getElementById("chat-input");
-      var message = messageInput.value;
-
-      if (message.trim() !== "") {
-        var messageElement = document.createElement("p");
-        messageElement.textContent = message;
-        document.getElementById("chat-messages").appendChild(messageElement);
-        messageInput.value = "";
-
-        // Send the message to other users (you can replace this with your own logic)
-        sendChatMessage(message);
-      }
-    }
-
-    // Function to handle receiving a chat message
-    function receiveMessage(message) {
-      var messageElement = document.createElement("p");
-      messageElement.textContent = message;
-      document.getElementById("chat-messages").appendChild(messageElement);
-    }
-
-    // Function to send the message to other users (replace this with your own logic)
-    function sendChatMessage(message) {
-      // Simulating receiving a message from another user after a delay
-      setTimeout(function() {
-        receiveMessage("Another user: " + message);
-      }, 1000);
-    }
-
-    // Event listener for the send button
-    document.getElementById("send-btn").addEventListener("click", sendMessage);
-
-    // Event listener for the Enter key in the chat input
-    document.getElementById("chat-input").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        sendMessage();
-      }
-    });
-
     // Function to check if the user is signed in
     function isUserSignedIn() {
       // Replace this with your own logic to check if the user is signed in
@@ -298,3 +221,4 @@
   </script>
 </body>
 </html>
+
