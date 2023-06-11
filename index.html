@@ -78,6 +78,31 @@
     .left-header-box h2 {
       color: white;
     }
+    /* CSS styling for the sign-in page */
+    .sign-in-container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .form-input {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .form-submit {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .generate-password-checkbox {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -86,7 +111,7 @@
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div class="header-box" id="signin-header">
-      <div class="header-btn" id="signin-btn">Sign In</div>
+      <div class="header-btn" id="signin-btn" onclick="redirectToSignIn()">Sign In</div>
     </div>
     <!-- New left header box -->
     <div class="header-box left-header-box">
@@ -104,17 +129,42 @@
     </div>
   </div>
 
+  <div id="sign-in-page" class="container" style="display: none;">
+    <h2>Sign In</h2>
+    <div class="sign-in-container">
+      <input type="text" id="username-input" class="form-input" placeholder="Username">
+      <input type="password" id="password-input" class="form-input" placeholder="Password">
+      <input type="checkbox" id="generate-password-checkbox" class="generate-password-checkbox"> Generate random password
+      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
+    </div>
+  </div>
+
   <script>
     // Function to handle the sign-in process
     function signIn() {
+      // Get the username and password input values
+      var username = document.getElementById("username-input").value;
+      var password = document.getElementById("password-input").value;
+      var generatePassword = document.getElementById("generate-password-checkbox").checked;
+
+      // You can perform additional validation or checks here if needed
+
+      if (generatePassword) {
+        // Generate a random password
+        password = generateRandomPassword();
+        document.getElementById("password-input").value = password;
+      }
+
       // Simulating a sign-in process
       // Replace this with your own sign-in logic
 
       // Set a flag in localStorage to indicate the user is signed in
       localStorage.setItem("signedIn", "true");
 
-      // Hide the sign-in button
+      // Hide the sign-in page and show the username in the header
+      document.getElementById("sign-in-page").style.display = "none";
       document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X (Signed in as " + username + ")";
     }
 
     // Function to handle the sign-out process
@@ -125,8 +175,9 @@
       // Clear the flag in localStorage
       localStorage.removeItem("signedIn");
 
-      // Show the sign-in button
+      // Show the sign-in button and reset the game header
       document.getElementById("signin-btn").style.display = "inline-block";
+      document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X";
     }
 
     // Check if the user is already signed in on page load
@@ -137,6 +188,27 @@
         document.getElementById("signin-btn").style.display = "none";
       }
     });
+
+    // Function to generate a random password
+    function generateRandomPassword() {
+      // Generate a random password using desired logic
+      // This is just a simple example, you can customize it to fit your needs
+      var length = 10;
+      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      var password = "";
+      for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters.charAt(randomIndex);
+      }
+      return password;
+    }
+
+    // Function to show the sign-in page
+    function redirectToSignIn() {
+      // Hide the initial page and show the sign-in page
+      document.getElementById("sign-in-page").style.display = "block";
+      document.getElementById("signin-btn").style.display = "none";
+    }
   </script>
 </body>
 </html>
