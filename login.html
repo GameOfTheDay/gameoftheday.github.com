@@ -13,126 +13,73 @@
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #f8e8b0;
-      border-radius: 5px;
-    }
-    .container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      background-color: #f8e8b0; /* Set the background color of the login header box */
-      color: #5a0210; /* Set the text color of the login header box */
-      padding: 10px;
+      background-color: #fff;
       border-radius: 5px;
     }
     .form-group {
       margin-bottom: 20px;
-      background-color: #f8e8b0; /* Set the background color of the form group */
-      padding: 10px; /* Add padding to the form group */
-      border-radius: 5px; /* Add border-radius to the form group */
     }
-    .form-group label {
+    .form-label {
       display: block;
-      margin-bottom: 5px;
       font-weight: bold;
+      margin-bottom: 5px;
     }
-    .form-group input {
+    .form-input {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      font-size: 16px;
     }
     .form-submit {
+      display: block;
       width: 100%;
       padding: 10px;
-      background-color: #fba026;
+      background-color: #5a0210;
       color: #fff;
       border: none;
       border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
     }
     .form-submit:hover {
-      background-color: #f6820d;
-    }
-    .sign-up {
-      text-align: center;
-      margin-top: 10px;
-    }
-    .sign-up button {
-      background-color: #5a0210;
-      color: #f8e8b0;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
+      background-color: #4c0119;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2 id="login-header">Login</h2>
+    <h2>Login</h2>
     <form id="login-form">
       <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" class="form-input" placeholder="Enter your username">
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-input" placeholder="Enter your password">
       </div>
-      <button type="submit" class="form-submit" id="submit-button">Sign In</button>
+      <button type="submit" class="form-submit">Sign In</button>
     </form>
-    <div class="sign-up">
-      <button id="sign-up-button">Don't have an account? Sign Up!</button>
-    </div>
   </div>
 
   <script>
-    var isCreateAccount = false;
-
     document.getElementById("login-form").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
-      // Retrieve the entered username and password
+      // Perform login logic here
       var username = document.getElementById("username").value;
       var password = document.getElementById("password").value;
 
-      // Perform the login validation
-      if (checkCredentials(username, password)) {
-        localStorage.setItem("loggedInUser", username); // Store the username in local storage
-        window.location.href = "index.html"; // Redirect to index.html for successful login
+      // Example validation
+      if (username === "admin" && password === "password") {
+        // Redirect to the home page or desired location
+        window.location.href = "index.html";
       } else {
         alert("Invalid username or password. Please try again.");
       }
     });
-
-    document.getElementById("sign-up-button").addEventListener("click", function() {
-      var loginHeader = document.getElementById("login-header");
-      var submitButton = document.getElementById("submit-button");
-      var signUpButton = document.getElementById("sign-up-button");
-
-      if (!isCreateAccount) {
-        loginHeader.innerText = "Create an account";
-        document.getElementById("username").value = "";
-        document.getElementById("password").value = "";
-        submitButton.innerText = "Sign Up";
-        signUpButton.innerText = "Login";
-        isCreateAccount = true;
-      } else {
-        loginHeader.innerText = "Login";
-        submitButton.innerText = "Sign In";
-        signUpButton.innerText = "Don't have an account? Sign Up!";
-        isCreateAccount = false;
-      }
-    });
-
-    // Function to check the credentials
-    function checkCredentials(username, password) {
-      // Here, you can add your own logic to check the credentials
-      // For example, you can compare the entered username and password with the ones stored in your database
-
-      // Return true if the credentials are valid, false otherwise
-      return (username === "admin" && password === "password");
-    }
   </script>
 </body>
 </html>
+
