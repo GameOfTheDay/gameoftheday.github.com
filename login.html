@@ -90,6 +90,14 @@
       // Add more profiles as needed
     ];
 
+    // Retrieve loginProfiles array from localStorage
+    var storedLoginProfiles = localStorage.getItem("loginProfiles");
+
+    // Parse the stored JSON string back into an array
+    if (storedLoginProfiles) {
+      loginProfiles = JSON.parse(storedLoginProfiles);
+    }
+
     document.getElementById("login-form").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
@@ -126,6 +134,9 @@
 
       // Optional: Display a success message
       alert("Sign up successful! You can now use your new credentials to log in.");
+
+      // Save the updated loginProfiles array to localStorage
+      localStorage.setItem("loginProfiles", JSON.stringify(loginProfiles));
     });
   </script>
 </body>
