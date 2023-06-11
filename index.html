@@ -74,14 +74,15 @@
       margin-top: 0px; /* Adjust the margin based on your needs */
       margin-left: -350px; /* Move the box to the left by 20 pixels */
       height: 1000px;
-      width: 300px;
+      width: calc(100% - 320px); /* Adjust the width based on your needs */
     }
     /* CSS for text color in right-header-box and left-header-box */
     .right-header-box h2,
     .left-header-box h2,
     .left-header-box p {
       color: white;
-      font-size: 24px; /* Adjust the font size as desired */
+      font-size: 20px; /* Adjust the font size based on your needs */
+      width: 100%;
     }
     /* CSS for the background box */
     .background-box {
@@ -114,8 +115,8 @@
     <!-- Rest of the code -->
     <div class="header-box left-header-box">
       <h2>Index</h2>
-      <p class="date-paragraph">May 23</p>
-      <p class="date-paragraph">June 23</p>
+      <p>May 23</p>
+      <p>June 23</p>
     </div>
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
@@ -163,58 +164,60 @@
       }
     }
 
-    // Function to retrieve the username from wherever you store it (e.g., cookie, local storage)
-    function getUsernameFromStorage() {
-      // Replace this with your own logic to retrieve the username
-      // For example, if you store the username in a cookie called "user", you can retrieve it like this:
-      const cookie = document.cookie.split(";").find((c) => c.trim().startsWith("user="));
-      if (cookie) {
-        return cookie.split("=")[1];
-      }
-      return null;
-    }
-
-    // Run the updateUI function when the page loads
-    window.addEventListener("load", updateUI);
-
-    // Define an array of usernames with administrator permissions
-    var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
-
-    function redirectToSignIn() {
-      // Redirect the user to the sign-in page
-      window.location.href = "login.html";
-    }
-
+    // Function to sign out the user
     function signOut() {
       // Replace this with your own logic to sign out the user
-      // For example, you can clear cookies, remove tokens, or invalidate sessions
-      // Here, we are simply redirecting the user to the sign-in page
+      // For example, you can clear cookies, remove data from local storage, or make a server-side request
       document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      redirectToSignIn();
+      updateUI();
     }
 
-    function signIn() {
-      var usernameInput = document.getElementById("username-input").value;
-      var passwordInput = document.getElementById("password-input").value;
+    // Function to get the username from storage
+    function getUsernameFromStorage() {
+      // Replace this with your own logic to get the username from storage
+      // For example, you can use cookies, local storage, or a server-side request
+      // Here, we are assuming the username is stored in a "user" cookie
+      const userCookie = document.cookie.split(";").find(cookie => cookie.includes("user="));
+      if (userCookie) {
+        return userCookie.split("=")[1];
+      }
+      return "";
+    }
 
-      // Replace this with your own logic to authenticate the user
-      // Here, we are checking if the username is in the adminUsernames array and the password is not empty
-      if (adminUsernames.includes(usernameInput) && passwordInput !== "") {
-        // Store the username in a cookie called "user"
-        document.cookie = "user=" + usernameInput + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-        updateUI(); // Update the UI to reflect the signed-in state
+    // Function to simulate sign-in
+    function signIn() {
+      const usernameInput = document.getElementById("username-input");
+      const passwordInput = document.getElementById("password-input");
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+
+      if (username && password) {
+        // Replace this with your own logic to authenticate the user
+        // For example, you can make a server-side request to validate the credentials
+        // Here, we are assuming the username and password are both "admin"
+        if (username === "admin" && password === "admin") {
+          // Set the user cookie
+          document.cookie = `user=${username}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/;`;
+          updateUI();
+          // Hide the sign-in page
+          const signInPage = document.getElementById("sign-in-page");
+          signInPage.style.display = "none";
+        } else {
+          alert("Invalid username or password.");
+        }
       } else {
-        alert("Invalid username or password");
+        alert("Please enter a username and password.");
       }
     }
 
+    // Function to show a random password prompt
     function showRandomPasswordPrompt() {
-      // Display a random password prompt
-      var passwordPrompts = ["What is your favorite color?", "What is the name of your first pet?", "In what city were you born?"];
-      var randomIndex = Math.floor(Math.random() * passwordPrompts.length);
-      var passwordInput = document.getElementById("password-input");
-      passwordInput.placeholder = passwordPrompts[randomIndex];
+      const passwordInput = document.getElementById("password-input");
+      passwordInput.placeholder = "Enter password (e.g., OpenAI123)";
     }
+
+    // Update the UI on page load
+    updateUI();
   </script>
 </body>
 </html>
