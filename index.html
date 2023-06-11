@@ -85,7 +85,7 @@
     /* CSS for pop-up */
     .popup {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 5px);
       left: 50%;
       transform: translateX(-50%);
       width: 200px;
@@ -94,6 +94,7 @@
       padding: 10px;
       display: none;
       text-align: center;
+      z-index: 1;
     }
     .show-popup .popup {
       display: block;
@@ -109,11 +110,12 @@
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div class="header-box" id="signin-header">
-      <div class="header-btn">
-        <a id="signin-btn">Sign In</a>
+      <div class="header-btn" id="signin-btn">
+        Sign In
         <div class="popup">
-          <div class="popup-item">Community</div>
-          <div class="popup-item">Feedback</div>
+          <div class="popup-item">Profile</div>
+          <div class="popup-item">Settings</div>
+          <div class="popup-item">Sign Out</div>
         </div>
       </div>
     </div>
