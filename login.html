@@ -84,6 +84,19 @@
   </div>
 
   <script>
+    // Function to check if the user is logged in
+    function checkLoggedIn() {
+      var loggedInUser = localStorage.getItem("loggedInUser");
+
+      if (loggedInUser) {
+        // User is logged in
+        window.location.href = "index.html"; // Redirect to index.html
+      }
+    }
+
+    // Check if the user is already logged in
+    checkLoggedIn();
+
     document.getElementById("login-form").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
@@ -93,6 +106,7 @@
 
       // Perform the login validation
       if (checkCredentials(username, password)) {
+        localStorage.setItem("loggedInUser", username); // Store the username in local storage
         window.location.href = "index.html"; // Redirect to index.html for successful login
       } else {
         alert("Invalid username or password. Please try again.");
@@ -125,4 +139,3 @@
   </script>
 </body>
 </html>
-
