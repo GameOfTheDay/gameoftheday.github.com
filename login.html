@@ -26,6 +26,9 @@
     }
     .form-group {
       margin-bottom: 20px;
+      background-color: #f8e8b0; /* Set the background color of the form group */
+      padding: 10px; /* Add padding to the form group */
+      border-radius: 5px; /* Add border-radius to the form group */
     }
     .form-group label {
       display: block;
@@ -84,19 +87,6 @@
   </div>
 
   <script>
-    // Function to check if the user is logged in
-    function checkLoggedIn() {
-      var loggedInUser = localStorage.getItem("loggedInUser");
-
-      if (loggedInUser) {
-        // User is logged in
-        window.location.href = "index.html"; // Redirect to index.html
-      }
-    }
-
-    // Check if the user is already logged in
-    checkLoggedIn();
-
     document.getElementById("login-form").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
