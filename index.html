@@ -67,6 +67,7 @@
       margin-right: -350px; /* Move the box to the left by 50 pixels */
       height: 1000px;
       width: 300px;
+      position: relative; /* Enable positioning for the custom box */
     }
     /* New CSS for the left header box */
     .left-header-box {
@@ -99,6 +100,15 @@
       color: white;
       font-weight: bold;
     }
+    /* CSS for the custom box */
+    .custom-box {
+      position: absolute;
+      top: -30px;
+      right: -50px;
+      width: 50px;
+      height: 50px;
+      background-color: blue;
+    }
   </style>
 </head>
 <body>
@@ -119,6 +129,7 @@
     </div>
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
+      <div class="custom-box"></div> <!-- Added the custom box here -->
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
