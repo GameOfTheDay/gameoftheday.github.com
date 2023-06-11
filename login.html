@@ -99,9 +99,18 @@
     });
 
     document.getElementById("sign-up-button").addEventListener("click", function() {
-      document.getElementById("login-header").innerText = "Create an account";
-      document.getElementById("username").value = "";
-      document.getElementById("password").value = "";
+      var loginHeader = document.getElementById("login-header");
+      var signUpButton = document.getElementById("sign-up-button");
+
+      if (loginHeader.innerText === "Login") {
+        loginHeader.innerText = "Create an account";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        signUpButton.innerText = "Login";
+      } else {
+        loginHeader.innerText = "Login";
+        signUpButton.innerText = "Don't have an account? Sign Up!";
+      }
     });
 
     // Function to check the credentials
