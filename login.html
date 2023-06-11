@@ -73,12 +73,22 @@
       var password = document.getElementById("password").value;
 
       // Perform the login validation
-      if (username === "admin" && password === "password") {
-        window.location.href = "index.html"; // Redirect to index.html
+      if (checkCredentials(username, password)) {
+        window.location.href = "index.html"; // Redirect to index.html for successful login
       } else {
         alert("Invalid username or password. Please try again.");
       }
     });
+
+    // Function to check the credentials
+    function checkCredentials(username, password) {
+      // Here, you can add your own logic to check the credentials
+      // For example, you can compare the entered username and password with the ones stored in your database
+
+      // Return true if the credentials are valid, false otherwise
+      return (username === "admin" && password === "password");
+    }
   </script>
 </body>
 </html>
+
