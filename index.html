@@ -111,7 +111,9 @@
     </div>
     <!-- Rest of the code -->
     <div class="header-box left-header-box">
-      <h2>Left Header Box</h2>
+      <h2>Index</h2>
+      <p>May 23</p>
+      <p>June 23</p>
     </div>
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
@@ -121,7 +123,6 @@
       <div class="line"></div>
       <h2>Community</h2>
       <h2>Feedback</h2>
-      <img src="https://cdn.akamai.steamstatic.com/steam/apps/1817230/capsule_616x353.jpg?t=1681239556" alt="Game Image">
     </div>
   </div>
 
@@ -177,47 +178,40 @@
     // Define an array of usernames with administrator permissions
     var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
-    // Function to sign in the user
-    function signIn() {
-      const usernameInput = document.getElementById("username-input");
-      const passwordInput = document.getElementById("password-input");
-
-      // Replace this with your own logic to authenticate the user
-      const enteredUsername = usernameInput.value;
-      const enteredPassword = passwordInput.value;
-
-      if (adminUsernames.includes(enteredUsername)) {
-        // Assuming the entered password matches for admin users
-        setCookie("user", enteredUsername, 1); // Set the user cookie for 1 day
-      }
-
-      updateUI();
-      usernameInput.value = "";
-      passwordInput.value = "";
-      document.getElementById("sign-in-page").style.display = "none";
+    function redirectToSignIn() {
+      // Redirect the user to the sign-in page
+      window.location.href = "login.html";
     }
 
-    // Function to sign out the user
     function signOut() {
       // Replace this with your own logic to sign out the user
-      deleteCookie("user");
-      updateUI();
+      // For example, you can clear cookies, remove tokens, or invalidate sessions
+      // Here, we are simply redirecting the user to the sign-in page
+      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      redirectToSignIn();
     }
 
-    // Function to set a cookie
-    function setCookie(name, value, days) {
-      var expires = "";
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        expires = "; expires=" + date.toUTCString();
+    function signIn() {
+      var usernameInput = document.getElementById("username-input").value;
+      var passwordInput = document.getElementById("password-input").value;
+
+      // Replace this with your own logic to authenticate the user
+      // Here, we are checking if the username is in the adminUsernames array and the password is not empty
+      if (adminUsernames.includes(usernameInput) && passwordInput !== "") {
+        // Store the username in a cookie called "user"
+        document.cookie = "user=" + usernameInput + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        updateUI(); // Update the UI to reflect the signed-in state
+      } else {
+        alert("Invalid username or password");
       }
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
-    // Function to delete a cookie
-    function deleteCookie(name) {
-      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    function showRandomPasswordPrompt() {
+      // Display a random password prompt
+      var passwordPrompts = ["What is your favorite color?", "What is the name of your first pet?", "In what city were you born?"];
+      var randomIndex = Math.floor(Math.random() * passwordPrompts.length);
+      var passwordInput = document.getElementById("password-input");
+      passwordInput.placeholder = passwordPrompts[randomIndex];
     }
   </script>
 </body>
