@@ -86,9 +86,7 @@
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div class="header-box" id="signin-header">
-      <div class="header-btn" id="signin-btn" onclick="signIn()">
-        Sign In
-      </div>
+      <div class="header-btn" id="signin-btn">Sign In</div>
     </div>
     <!-- New left header box -->
     <div class="header-box left-header-box">
@@ -107,13 +105,38 @@
   </div>
 
   <script>
+    // Function to handle the sign-in process
     function signIn() {
-      // Perform sign-in logic here
-      // ...
+      // Simulating a sign-in process
+      // Replace this with your own sign-in logic
+
+      // Set a flag in localStorage to indicate the user is signed in
+      localStorage.setItem("signedIn", "true");
 
       // Hide the sign-in button
       document.getElementById("signin-btn").style.display = "none";
     }
+
+    // Function to handle the sign-out process
+    function signOut() {
+      // Simulating a sign-out process
+      // Replace this with your own sign-out logic
+
+      // Clear the flag in localStorage
+      localStorage.removeItem("signedIn");
+
+      // Show the sign-in button
+      document.getElementById("signin-btn").style.display = "inline-block";
+    }
+
+    // Check if the user is already signed in on page load
+    window.addEventListener("DOMContentLoaded", function() {
+      var signedIn = localStorage.getItem("signedIn");
+      if (signedIn) {
+        // Hide the sign-in button if the user is signed in
+        document.getElementById("signin-btn").style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
