@@ -180,7 +180,25 @@
         messageElement.textContent = message;
         document.getElementById("chat-messages").appendChild(messageElement);
         messageInput.value = "";
+
+        // Send the message to other users (you can replace this with your own logic)
+        sendChatMessage(message);
       }
+    }
+
+    // Function to handle receiving a chat message
+    function receiveMessage(message) {
+      var messageElement = document.createElement("p");
+      messageElement.textContent = message;
+      document.getElementById("chat-messages").appendChild(messageElement);
+    }
+
+    // Function to send the message to other users (replace this with your own logic)
+    function sendChatMessage(message) {
+      // Simulating receiving a message from another user after a delay
+      setTimeout(function() {
+        receiveMessage("Another user: " + message);
+      }, 1000);
     }
 
     // Event listener for the send button
