@@ -83,20 +83,19 @@
   </div>
 
   <script>
+    var loginProfiles = [
+      { username: "admin", password: "password" },
+      { username: "jeff", password: "cool" },
+      { username: "user2", password: "pass2" }
+      // Add more profiles as needed
+    ];
+
     document.getElementById("login-form").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
       // Perform login logic here
       var username = document.getElementById("username").value;
       var password = document.getElementById("password").value;
-
-      // Define login profiles
-      var loginProfiles = [
-        { username: "admin", password: "password" },
-        { username: "jeff", password: "cool" },
-        { username: "user2", password: "pass2" }
-        // Add more profiles as needed
-      ];
 
       // Check if the entered username and password match any of the profiles
       var isValidLogin = loginProfiles.some(function(profile) {
@@ -131,5 +130,3 @@
   </script>
 </body>
 </html>
-
-
