@@ -142,34 +142,17 @@
     var popup = document.querySelector(".popup");
 
     // Show the sign-in page when clicking "Sign In"
-    signinBtn.addEventListener("click", function(e) {
-      e.stopPropagation(); // Prevent event bubbling
-
+    signinBtn.addEventListener("click", function() {
       // Toggle the pop-up visibility
       popup.classList.toggle("show-popup");
     });
 
     // Hide the sign-in page when clicking outside the pop-up or the sign-in button
-    document.addEventListener("click", function(e) {
+    window.addEventListener("click", function(e) {
       if (!signinBtn.contains(e.target) && !popup.contains(e.target)) {
         popup.classList.remove("show-popup");
       }
     });
-
-    // Prevent the pop-up from closing when clicking inside it
-    popup.addEventListener("click", function(e) {
-      e.stopPropagation(); // Prevent event bubbling
-    });
-
-    function signOut() {
-      // Perform sign-out logic here
-      // ...
-
-      // Show the sign-in button and hide the sign-out button
-      signinBtn.style.display = "inline-block";
-      document.getElementById("sign-out-btn").style.display = "none";
-    }
   </script>
 </body>
 </html>
-
