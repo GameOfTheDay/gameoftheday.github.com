@@ -121,6 +121,7 @@
       <div class="line"></div>
       <h2>Community</h2>
       <h2>Feedback</h2>
+      <img src="https://cdn.akamai.steamstatic.com/steam/apps/1817230/capsule_616x353.jpg?t=1681239556" alt="Game Image">
     </div>
   </div>
 
@@ -176,49 +177,48 @@
     // Define an array of usernames with administrator permissions
     var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
-    function redirectToSignIn() {
-      // Redirect to login.html
-      window.location.href = "login.html";
-    }
-
+    // Function to sign in the user
     function signIn() {
-      // Perform sign-in logic here
-      // ...
+      const usernameInput = document.getElementById("username-input");
+      const passwordInput = document.getElementById("password-input");
 
-      // Update the user name at the top right
-      var username = document.getElementById("username-input").value;
-      document.getElementById("user-name").textContent = username;
+      // Replace this with your own logic to authenticate the user
+      const enteredUsername = usernameInput.value;
+      const enteredPassword = passwordInput.value;
 
-      // Store the username in a cookie
-      document.cookie = `user=${username}`;
-
-      // Check if the signed-in user is an administrator
-      var isAdmin = adminUsernames.includes(username);
-      if (isAdmin) {
-        document.getElementById("moderators-btn").style.display = "inline-block";
+      if (adminUsernames.includes(enteredUsername)) {
+        // Assuming the entered password matches for admin users
+        setCookie("user", enteredUsername, 1); // Set the user cookie for 1 day
       }
 
-      // Update the UI
+      updateUI();
+      usernameInput.value = "";
+      passwordInput.value = "";
+      document.getElementById("sign-in-page").style.display = "none";
+    }
+
+    // Function to sign out the user
+    function signOut() {
+      // Replace this with your own logic to sign out the user
+      deleteCookie("user");
       updateUI();
     }
 
-    function signOut() {
-      // Perform sign-out logic here
-      // ...
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+      var expires = "";
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
-      // Clear the user name at the top right
-      document.getElementById("user-name").textContent = "";
-
-      // Delete the "user" cookie
-      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-      // Hide the moderators button
-      document.getElementById("moderators-btn").style.display = "none";
-
-      // Update the UI
-      updateUI();
+    // Function to delete a cookie
+    function deleteCookie(name) {
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
   </script>
 </body>
 </html>
-
