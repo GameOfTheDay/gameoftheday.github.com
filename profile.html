@@ -6,7 +6,8 @@
     /* CSS styling for the page */
     body {
       font-family: Arial, sans-serif;
-      background-color: #502c6e; /* Darkish Purple */
+      background-color: #5a0210;
+      padding: 50px;
     }
     .container {
       max-width: 800px;
@@ -17,22 +18,41 @@
       background-color: #0a92f8;
       padding: 10px;
       overflow: hidden; /* Ensures proper alignment of elements */
-    }
-    .header-box h1 {
-      margin: 0;
       text-align: center; /* Center the text */
+      text-transform: capitalize; /* Capitalize the text */
+      margin-bottom: 20px; /* Add margin at the bottom */
+    }
+    .header-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: white;
+      border: 2px solid transparent;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .header-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: white;
+    }
+    .header-btn:active {
+      background-color: rgba(255, 255, 255, 0.4);
     }
     .secondary-header-box {
       background-color: #0a92f8;
       padding: 10px;
-      overflow: hidden; /* Ensures proper alignment of elements */
-      margin-top: 10px; /* Add margin between header boxes */
+      overflow: visible; /* Allow content to extend outside */
+      text-align: center; /* Center the text */
+      margin-top: 20px; /* Add margin at the top */
+      height: calc(100vh - 70px); /* Adjust the height based on your needs */
+      position: relative; /* Enable positioning for the lines */
     }
-    .secondary-header-box .header-btn {
-      margin-right: 10px;
-    }
-    .header-btn {
-      display: inline-block;
+    #back-btn {
+      display: block;
+      margin: 0 auto;
+      margin-top: 10px;
       padding: 8px 16px;
       background-color: white;
       color: #0a92f8;
@@ -40,19 +60,35 @@
       text-decoration: none;
       font-size: 16px;
       cursor: pointer;
-      margin-right: 10px;
     }
-    .header-btn:hover {
+    #back-btn:hover {
       background-color: #f8f8f8;
     }
-    .header-btn:active {
+    #back-btn:active {
       background-color: #e8e8e8;
+    }
+    #profile-info {
+      color: white;
+    }
+    /* CSS for the user name at the top right */
+    .user-name {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 5px;
+      color: white;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="secondary-header-box">
+    <div class="header-box" id="game-header">
+      <h2 id="game-of-the-day">The Game of Today is: X</h2>
+      <div class="user-name" id="user-name"></div>
+    </div>
+
+    <div class="header-box secondary-header-box">
       <button id="back-btn" onclick="redirectToHome()">Home</button>
     </div>
 
@@ -65,52 +101,4 @@
 
   <script>
     // Retrieve the username from the query parameter
-    var urlParams = new URLSearchParams(window.location.search);
-    var username = urlParams.get("username");
-
-    // Check if the username is available
-    if (username) {
-      // Display the username on the page
-      var profileInfo = document.getElementById("profile-info");
-      profileInfo.innerHTML = "<h2>" + username + "</h2>";
-
-      // Retrieve the username from local storage
-      var loggedInUser = localStorage.getItem("username");
-
-      // Check if the logged-in user matches the profile being viewed
-      if (loggedInUser === username) {
-        // Create the welcome message for the logged-in user
-        var welcomeMessage = document.createElement("p");
-        welcomeMessage.innerText = "Welcome, " + username;
-        profileInfo.appendChild(welcomeMessage);
-      } else {
-        // Create the "Message User" button
-        var messageButton = document.createElement("button");
-        messageButton.innerText = "Message User";
-        messageButton.onclick = function() {
-          // Implement the logic to handle messaging the user
-          // You can redirect to a message page or perform any other action
-          // specific to messaging the user
-          console.log("Message User clicked");
-        };
-        profileInfo.appendChild(messageButton);
-
-        // Create the "Challenge Friend" button
-        var challengeButton = document.createElement("button");
-        challengeButton.innerText = "Challenge Friend";
-        challengeButton.onclick = function() {
-          // Implement the logic to handle challenging the user
-          // You can redirect to a challenge page or perform any other action
-          // specific to challenging the user
-          console.log("Challenge Friend clicked");
-        };
-        profileInfo.appendChild(challengeButton);
-      }
-    }
-
-    function redirectToHome() {
-      window.location.href = "index.html";
-    }
-  </script>
-</body>
-</html>
+    var urlParams.
