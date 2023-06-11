@@ -103,7 +103,7 @@
     /* CSS for the custom box */
     .custom-box {
       position: absolute;
-      top: -30px;
+      top: -40px; /* Adjust the top value to -40px */
       right: -50px;
       width: 50px;
       height: 50px;
@@ -177,55 +177,65 @@
     // Function to retrieve the username from wherever you store it (e.g., cookie, local storage)
     function getUsernameFromStorage() {
       // Replace this with your own logic to retrieve the username
-      // For example, if you store the username in a cookie called "user", you can retrieve it like this:
+      // For example, if you store the username in a cookie named "user",
+      // you can retrieve it like this:
       const cookie = document.cookie.split(";").find((c) => c.trim().startsWith("user="));
       if (cookie) {
-        return cookie.split("=")[1];
+        const username = cookie.split("=")[1];
+        return username;
       }
-      return null;
+      return "";
     }
 
-    // Run the updateUI function when the page loads
-    window.addEventListener("load", updateUI);
-
-    // Define an array of usernames with administrator permissions
-    var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
-
-    function redirectToSignIn() {
-      // Redirect the user to the sign-in page
-      window.location.href = "login.html";
-    }
-
+    // Function to sign out the user
     function signOut() {
       // Replace this with your own logic to sign out the user
-      // For example, you can clear cookies, remove tokens, or invalidate sessions
-      // Here, we are simply redirecting the user to the sign-in page
+      // For example, if you have a sign-out API endpoint, you can call it here
+      // Here, we are removing the "user" cookie to simulate signing out
       document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      redirectToSignIn();
+      updateUI();
     }
 
+    // Function to handle sign-in
     function signIn() {
-      var usernameInput = document.getElementById("username-input").value;
-      var passwordInput = document.getElementById("password-input").value;
+      const usernameInput = document.getElementById("username-input");
+      const passwordInput = document.getElementById("password-input");
+      const username = usernameInput.value;
+      const password = passwordInput.value;
 
-      // Replace this with your own logic to authenticate the user
-      // Here, we are checking if the username is in the adminUsernames array and the password is not empty
-      if (adminUsernames.includes(usernameInput) && passwordInput !== "") {
-        // Store the username in a cookie called "user"
-        document.cookie = "user=" + usernameInput + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-        updateUI(); // Update the UI to reflect the signed-in state
+      // Replace this with your own logic to validate the username and password
+      // For example, you can make an API request to verify the credentials
+      // Here, we are simulating sign-in by setting a "user" cookie
+      if (username === "admin" && password === "password") {
+        document.cookie = `user=${username}; path=/;`;
+        updateUI();
       } else {
         alert("Invalid username or password");
       }
+
+      // Clear the input fields after sign-in attempt
+      usernameInput.value = "";
+      passwordInput.value = "";
     }
 
+    // Function to show a random password prompt
     function showRandomPasswordPrompt() {
-      // Display a random password prompt
-      var passwordPrompts = ["What is your favorite color?", "What is the name of your first pet?", "In what city were you born?"];
-      var randomIndex = Math.floor(Math.random() * passwordPrompts.length);
-      var passwordInput = document.getElementById("password-input");
+      // Replace this with your own logic to generate a random password prompt
+      // For example, you can choose a random prompt from an array of prompts
+      const passwordPrompts = ["Enter your password", "What's the secret passphrase?", "Password, please!"];
+      const randomIndex = Math.floor(Math.random() * passwordPrompts.length);
+      const passwordInput = document.getElementById("password-input");
       passwordInput.placeholder = passwordPrompts[randomIndex];
     }
+
+    // Function to set the game of the day
+    function setGameOfTheDay(game) {
+      const gameOfTheDayElement = document.getElementById("game-of-the-day");
+      gameOfTheDayElement.textContent = `The Game of Today is: ${game}`;
+    }
+
+    // Update the UI when the page loads
+    updateUI();
   </script>
 </body>
 </html>
