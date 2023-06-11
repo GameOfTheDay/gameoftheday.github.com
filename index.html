@@ -81,19 +81,11 @@
     .left-header-box h2 {
       color: white;
     }
-    /* New CSS for the merged header box */
-    .merged-header-box {
-      background-color: black;
-      padding: 10px;
-      overflow: hidden; /* Ensures proper alignment of elements */
-      text-align: center; /* Center the text */
-      text-transform: capitalize; /* Capitalize the text */
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header-box merged-header-box" id="game-header">
+    <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
     </div>
     <div class="header-box" id="signin-header">
@@ -102,6 +94,11 @@
         <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
       </div>
     </div>
+    <!-- New left header box -->
+    <div class="header-box left-header-box">
+      <h2>Left Header Box</h2>
+    </div>
+    <!-- New right header box -->
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
     </div>
