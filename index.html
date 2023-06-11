@@ -133,6 +133,9 @@
       // Perform sign-in logic here
       // ...
 
+      // Store the signed-in state in localStorage
+      localStorage.setItem("signedIn", "true");
+
       // Show the sign-out button and hide the sign-in button
       document.getElementById("signin-btn").style.display = "none";
       document.getElementById("sign-out-btn").style.display = "inline-block";
@@ -142,10 +145,24 @@
       // Perform sign-out logic here
       // ...
 
+      // Remove the signed-in state from localStorage
+      localStorage.removeItem("signedIn");
+
       // Show the sign-in button and hide the sign-out button
       document.getElementById("signin-btn").style.display = "inline-block";
       document.getElementById("sign-out-btn").style.display = "none";
     }
+
+    // Check if the user is signed in when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+      var signedIn = localStorage.getItem("signedIn");
+
+      if (signedIn) {
+        // Show the sign-out button and hide the sign-in button
+        document.getElementById("signin-btn").style.display = "none";
+        document.getElementById("sign-out-btn").style.display = "inline-block";
+      }
+    });
   </script>
 </body>
 </html>
