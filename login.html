@@ -87,6 +87,8 @@
   </div>
 
   <script>
+    var isCreateAccount = false;
+
     document.getElementById("login-form").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
@@ -108,16 +110,18 @@
       var submitButton = document.getElementById("submit-button");
       var signUpButton = document.getElementById("sign-up-button");
 
-      if (loginHeader.innerText === "Login") {
+      if (!isCreateAccount) {
         loginHeader.innerText = "Create an account";
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
         submitButton.innerText = "Sign Up";
         signUpButton.innerText = "Login";
+        isCreateAccount = true;
       } else {
         loginHeader.innerText = "Login";
         submitButton.innerText = "Sign In";
         signUpButton.innerText = "Don't have an account? Sign Up!";
+        isCreateAccount = false;
       }
     });
 
