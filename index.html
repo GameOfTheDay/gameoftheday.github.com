@@ -85,8 +85,9 @@
     /* CSS for pop-up */
     .popup {
       position: absolute;
-      top: 100%;
-      left: 0;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
       width: 200px;
       background-color: black;
       color: white;
@@ -95,7 +96,7 @@
       text-align: center;
       z-index: 1;
     }
-    .show-popup .popup {
+    .show-popup {
       display: block;
     }
     .popup-item {
@@ -111,7 +112,7 @@
     <div class="header-box" id="signin-header">
       <div class="header-btn" id="signin-btn">
         Sign In
-        <div class="popup">
+        <div class="popup" id="signin-popup">
           <div class="popup-item">Profile</div>
           <div class="popup-item">Settings</div>
           <div class="popup-item">Sign Out</div>
@@ -139,15 +140,14 @@
     var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
     var signinBtn = document.getElementById("signin-btn");
-    var popup = document.querySelector(".popup");
+    var popup = document.getElementById("signin-popup");
 
     // Show the sign-in page when clicking "Sign In"
     signinBtn.addEventListener("click", function() {
-      // Toggle the pop-up visibility
       popup.classList.toggle("show-popup");
     });
 
-    // Hide the sign-in page when clicking outside the pop-up or the sign-in button
+    // Hide the sign-in page when clicking outside the pop-up
     window.addEventListener("click", function(e) {
       if (!signinBtn.contains(e.target) && !popup.contains(e.target)) {
         popup.classList.remove("show-popup");
