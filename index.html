@@ -109,6 +109,7 @@
   <div class="container">
     <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
+      <div class="header-btn" id="signout-btn" onclick="signOut()" style="display: none;">Sign Out</div>
     </div>
     <div class="header-box" id="signin-header">
       <div class="header-btn" id="signin-btn" onclick="redirectToSignIn()">Sign In</div>
@@ -164,6 +165,7 @@
       // Hide the sign-in page and show the username in the header
       document.getElementById("sign-in-page").style.display = "none";
       document.getElementById("signin-btn").style.display = "none";
+      document.getElementById("signout-btn").style.display = "inline-block";
       document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X (Signed in as " + username + ")";
     }
 
@@ -177,6 +179,7 @@
 
       // Show the sign-in button and reset the game header
       document.getElementById("signin-btn").style.display = "inline-block";
+      document.getElementById("signout-btn").style.display = "none";
       document.getElementById("game-of-the-day").innerHTML = "The Game of Today is: X";
     }
 
@@ -186,6 +189,7 @@
       if (signedIn) {
         // Hide the sign-in button if the user is signed in
         document.getElementById("signin-btn").style.display = "none";
+        document.getElementById("signout-btn").style.display = "inline-block";
       }
     });
 
