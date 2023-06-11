@@ -50,11 +50,22 @@
     .form-submit:hover {
       background-color: #f6820d;
     }
+    .sign-up {
+      text-align: center;
+    }
+    .sign-up button {
+      background-color: #5a0210;
+      color: #f8e8b0;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Login</h2>
+    <h2 id="login-header">Login</h2>
     <form id="login-form">
       <div class="form-group">
         <label for="username">Username:</label>
@@ -66,6 +77,9 @@
       </div>
       <button type="submit" class="form-submit">Sign In</button>
     </form>
+    <div class="sign-up">
+      <button id="sign-up-button">Don't have an account? Sign Up!</button>
+    </div>
   </div>
 
   <script>
@@ -82,6 +96,12 @@
       } else {
         alert("Invalid username or password. Please try again.");
       }
+    });
+
+    document.getElementById("sign-up-button").addEventListener("click", function() {
+      document.getElementById("login-header").innerText = "Create an account";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
     });
 
     // Function to check the credentials
