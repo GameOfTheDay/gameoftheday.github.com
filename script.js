@@ -82,4 +82,3 @@ function signOut() {
   // Update the UI
   updateUI();
 }
-
