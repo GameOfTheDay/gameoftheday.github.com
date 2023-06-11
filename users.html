@@ -64,29 +64,39 @@
         <div class="user-info">
           <a href="#">Add Friend</a>
           <a href="profile.html">View Profile</a>
-          <a href="#">Message User</a>
+          <a href="#">Send Message</a>
         </div>
       </div>
-      <!-- Add more user boxes here -->
+      <div class="user-box">
+        <h3>Phoenix</h3>
+        <div class="user-info">
+          <a href="#">Add Friend</a>
+          <a href="profile.html">View Profile</a>
+          <a href="#">Send Message</a>
+        </div>
+      </div>
+      <div class="user-box">
+        <h3>Griffin</h3>
+        <div class="user-info">
+          <a href="#">Add Friend</a>
+          <a href="profile.html">View Profile</a>
+          <a href="#">Send Message</a>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // Add event listeners to user boxes for hover effect
     var userBoxes = document.getElementsByClassName("user-box");
     for (var i = 0; i < userBoxes.length; i++) {
-      userBoxes[i].addEventListener("mouseover", showUserInfo);
-      userBoxes[i].addEventListener("mouseout", hideUserInfo);
-    }
-
-    function showUserInfo() {
-      var userInfo = this.getElementsByClassName("user-info")[0];
-      userInfo.style.display = "block";
-    }
-
-    function hideUserInfo() {
-      var userInfo = this.getElementsByClassName("user-info")[0];
-      userInfo.style.display = "none";
+      userBoxes[i].addEventListener("mouseenter", function() {
+        var userInfo = this.getElementsByClassName("user-info")[0];
+        userInfo.style.display = "block";
+      });
+      userBoxes[i].addEventListener("mouseleave", function() {
+        var userInfo = this.getElementsByClassName("user-info")[0];
+        userInfo.style.display = "none";
+      });
     }
   </script>
 </body>
