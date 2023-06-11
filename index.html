@@ -57,48 +57,37 @@
       position: absolute; /* Position the sign-in prompt */
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
       padding: 20px;
-      background-color: rgba(90, 2, 16, 0.9); /* Set the background color */
-      color: white;
-      z-index: 1;
-    }
-    #signin-header {
-      z-index: 2; /* Ensure the sign-in button is above the sign-in prompt */
-    }
-    #signin-btn {
-      display: none; /* Hide the sign-in button initially */
+      background-color: white;
+      color: black;
+      z-index: 1; /* Ensure the prompt appears above other elements */
     }
     #sign-out-btn {
-      display: none; /* Hide the sign-out button initially */
+      display: none;
     }
-    .form-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .form-input {
-      margin-bottom: 10px;
-      padding: 5px;
-      width: 200px;
-    }
-    .form-submit {
-      padding: 8px 16px;
-      background-color: transparent;
+    #game-of-the-day {
       color: white;
-      border: 2px solid transparent;
-      text-decoration: none;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
     }
-    .form-submit:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      border-color: white;
+    /* New CSS for the right header box */
+    .right-header-box {
+      float: right;
+      margin-top: 0px; /* Adjust the margin based on your needs */
+      margin-right: -350px; /* Move the box to the left by 50 pixels */
+      height: 1000px;
+      width: 300px;
     }
-    .form-submit:active {
-      background-color: rgba(255, 255, 255, 0.4);
+    /* New CSS for the left header box */
+    .left-header-box {
+      float: left;
+      margin-top: 0px; /* Adjust the margin based on your needs */
+      margin-left: -350px; /* Move the box to the left by 20 pixels */
+      height: 1000px;
+      width: 300px;
+    }
+    /* CSS for text color in right-header-box and left-header-box */
+    .right-header-box h2,
+    .left-header-box h2 {
+      color: white;
     }
   </style>
 </head>
@@ -113,29 +102,28 @@
         <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
       </div>
     </div>
+    <!-- New left header box -->
     <div class="header-box left-header-box">
       <h2>Left Header Box</h2>
     </div>
+    <!-- New right header box -->
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
-      <div class="line"></div>
+      <div class="line"></div> <!-- New line element -->
       <h2>Community</h2>
       <h2>Feedback</h2>
     </div>
   </div>
 
-  <div id="sign-in-page">
-    <div class="container">
-      <h2>Sign In</h2>
-      <div class="form-container">
-        <input type="text" id="username-input" class="form-input" placeholder="Username">
-        <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
-        <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
-        <button id="signup-btn" class="form-submit" onclick="redirectToSignUp()">Sign Up</button>
-      </div>
+  <div id="sign-in-page" class="container">
+    <h2>Sign In</h2>
+    <div class="form-container">
+      <input type="text" id="username-input" class="form-input" placeholder="Username">
+      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
+      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
     </div>
   </div>
 
@@ -147,12 +135,6 @@
       // Hide the initial page and show the sign-in page
       document.getElementById("sign-in-page").style.display = "block";
       document.getElementById("signin-btn").style.display = "none";
-      document.getElementById("sign-out-btn").style.display = "none";
-    }
-
-    function redirectToSignUp() {
-      // Redirect to the sign-up page or perform other sign-up logic
-      // ...
     }
 
     function signIn() {
