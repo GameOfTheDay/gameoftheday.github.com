@@ -86,7 +86,8 @@
     .popup {
       position: absolute;
       top: 100%;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       width: 200px;
       background-color: black;
       color: white;
@@ -111,9 +112,8 @@
       <div class="header-btn">
         <a id="signin-btn">Sign In</a>
         <div class="popup">
-          <div class="popup-item">Profile</div>
-          <div class="popup-item">Settings</div>
-          <div class="popup-item">Sign Out</div>
+          <div class="popup-item">Community</div>
+          <div class="popup-item">Feedback</div>
         </div>
       </div>
     </div>
@@ -148,9 +148,11 @@
       popup.classList.toggle("show-popup");
     });
 
-    // Hide the sign-in page when clicking outside the pop-up
-    document.addEventListener("click", function() {
-      popup.classList.remove("show-popup");
+    // Hide the sign-in page when clicking outside the pop-up or the sign-in button
+    document.addEventListener("click", function(e) {
+      if (!signinBtn.contains(e.target) && !popup.contains(e.target)) {
+        popup.classList.remove("show-popup");
+      }
     });
 
     // Prevent the pop-up from closing when clicking inside it
