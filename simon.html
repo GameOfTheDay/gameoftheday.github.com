@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simon Game</title>
+  <style>
+    /* CSS styling for the game */
+    .simon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    .simon-board {
+      display: flex;
+      flex-wrap: wrap;
+      width: 300px;
+    }
+    .simon-button {
+      flex: 0 0 50%;
+      height: 150px;
+      background-color: gray;
+      cursor: pointer;
+    }
+    .simon-button.active {
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="simon-container">
+    <h1>Simon Game</h1>
+    <div class="simon-board">
+      <div class="simon-button" onclick="handleButtonClick(0)"></div>
+      <div class="simon-button" onclick="handleButtonClick(1)"></div>
+      <div class="simon-button" onclick="handleButtonClick(2)"></div>
+      <div class="simon-button" onclick="handleButtonClick(3)"></div>
+    </div>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <script>
+    const simonButtons = document.querySelectorAll('.simon-button');
+    const startButton = document.querySelector('button');
+    const pattern = [];
+    let currentStep = 0;
+    let isClickable = false;
+
+    function startGame() {
+      pattern.length = 0;
+      currentStep = 0;
+      isClickable = false;
+      playNextStep();
+    }
+
+    function playNextStep() {
+      const nextButton = getRandomButton();
+      pattern.push(nextButton);
+      animateButton(nextButton);
+      currentStep = 0;
+      isClickable = true;
+    }
+
+    function animateButton(buttonIndex) {
+      const button = simonButtons[buttonIndex];
+      button.classList.add('active');
+      setTimeout(() => {
+        button.classList.remove('active');
+      }, 500);
+    }
+
+    function getRandomButton() {
+      return Math.floor(Math.random() * 4);
+    }
+
+    function handleButtonClick(buttonIndex) {
+      if (!isClickable) return;
+      animateButton(buttonIndex);
+      if (buttonIndex === pattern[currentStep]) {
+        currentStep++;
+        if (currentStep === pattern.length) {
+          isClickable = false;
+          setTimeout(() => {
+            playNextStep();
+          }, 1000);
+        }
+      } else {
+        alert('Game Over!');
+      }
+    }
+  </script>
+</body>
+</html>
