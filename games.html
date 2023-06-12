@@ -24,7 +24,8 @@
     }
 
     .start-button-tetris,
-    .start-button-pacman {
+    .start-button-pacman,
+    .start-button-trex {
       margin-top: 10px;
     }
 
@@ -85,6 +86,7 @@
     <div id="trex-game">
       <div id="game-container"></div>
     </div>
+    <button class="start-button-trex" onclick="startTrexGame()">Start</button>
     <button class="score-button" onclick="showScore()">Score</button>
   </div>
 
@@ -109,86 +111,25 @@
 
     // T-Rex Game
     const gameContainer = document.getElementById('game-container');
+    const startButtonTrex = document.querySelector('.start-button-trex');
     const scoreButton = document.querySelector('.score-button');
+    let isGameStarted = false;
 
     function startTrexGame() {
-      scoreButton.style.display = 'none';
+      if (!isGameStarted) {
+        isGameStarted = true;
+        startButtonTrex.style.display = 'none';
+        scoreButton.style.display = 'none';
 
-      const trex = document.createElement('div');
-      trex.id = 'trex';
-      gameContainer.appendChild(trex);
+        // T-Rex game code here
+        // ...
 
-      let isJumping = false;
-      let isGameOver = false;
-      let position = 0;
-      let score = 0;
-
-      function jump() {
-        if (isJumping) return;
-        isJumping = true;
-
-        let count = 0;
-        let gravity = 0.9;
-        let jumpInterval = setInterval(() => {
-          if (count === 15) {
-            clearInterval(jumpInterval);
-            let downInterval = setInterval(() => {
-              if (count === 0) {
-                clearInterval(downInterval);
-                isJumping = false;
-              }
-              position -= 5;
-              count--;
-              position = position * gravity;
-              trex.style.bottom = position + 'px';
-            }, 20);
-          }
-          position += 30;
-          count++;
-          position = position * gravity;
-          trex.style.bottom = position + 'px';
-        }, 20);
+        generateObstacles();
       }
+    }
 
-      function generateObstacles() {
-        if (isGameOver) return;
-
-        let randomTime = Math.random() * 4000 + 1000;
-        let obstaclePosition = 1000;
-        const obstacle = document.createElement('div');
-        obstacle.classList.add('obstacle');
-        gameContainer.appendChild(obstacle);
-        obstacle.style.left = obstaclePosition + 'px';
-
-        let obstacleTimeout = setTimeout(() => {
-          generateObstacles();
-        }, randomTime);
-
-        let obstacleInterval = setInterval(() => {
-          if (obstaclePosition > 0 && obstaclePosition < 60 && position < 60) {
-            clearInterval(obstacleInterval);
-            isGameOver = true;
-            clearTimeout(obstacleTimeout);
-            gameContainer.removeChild(obstacle);
-            scoreButton.style.display = 'block';
-          }
-
-          obstaclePosition -= 10;
-          obstacle.style.left = obstaclePosition + 'px';
-        }, 20);
-      }
-
-      function showScore() {
-        alert('Score: ' + score);
-      }
-
-      document.addEventListener('keydown', (event) => {
-        if (event.code === 'Space' && !isJumping) {
-          jump();
-        }
-      });
-
-      generateObstacles();
+    function showScore() {
+      alert('Score: ' + score);
     }
   </script>
 </body>
