@@ -37,6 +37,18 @@
     .yellow {
       background-color: #ffdc00;
     }
+    .red.shade {
+      background-color: #ff847c;
+    }
+    .green.shade {
+      background-color: #6adc81;
+    }
+    .blue.shade {
+      background-color: #79a3db;
+    }
+    .yellow.shade {
+      background-color: #ffe16b;
+    }
     .score {
       text-align: center;
       font-size: 24px;
@@ -105,15 +117,20 @@
       gameOverDisplay.style.display = "none";
     }
 
-    // Generate the next sequence for the round
+    // Start the next round
     function nextRound() {
-      var nextColor = getRandomColor();
-      sequence.push(nextColor);
-      playSequence();
       round++;
+      updateSequence();
+      playSequence();
     }
 
-    // Play the sequence of colors
+    // Update the game sequence
+    function updateSequence() {
+      var color = getRandomColor();
+      sequence.push(color);
+    }
+
+    // Play the game sequence
     function playSequence() {
       disableButtons();
       var i = 0;
@@ -131,9 +148,9 @@
     function flashButton(color) {
       var button = getButtonByColor(color);
       if (button) {
-        button.style.backgroundColor = colors[color];
+        button.classList.add("shade");
         setTimeout(function () {
-          button.style.backgroundColor = "";
+          button.classList.remove("shade");
         }, 500);
       }
     }
