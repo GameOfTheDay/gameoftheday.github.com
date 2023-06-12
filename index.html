@@ -86,10 +86,10 @@
     /* CSS for sign-in-box */
     .sign-in-box {
       float: right;
-      margin-top: -90px; /* Position the box 40 pixels above the right-header-box */
-      margin-right: -350px; /* Move the box to the left by 40 pixels */
-      height: 80px;
-      width: 150px;
+      margin-top: -70px; /* Position the box 20 pixels above the right-header-box */
+      margin-right: -330px; /* Move the box to the left by 20 pixels */
+      height: 60px;
+      width: 130px;
     }
   </style>
 </head>
@@ -172,43 +172,44 @@
     // Run the updateUI function when the page loads
     window.addEventListener("load", updateUI);
 
-    // Define an array of usernames with administrator permissions
-    var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
+    // Define an event listener for the sign-out button
+    document.getElementById("sign-out-btn").addEventListener("click", signOut);
 
-    function redirectToSignIn() {
-      // Redirect the user to the sign-in page
-      window.location.href = "login.html";
-    }
-
+    // Function to sign out the user
     function signOut() {
       // Replace this with your own logic to sign out the user
-      // For example, you can clear cookies, remove tokens, or invalidate sessions
-      // Here, we are simply redirecting the user to the sign-in page
+      // For example, you can clear the "user" cookie or perform any other necessary tasks
       document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      redirectToSignIn();
+      updateUI(); // Update the UI to reflect the sign-out status
     }
 
+    // Function to sign in the user
     function signIn() {
-      var usernameInput = document.getElementById("username-input").value;
-      var passwordInput = document.getElementById("password-input").value;
+      const username = document.getElementById("username-input").value;
+      const password = document.getElementById("password-input").value;
 
-      // Replace this with your own logic to authenticate the user
-      // Here, we are checking if the username is in the adminUsernames array and the password is not empty
-      if (adminUsernames.includes(usernameInput) && passwordInput !== "") {
+      // Replace this with your own logic to sign in the user
+      // For example, you can send an HTTP request to a server-side endpoint
+      // to validate the username and password
+      // Here, we are assuming the sign-in is successful if the username is not empty
+      if (username.trim() !== "") {
         // Store the username in a cookie called "user"
-        document.cookie = "user=" + usernameInput + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-        updateUI(); // Update the UI to reflect the signed-in state
-      } else {
-        alert("Invalid username or password");
+        document.cookie = `user=${username.trim()}; path=/;`;
+        updateUI(); // Update the UI to reflect the sign-in status
       }
     }
 
+    // Function to show a random password prompt in the password field
     function showRandomPasswordPrompt() {
-      // Display a random password prompt
-      var passwordPrompts = ["What is your favorite color?", "What is the name of your first pet?", "In what city were you born?"];
-      var randomIndex = Math.floor(Math.random() * passwordPrompts.length);
-      var passwordInput = document.getElementById("password-input");
-      passwordInput.placeholder = passwordPrompts[randomIndex];
+      // Replace this with your own logic to generate a random password prompt
+      const passwordPrompts = [
+        "Enter your password",
+        "Password required",
+        "Your secret password",
+        "Secure access only",
+      ];
+      const randomIndex = Math.floor(Math.random() * passwordPrompts.length);
+      document.getElementById("password-input").placeholder = passwordPrompts[randomIndex];
     }
   </script>
 </body>
