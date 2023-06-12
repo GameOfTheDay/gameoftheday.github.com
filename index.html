@@ -146,11 +146,11 @@
     <div class="header-box sign-out-box">
       <h2>Sign-Out</h2>
     </div>
-    <div class="header-box sign-in-box" id="sign-in-box">
-      <h2></h2>
+    <div class="header-box sign-in-box">
+      <h2><a href="login.html">Sign-In</a></h2>
     </div>
     <div class="header-box profile-box">
-      <h2 id="profile-username"></h2>
+      <h2>Profile</h2>
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
@@ -158,34 +158,5 @@
       <div class="bottom-line"></div>
     </div>
   </div>
-
-  <script>
-    // JavaScript code
-    document.addEventListener("DOMContentLoaded", function() {
-      var signInBox = document.getElementById("sign-in-box");
-      var profileBox = document.getElementById("profile-username");
-      var profileUsername = document.getElementById("profile-username");
-      var signOutBtn = document.getElementById("sign-out-btn");
-
-      var username = localStorage.getItem("username");
-      if (username) {
-        showUsername(username);
-      }
-
-      function showUsername(username) {
-        signInBox.style.display = "none";
-        profileBox.style.display = "block";
-        profileUsername.textContent = username;
-        signOutBtn.style.display = "inline-block";
-      }
-
-      function signOut() {
-        localStorage.removeItem("username");
-        signInBox.style.display = "block";
-        profileBox.style.display = "none";
-        signOutBtn.style.display = "none";
-      }
-    });
-  </script>
 </body>
 </html>
