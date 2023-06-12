@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,8 +78,10 @@
     }
     /* CSS for text color in right-header-box and left-header-box */
     .right-header-box h2,
-    .left-header-box h2 {
+    .left-header-box h2,
+    .left-header-box p {
       color: white;
+      font-size: 24px; /* Adjust the font size as desired */
     }
     /* CSS for the background box */
     .background-box {
@@ -113,7 +113,9 @@
     </div>
     <!-- Rest of the code -->
     <div class="header-box left-header-box">
-      <h2>Left Header Box</h2>
+      <h2>Index</h2>
+      <p class="date-paragraph">May 23</p>
+      <p class="date-paragraph">June 23</p>
     </div>
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
@@ -179,47 +181,41 @@
     var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
 
     function redirectToSignIn() {
-      // Redirect to login.html
+      // Redirect the user to the sign-in page
       window.location.href = "login.html";
     }
 
-    function signIn() {
-      // Perform sign-in logic here
-      // ...
-
-      // Update the user name at the top right
-      var username = document.getElementById("username-input").value;
-      document.getElementById("user-name").textContent = username;
-
-      // Store the username in a cookie
-      document.cookie = `user=${username}`;
-
-      // Check if the signed-in user is an administrator
-      var isAdmin = adminUsernames.includes(username);
-      if (isAdmin) {
-        document.getElementById("moderators-btn").style.display = "inline-block";
-      }
-
-      // Update the UI
-      updateUI();
+    function signOut() {
+      // Replace this with your own logic to sign out the user
+      // For example, you can clear cookies, remove tokens, or invalidate sessions
+      // Here, we are simply redirecting the user to the sign-in page
+      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      redirectToSignIn();
     }
 
-    function signOut() {
-      // Perform sign-out logic here
-      // ...
+    function signIn() {
+      var usernameInput = document.getElementById("username-input").value;
+      var passwordInput = document.getElementById("password-input").value;
 
-      // Clear the user name at the top right
-      document.getElementById("user-name").textContent = "";
+      // Replace this with your own logic to authenticate the user
+      // Here, we are checking if the username is in the adminUsernames array and the password is not empty
+      if (adminUsernames.includes(usernameInput) && passwordInput !== "") {
+        // Store the username in a cookie called "user"
+        document.cookie = "user=" + usernameInput + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        updateUI(); // Update the UI to reflect the signed-in state
+      } else {
+        alert("Invalid username or password");
+      }
+    }
 
-      // Delete the "user" cookie
-      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-      // Hide the moderators button
-      document.getElementById("moderators-btn").style.display = "none";
-
-      // Update the UI
-      updateUI();
+    function showRandomPasswordPrompt() {
+      // Display a random password prompt
+      var passwordPrompts = ["What is your favorite color?", "What is the name of your first pet?", "In what city were you born?"];
+      var randomIndex = Math.floor(Math.random() * passwordPrompts.length);
+      var passwordInput = document.getElementById("password-input");
+      passwordInput.placeholder = passwordPrompts[randomIndex];
     }
   </script>
 </body>
 </html>
+
