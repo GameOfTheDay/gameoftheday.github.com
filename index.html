@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +69,6 @@
       margin-right: -350px; /* Move the box to the left by 50 pixels */
       height: 1000px;
       width: 300px;
-      position: relative; /* Enable positioning for the custom box */
     }
     /* New CSS for the left header box */
     .left-header-box {
@@ -79,10 +80,8 @@
     }
     /* CSS for text color in right-header-box and left-header-box */
     .right-header-box h2,
-    .left-header-box h2,
-    .left-header-box p {
+    .left-header-box h2 {
       color: white;
-      font-size: 24px; /* Adjust the font size as desired */
     }
     /* CSS for the background box */
     .background-box {
@@ -100,15 +99,6 @@
       color: white;
       font-weight: bold;
     }
-    /* CSS for the custom box */
-    .sign-in-box {
-      position: absolute;
-      top: -40px; /* Adjust the top value to -40px */
-      right: -350px;
-      width: 50px;
-      height: 50px;
-      background-color: blue;
-    }
   </style>
 </head>
 <body>
@@ -123,13 +113,10 @@
     </div>
     <!-- Rest of the code -->
     <div class="header-box left-header-box">
-      <h2>Index</h2>
-      <p class="date-paragraph">May 23</p>
-      <p class="date-paragraph">June 23</p>
+      <h2>Left Header Box</h2>
     </div>
     <div class="header-box right-header-box">
       <h2>Right Header Box</h2>
-      <div class="custom-box"></div> <!-- Added the custom box here -->
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
@@ -177,63 +164,62 @@
     // Function to retrieve the username from wherever you store it (e.g., cookie, local storage)
     function getUsernameFromStorage() {
       // Replace this with your own logic to retrieve the username
-      // Here, we are assuming the username is stored in a "user" cookie
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith("user=")) {
-          return cookie.substring("user=".length);
-        }
+      // For example, if you store the username in a cookie called "user", you can retrieve it like this:
+      const cookie = document.cookie.split(";").find((c) => c.trim().startsWith("user="));
+      if (cookie) {
+        return cookie.split("=")[1];
       }
-      return "";
+      return null;
     }
 
-    // Function to sign out the user
-    function signOut() {
-      // Replace this with your own logic to sign out the user
-      // Here, we are assuming the user is signed out by removing the "user" cookie
-      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      updateUI();
-    }
-
-    // Function to sign in the user
-    function signIn() {
-      const usernameInput = document.getElementById("username-input");
-      const passwordInput = document.getElementById("password-input");
-      const username = usernameInput.value;
-      const password = passwordInput.value;
-
-      // Replace this with your own logic to authenticate the user
-      // Here, we are assuming the user is signed in by setting a "user" cookie
-      document.cookie = "user=" + username + "; path=/;";
-      updateUI();
-
-      // Reset the form fields
-      usernameInput.value = "";
-      passwordInput.value = "";
-
-      // Redirect the user to the home page
-      window.location.href = "index.html";
-    }
-
-    // Function to show a random password prompt
-    function showRandomPasswordPrompt() {
-      const passwordInput = document.getElementById("password-input");
-      passwordInput.placeholder = getRandomPasswordPrompt();
-    }
-
-    // Function to generate a random password prompt
-    function getRandomPasswordPrompt() {
-      const prompts = [
-        "Enter your secret word",
-        "What's your favorite color?",
-        "Name of your first pet?"
-      ];
-      return prompts[Math.floor(Math.random() * prompts.length)];
-    }
-
-    // Run the updateUI function on page load
+    // Run the updateUI function when the page loads
     window.addEventListener("load", updateUI);
+
+    // Define an array of usernames with administrator permissions
+    var adminUsernames = ["Raven", "Jeff", "AdminUser2"]; // Add or remove usernames as needed
+
+    function redirectToSignIn() {
+      // Redirect to login.html
+      window.location.href = "login.html";
+    }
+
+    function signIn() {
+      // Perform sign-in logic here
+      // ...
+
+      // Update the user name at the top right
+      var username = document.getElementById("username-input").value;
+      document.getElementById("user-name").textContent = username;
+
+      // Store the username in a cookie
+      document.cookie = `user=${username}`;
+
+      // Check if the signed-in user is an administrator
+      var isAdmin = adminUsernames.includes(username);
+      if (isAdmin) {
+        document.getElementById("moderators-btn").style.display = "inline-block";
+      }
+
+      // Update the UI
+      updateUI();
+    }
+
+    function signOut() {
+      // Perform sign-out logic here
+      // ...
+
+      // Clear the user name at the top right
+      document.getElementById("user-name").textContent = "";
+
+      // Delete the "user" cookie
+      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+      // Hide the moderators button
+      document.getElementById("moderators-btn").style.display = "none";
+
+      // Update the UI
+      updateUI();
+    }
   </script>
 </body>
 </html>
