@@ -147,9 +147,9 @@
       <h2>Sign-Out</h2>
     </div>
     <div class="header-box sign-in-box" id="sign-in-box">
-      <h2><a href="login.html">Sign-In</a></h2>
+      <h2></h2>
     </div>
-    <div class="header-box profile-box" id="profile-box" style="display: none;">
+    <div class="header-box profile-box">
       <h2 id="profile-username"></h2>
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
@@ -160,31 +160,32 @@
   </div>
 
   <script>
-    // Check if the user is already signed in
-    document.addEventListener("DOMContentLoaded", function () {
+    // JavaScript code
+    document.addEventListener("DOMContentLoaded", function() {
+      var signInBox = document.getElementById("sign-in-box");
+      var profileBox = document.getElementById("profile-username");
+      var profileUsername = document.getElementById("profile-username");
+      var signOutBtn = document.getElementById("sign-out-btn");
+
       var username = localStorage.getItem("username");
       if (username) {
-        // User is signed in
-        showUserName(username);
+        showUsername(username);
+      }
+
+      function showUsername(username) {
+        signInBox.style.display = "none";
+        profileBox.style.display = "block";
+        profileUsername.textContent = username;
+        signOutBtn.style.display = "inline-block";
+      }
+
+      function signOut() {
+        localStorage.removeItem("username");
+        signInBox.style.display = "block";
+        profileBox.style.display = "none";
+        signOutBtn.style.display = "none";
       }
     });
-
-    // Function to show the username and hide the sign-in button
-    function showUserName(username) {
-      var signInBox = document.getElementById("sign-in-box");
-      var profileBox = document.getElementById("profile-box");
-      var profileUsername = document.getElementById("profile-username");
-
-      signInBox.style.display = "none";
-      profileBox.style.display = "block";
-      profileUsername.textContent = username;
-    }
-
-    // Function to sign out
-    function signOut() {
-      localStorage.removeItem("username");
-      location.reload(); // Refresh the page
-    }
   </script>
 </body>
 </html>
