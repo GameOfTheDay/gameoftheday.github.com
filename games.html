@@ -1,191 +1,200 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Games</title>
+  <title>Game Collection</title>
   <style>
-    /* CSS styling for the games */
+    /* CSS styling for the game collection */
     body {
       font-family: Arial, sans-serif;
       background-color: #f2f2f2;
     }
 
-    #game-container {
+    .game-container {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      flex-direction: column;
+      gap: 20px;
     }
 
-    #tetris-container,
-    #pacman-container {
-      margin-bottom: 20px;
+    .game {
+      border: 2px solid #333;
+      background-color: #fff;
+      padding: 10px;
     }
 
-    #game-board {
+    #tetris-game {
       display: grid;
       grid-template-columns: repeat(10, 30px);
       grid-template-rows: repeat(20, 30px);
-      border: 2px solid #333;
-      background-color: #fff;
     }
 
-    .cell {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #ccc;
-      background-color: transparent;
+    #pacman-game {
+      position: relative;
+      width: 420px;
+      height: 420px;
     }
 
-    .tetromino {
-      position: absolute;
+    #pacman-game .wall {
+      background-color: #000;
       width: 30px;
       height: 30px;
-      border: 1px solid #333;
-      background-color: #333;
+      position: absolute;
+    }
+
+    #pacman-game .pacman {
+      background-color: yellow;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    #start-button {
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div id="game-container">
-    <div id="tetris-container">
-      <h2>Tetris</h2>
-      <button id="tetris-start-button">Start</button>
-      <div id="tetris-game-board"></div>
-      <div id="tetris-next-block-preview"></div>
+  <div class="game-container">
+    <div class="game" id="trex-game">
+      <h3>T-Rex Game</h3>
+      <button id="trex-start-button">Start</button>
     </div>
 
-    <div id="pacman-container">
-      <h2>Pac-Man</h2>
+    <div class="game" id="pacman-game">
+      <h3>Pac-Man Game</h3>
+      <div id="pacman-grid"></div>
       <button id="pacman-start-button">Start</button>
-      <div id="pacman-game"></div>
+    </div>
+
+    <div class="game" id="tetris-game">
+      <h3>Tetris</h3>
+      <div id="game-board"></div>
+      <button id="tetris-start-button">Start</button>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // T-Rex Game Code
+      const trexContainer = document.getElementById('trex-game');
+
+      function startTrexGame() {
+        trexContainer.innerHTML = '<h3>T-Rex Game</h3><p>Game started!</p>';
+        // Add your T-Rex game code here
+      }
+
+      const trexStartButton = document.getElementById('trex-start-button');
+      trexStartButton.addEventListener('click', startTrexGame);
+
       // Tetris Game Code
-      const tetrisBoard = document.getElementById('tetris-game-board');
-      const tetrisNextBlockPreview = document.getElementById('tetris-next-block-preview');
-      let tetrisCurrentTetromino;
-      let tetrisTimer;
+      const tetrisGameBoard = document.getElementById('game-board');
+      let tetrisGrid = [];
 
       function createTetrisGrid() {
-        const cells = [];
         for (let row = 0; row < 20; row++) {
+          tetrisGrid[row] = [];
           for (let col = 0; col < 10; col++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
-            cells.push(cell);
-            tetrisBoard.appendChild(cell);
+            tetrisGameBoard.appendChild(cell);
+            tetrisGrid[row][col] = cell;
           }
         }
-        return cells;
       }
 
-      function createTetrisTetromino() {
-        const tetromino = document.createElement('div');
-        tetromino.classList.add('tetromino');
-        tetromino.style.backgroundColor = getRandomColor();
-        return tetromino;
+      function clearTetrisGrid() {
+        for (let row = 0; row < 20; row++) {
+          for (let col = 0; col < 10; col++) {
+            tetrisGameBoard.removeChild(tetrisGrid[row][col]);
+          }
+        }
+        tetrisGrid = [];
       }
 
-      function getRandomColor() {
-        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00']; // Add more colors as desired
-        return colors[Math.floor(Math.random() * colors.length)];
+      let tetrisCurrentTetromino = null;
+      let tetrisTimer;
+
+      function createTetromino() {
+        // Create a new tetromino shape
+        // Return the tetromino shape
       }
 
-      function drawTetrisTetromino() {
-        tetrisCurrentTetromino.style.left = '120px';
-        tetrisCurrentTetromino.style.top = '0px';
-        tetrisBoard.appendChild(tetrisCurrentTetromino);
+      function drawTetromino() {
+        // Draw the current tetromino on the grid
       }
 
-      function moveTetrisDown() {
-        const currentPosition = parseInt(tetrisCurrentTetromino.style.top);
-        tetrisCurrentTetromino.style.top = `${currentPosition + 30}px`;
+      function moveTetrominoDown() {
+        // Move the current tetromino down
+      }
+
+      function spawnNewTetromino() {
+        // Spawn a new tetromino at the top center of the grid
+      }
+
+      function updateTetris() {
+        // Update the tetris game state
       }
 
       function startTetrisGame() {
-        tetrisCurrentTetromino = createTetrisTetromino();
-        drawTetrisTetromino();
-        updateTetrisNextBlockPreview();
-        tetrisTimer = setInterval(moveTetrisDown, 1000);
+        clearTimeout(tetrisTimer);
+        clearTetrisGrid();
+        createTetrisGrid();
+        spawnNewTetromino();
+        drawTetromino();
+        updateTetris();
       }
 
       const tetrisStartButton = document.getElementById('tetris-start-button');
       tetrisStartButton.addEventListener('click', startTetrisGame);
 
-      createTetrisGrid();
-
       // Pac-Man Game Code
-      const pacmanContainer = document.getElementById('pacman-game');
-      const width = 10;
-      const height = 6;
-      let playerX = 0;
-      let playerY = 0;
-      let ghostX = 9;
-      let ghostY = 5;
-      let pelletX = 5;
-      let pelletY = 3;
-      let score = 0;
+      const pacmanGame = document.getElementById('pacman-game');
+      const pacmanGrid = document.getElementById('pacman-grid');
 
-      function drawPacmanGrid() {
-        pacmanContainer.innerHTML = '';
-        for (let y = 0; y < height; y++) {
-          let row = "";
-          for (let x = 0; x < width; x++) {
-            if (x === playerX && y === playerY) {
-              row += "P"; // Player
-            } else if (x === ghostX && y === ghostY) {
-              row += "G"; // Ghost
-            } else if (x === pelletX && y === pelletY) {
-              row += "."; // Pellet
-            } else {
-              row += "-"; // Empty space
-            }
+      const pacmanGridSize = 14;
+      const pacmanGridCellSize = 30;
+      const pacmanWallCoordinates = [
+        { x: 1, y: 1 },
+        { x: 1, y: 2 },
+        { x: 1, y: 3 },
+        // Add more wall coordinates here...
+      ];
+
+      function createPacmanGrid() {
+        for (let row = 0; row < pacmanGridSize; row++) {
+          for (let col = 0; col < pacmanGridSize; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            pacmanGrid.appendChild(cell);
           }
-          const rowElement = document.createElement('div');
-          rowElement.textContent = row;
-          pacmanContainer.appendChild(rowElement);
         }
       }
 
-      function updatePacmanGameState() {
-        if (playerX === ghostX && playerY === ghostY) {
-          console.log("Game Over");
-          return;
-        }
-
-        if (playerX === pelletX && playerY === pelletY) {
-          score++;
-          pelletX = Math.floor(Math.random() * width);
-          pelletY = Math.floor(Math.random() * height);
-        }
+      function drawPacmanWall() {
+        pacmanWallCoordinates.forEach(coordinate => {
+          const wall = document.createElement('div');
+          wall.classList.add('wall');
+          wall.style.left = `${coordinate.x * pacmanGridCellSize}px`;
+          wall.style.top = `${coordinate.y * pacmanGridCellSize}px`;
+          pacmanGrid.appendChild(wall);
+        });
       }
 
-      function handlePacmanInput(input) {
-        if (input === "w" && playerY > 0) {
-          playerY--;
-        } else if (input === "a" && playerX > 0) {
-          playerX--;
-        } else if (input === "s" && playerY < height - 1) {
-          playerY++;
-        } else if (input === "d" && playerX < width - 1) {
-          playerX++;
-        }
+      function drawPacman() {
+        const pacman = document.createElement('div');
+        pacman.classList.add('pacman');
+        pacman.style.left = '0px';
+        pacman.style.top = '0px';
+        pacmanGrid.appendChild(pacman);
       }
 
       function startPacmanGame() {
-        console.log("Welcome to Pac-Man!");
-        while (true) {
-          drawPacmanGrid();
-          console.log("Score: " + score);
-          const input = prompt("Enter your move (w/a/s/d):");
-
-          handlePacmanInput(input);
-          updatePacmanGameState();
-        }
+        pacmanGrid.innerHTML = '';
+        createPacmanGrid();
+        drawPacmanWall();
+        drawPacman();
       }
 
       const pacmanStartButton = document.getElementById('pacman-start-button');
