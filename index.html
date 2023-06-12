@@ -177,12 +177,13 @@
     // Function to retrieve the username from wherever you store it (e.g., cookie, local storage)
     function getUsernameFromStorage() {
       // Replace this with your own logic to retrieve the username
-      // For example, if you store the username in a cookie named "user",
-      // you can retrieve it like this:
-      const cookie = document.cookie.split(";").find((c) => c.trim().startsWith("user="));
-      if (cookie) {
-        const username = cookie.split("=")[1];
-        return username;
+      // Here, we are assuming the username is stored in a "user" cookie
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith("user=")) {
+          return cookie.substring("user=".length);
+        }
       }
       return "";
     }
@@ -190,52 +191,49 @@
     // Function to sign out the user
     function signOut() {
       // Replace this with your own logic to sign out the user
-      // For example, if you have a sign-out API endpoint, you can call it here
-      // Here, we are removing the "user" cookie to simulate signing out
+      // Here, we are assuming the user is signed out by removing the "user" cookie
       document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       updateUI();
     }
 
-    // Function to handle sign-in
+    // Function to sign in the user
     function signIn() {
       const usernameInput = document.getElementById("username-input");
       const passwordInput = document.getElementById("password-input");
       const username = usernameInput.value;
       const password = passwordInput.value;
 
-      // Replace this with your own logic to validate the username and password
-      // For example, you can make an API request to verify the credentials
-      // Here, we are simulating sign-in by setting a "user" cookie
-      if (username === "admin" && password === "password") {
-        document.cookie = `user=${username}; path=/;`;
-        updateUI();
-      } else {
-        alert("Invalid username or password");
-      }
+      // Replace this with your own logic to authenticate the user
+      // Here, we are assuming the user is signed in by setting a "user" cookie
+      document.cookie = "user=" + username + "; path=/;";
+      updateUI();
 
-      // Clear the input fields after sign-in attempt
+      // Reset the form fields
       usernameInput.value = "";
       passwordInput.value = "";
+
+      // Redirect the user to the home page
+      window.location.href = "index.html";
     }
 
     // Function to show a random password prompt
     function showRandomPasswordPrompt() {
-      // Replace this with your own logic to generate a random password prompt
-      // For example, you can choose a random prompt from an array of prompts
-      const passwordPrompts = ["Enter your password", "What's the secret passphrase?", "Password, please!"];
-      const randomIndex = Math.floor(Math.random() * passwordPrompts.length);
       const passwordInput = document.getElementById("password-input");
-      passwordInput.placeholder = passwordPrompts[randomIndex];
+      passwordInput.placeholder = getRandomPasswordPrompt();
     }
 
-    // Function to set the game of the day
-    function setGameOfTheDay(game) {
-      const gameOfTheDayElement = document.getElementById("game-of-the-day");
-      gameOfTheDayElement.textContent = `The Game of Today is: ${game}`;
+    // Function to generate a random password prompt
+    function getRandomPasswordPrompt() {
+      const prompts = [
+        "Enter your secret word",
+        "What's your favorite color?",
+        "Name of your first pet?"
+      ];
+      return prompts[Math.floor(Math.random() * prompts.length)];
     }
 
-    // Update the UI when the page loads
-    updateUI();
+    // Run the updateUI function on page load
+    window.addEventListener("load", updateUI);
   </script>
 </body>
 </html>
