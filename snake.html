@@ -28,10 +28,27 @@
       width: 20px;
       height: 20px;
     }
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: red;
+    }
+    .score {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
   <div class="game-container" id="game-container"></div>
+  <div class="game-over" id="game-over"></div>
+  <div class="score" id="score"></div>
 
   <script>
     // JavaScript code for the Snake game
@@ -50,6 +67,7 @@
     let food = getRandomFoodPosition();
     let direction = CONTROLS.RIGHT;
     let gameInterval;
+    let score = 0;
 
     // Get a random position for the food within the game container
     function getRandomFoodPosition() {
@@ -63,6 +81,8 @@
       snake = [{ x: 0, y: 0 }];
       food = getRandomFoodPosition();
       direction = CONTROLS.RIGHT;
+      score = 0;
+      updateScore();
       gameInterval = setInterval(update, 200); // Update the game every 200ms
     }
 
@@ -85,22 +105,25 @@
           break;
       }
 
-      // Check for collision with self
+      // Check if the snake collides with itself or the walls
       if (snake.some((segment) => segment.x === head.x && segment.y === head.y)) {
-        // Game over
-        clearInterval(gameInterval);
-        alert("Game Over");
+        gameOver();
         return;
       }
 
-      // Move the snake
+      // Add the new head to the snake
       snake.unshift(head);
 
-      // Check if the snake has eaten the food
+      // Check if the snake eats the food
       if (head.x === food.x && head.y === food.y) {
-        // Increase the length of the snake
+        // Increase the score
+        score++;
+        updateScore();
+
+        // Generate new food position
         food = getRandomFoodPosition();
       } else {
+        // Remove the tail segment
         snake.pop();
       }
 
@@ -128,6 +151,21 @@
       foodElement.style.top = food.y + "px";
       foodElement.className = "food";
       gameContainer.appendChild(foodElement);
+    }
+
+    // Game over
+    function gameOver() {
+      clearInterval(gameInterval);
+      const gameContainer = document.getElementById("game-container");
+      const gameOverElement = document.getElementById("game-over");
+      gameOverElement.innerText = "Game Over";
+      gameContainer.appendChild(gameOverElement);
+    }
+
+    // Update the score display
+    function updateScore() {
+      const scoreElement = document.getElementById("score");
+      scoreElement.innerText = "Score: " + score;
     }
 
     // Handle keydown events for controlling the snake
