@@ -96,19 +96,6 @@
       align-items: center; /* Center vertically */
       justify-content: center; /* Center horizontally */
     }
-    /* CSS for sign-in-box */
-    .sign-in-box {
-      float: right;
-      margin-top: -70px; /* Position the box 20 pixels above the right-header-box */
-      margin-right: -170px; /* Move the box to the left by 50 pixels */
-      height: 30px;
-      width: 120px;
-      color: white; /* Add the color property */
-      text-align: center; /* Center the text */
-      display: flex; /* Add display flex */
-      align-items: center; /* Center vertically */
-      justify-content: center; /* Center horizontally */
-    }
     /* CSS for profile-box */
     .profile-box {
       float: right;
@@ -130,7 +117,6 @@
     <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
       <div class="header-btn">
-        <a id="1signin-btn" href="login.html">Sign In</a>
         <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
       </div>
       <div class="user-name" id="user-name"></div>
@@ -146,9 +132,6 @@
     </div>
     <div class="header-box sign-out-box">
       <h2>Sign-Out</h2>
-    </div>
-    <div class="header-box sign-in-box">
-      <h2><a href="login.html">Sign-In</a></h2>
     </div>
     <div class="header-box profile-box">
       <h2>Profile</h2>
