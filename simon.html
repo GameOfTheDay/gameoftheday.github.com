@@ -4,90 +4,200 @@
   <title>Simon Game</title>
   <style>
     /* CSS styling for the game */
-    .simon-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f0f0f0;
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
     }
-    .simon-board {
+    .game-container {
+      margin: 20px auto;
+      width: 300px;
+      height: 300px;
+      border: 1px solid #ccc;
       display: flex;
       flex-wrap: wrap;
-      width: 300px;
+      align-content: flex-start;
+      padding: 5px;
     }
-    .simon-button {
-      flex: 0 0 50%;
-      height: 150px;
-      background-color: gray;
+    .game-button {
+      flex-basis: 50%;
+      height: 50%;
+      box-sizing: border-box;
       cursor: pointer;
+      position: relative;
     }
-    .simon-button.active {
-      opacity: 0.6;
+    .red {
+      background-color: #ff4136;
+    }
+    .green {
+      background-color: #2ecc40;
+    }
+    .blue {
+      background-color: #0074d9;
+    }
+    .yellow {
+      background-color: #ffdc00;
+    }
+    .score {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .game-over {
+      text-align: center;
+      font-size: 24px;
+      color: red;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="simon-container">
-    <h1>Simon Game</h1>
-    <div class="simon-board">
-      <div class="simon-button" onclick="handleButtonClick(0)"></div>
-      <div class="simon-button" onclick="handleButtonClick(1)"></div>
-      <div class="simon-button" onclick="handleButtonClick(2)"></div>
-      <div class="simon-button" onclick="handleButtonClick(3)"></div>
-    </div>
-    <button onclick="startGame()">Start Game</button>
+  <h1 class="score" id="score">Score: 0</h1>
+  <div class="game-container">
+    <div class="game-button red" onclick="handleClick('red')"></div>
+    <div class="game-button green" onclick="handleClick('green')"></div>
+    <div class="game-button blue" onclick="handleClick('blue')"></div>
+    <div class="game-button yellow" onclick="handleClick('yellow')"></div>
   </div>
+  <div class="game-over" id="game-over">Game Over</div>
 
   <script>
-    const simonButtons = document.querySelectorAll('.simon-button');
-    const startButton = document.querySelector('button');
-    const pattern = [];
-    let currentStep = 0;
-    let isClickable = false;
+    // JavaScript code for the Simon Game
 
+    // Game variables
+    var sequence = [];
+    var playerSequence = [];
+    var round = 0;
+    var score = 0;
+    var gameActive = false;
+    var buttons = document.getElementsByClassName("game-button");
+    var scoreDisplay = document.getElementById("score");
+    var gameOverDisplay = document.getElementById("game-over");
+
+    // Colors for the game buttons
+    var colors = {
+      red: "#ff4136",
+      green: "#2ecc40",
+      blue: "#0074d9",
+      yellow: "#ffdc00",
+    };
+
+    // Start the game
     function startGame() {
-      pattern.length = 0;
-      currentStep = 0;
-      isClickable = false;
-      playNextStep();
+      resetGame();
+      nextRound();
+      gameActive = true;
     }
 
-    function playNextStep() {
-      const nextButton = getRandomButton();
-      pattern.push(nextButton);
-      animateButton(nextButton);
-      currentStep = 0;
-      isClickable = true;
+    // Reset the game state
+    function resetGame() {
+      sequence = [];
+      playerSequence = [];
+      round = 0;
+      score = 0;
+      scoreDisplay.textContent = "Score: " + score;
+      gameOverDisplay.style.display = "none";
     }
 
-    function animateButton(buttonIndex) {
-      const button = simonButtons[buttonIndex];
-      button.classList.add('active');
-      setTimeout(() => {
-        button.classList.remove('active');
-      }, 500);
+    // Generate the next sequence for the round
+    function nextRound() {
+      var nextColor = getRandomColor();
+      sequence.push(nextColor);
+      playSequence();
+      round++;
     }
 
-    function getRandomButton() {
-      return Math.floor(Math.random() * 4);
+    // Play the sequence of colors
+    function playSequence() {
+      disableButtons();
+      var i = 0;
+      var interval = setInterval(function () {
+        flashButton(sequence[i]);
+        i++;
+        if (i >= sequence.length) {
+          enableButtons();
+          clearInterval(interval);
+        }
+      }, 1000);
     }
 
-    function handleButtonClick(buttonIndex) {
-      if (!isClickable) return;
-      animateButton(buttonIndex);
-      if (buttonIndex === pattern[currentStep]) {
-        currentStep++;
-        if (currentStep === pattern.length) {
-          isClickable = false;
-          setTimeout(() => {
-            playNextStep();
+    // Flash the button with a given color
+    function flashButton(color) {
+      var button = getButtonByColor(color);
+      if (button) {
+        button.style.backgroundColor = colors[color];
+        setTimeout(function () {
+          button.style.backgroundColor = "";
+        }, 500);
+      }
+    }
+
+    // Handle button clicks
+    function handleClick(color) {
+      if (gameActive) {
+        playerSequence.push(color);
+        flashButton(color);
+
+        if (!checkSequence()) {
+          endGame();
+          return;
+        }
+
+        if (playerSequence.length === sequence.length) {
+          score++;
+          scoreDisplay.textContent = "Score: " + score;
+          playerSequence = [];
+          setTimeout(function () {
+            nextRound();
           }, 1000);
         }
-      } else {
-        alert('Game Over!');
       }
+    }
+
+    // Check if the player's sequence matches the game sequence
+    function checkSequence() {
+      for (var i = 0; i < playerSequence.length; i++) {
+        if (playerSequence[i] !== sequence[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // End the game
+    function endGame() {
+      gameActive = false;
+      gameOverDisplay.style.display = "block";
+    }
+
+    // Disable game buttons
+    function disableButtons() {
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.pointerEvents = "none";
+      }
+    }
+
+    // Enable game buttons
+    function enableButtons() {
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.pointerEvents = "auto";
+      }
+    }
+
+    // Get a random color from the available colors
+    function getRandomColor() {
+      var colorNames = Object.keys(colors);
+      var randomIndex = Math.floor(Math.random() * colorNames.length);
+      return colorNames[randomIndex];
+    }
+
+    // Get the game button element by color
+    function getButtonByColor(color) {
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].classList.contains(color)) {
+          return buttons[i];
+        }
+      }
+      return null;
     }
   </script>
 </body>
