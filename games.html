@@ -3,205 +3,289 @@
 <head>
   <title>Game Collection</title>
   <style>
-    /* CSS styling for the game collection */
+    /* CSS styling for the games */
     body {
       font-family: Arial, sans-serif;
       background-color: #f2f2f2;
-       height: 500vh; /* Set the height to 5 times the viewport height */
-  overflow-y: scroll; /* Enable vertical scrolling */
+      padding: 20px;
+      height: 500vh;
+      overflow-y: scroll;
     }
 
     .game-container {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 50px;
+    }
+
+    .game-box {
+      width: calc(33.33% - 10px);
+      background-color: #fff;
+      border: 2px solid #333;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .game-heading {
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .start-button {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* CSS styling for Tetris */
+    #tetris {
+      display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      gap: 20px;
+      height: 100%;
     }
 
-    .game {
-      border: 2px solid #333;
-      background-color: #fff;
-      padding: 10px;
-    }
-
-    #tetris-game {
+    #game-board {
       display: grid;
       grid-template-columns: repeat(10, 30px);
       grid-template-rows: repeat(20, 30px);
-    }
-
-    #pacman-game {
+      border: 2px solid #333;
+      background-color: #fff;
       position: relative;
-      width: 420px;
-      height: 420px;
     }
 
-    #pacman-game .wall {
+    .cell {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #ccc;
+      background-color: transparent;
+    }
+
+    .tetromino {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 1px solid #333;
+      background-color: #333;
+    }
+
+    .start-button-tetris {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* CSS styling for Pac-Man */
+    #pacman {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    #game-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      gap: 1px;
       background-color: #000;
-      width: 30px;
-      height: 30px;
-      position: absolute;
+      position: relative;
+      border: 2px solid #000;
+      width: fit-content;
     }
 
-    #pacman-game .pacman {
+    .cell {
+      background-color: #fff;
+    }
+
+    .player {
       background-color: yellow;
-      width: 30px;
-      height: 30px;
-      position: absolute;
       border-radius: 50%;
+      height: 30px;
+      width: 30px;
+      position: absolute;
     }
 
-    #start-button {
+    .ghost {
+      background-color: red;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+      position: absolute;
+    }
+
+    .pellet {
+      background-color: #fff;
+      border-radius: 50%;
+      height: 6px;
+      width: 6px;
+      position: absolute;
+    }
+
+    .start-button-pacman {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* CSS styling for T-Rex Game */
+    #trex-game {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    #game-container {
+      position: relative;
+      width: 600px;
+      height: 150px;
+      background-color: #f7f7f7;
+      border: 2px solid #333;
+      overflow: hidden;
+    }
+
+    #trex {
+      position: absolute;
+      bottom: 0;
+      width: 44px;
+      height: 47px;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACfCAMAAABqZnOyAAAADFBMVEX///+kiwD+MAD+tkS9WFqjAAABOUlEQVR4nO3ay27CMBBAUSj//8/dJZE6mo5rMsTpuUvHj4M3EYLH4zq90j6tC0PuCLkj5I6QO2olP7+GQ0ZGRkZGXpI87iy2IDk0IyMjIyPfkPxMi459RU+L+12IXN0PGRkZGbmH3PEqCVS/SVNyNg0ZGRkZGXkF8jCqOg8ZGRkZ+Y7k4rGhYLhlyDNQZGRkZGTkt5GDyuTi5zkNioyMjIzcTi6+oxYkH9r+bFOcdpg3A0VGRkZGvhZ5HFpE5fNyCjIyMjIy8pnkmV/nesn5N8gJcjVkZGRk5DuSJ8zj5L1ovzJ5K1gQHpFbtu2CocMYMjIyMvIdycHaXDdTlRzitzFkZGRkZOQB8l60dg8ZGRkZGXmOfJr4D+SOu61e2jvuFhkZGRkZeYj88+GnUBPkshkZGRkZ+X+QvwGFb3oRWXm6LwAAAABJRU5ErkJggg=='); /* Replace with the actual T-Rex image */
+      background-repeat: no-repeat;
+      background-position: 0;
+      animation: trex-run 0.6s infinite;
+    }
+
+    @keyframes trex-run {
+      0% {
+        background-position: 0;
+      }
+      100% {
+        background-position: -132px;
+      }
+    }
+
+    .obstacle {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 40px;
+      background-color: #555;
+    }
+
+    .start-button-trex {
       margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="game-container">
-    <div class="game" id="trex-game">
-      <h3>T-Rex Game</h3>
-      <button id="trex-start-button">Start</button>
-    </div>
+  <h1>T-Rex Game</h1>
+  <div id="trex-game">
+    <div id="game-container"></div>
+    <button class="start-button-trex" onclick="startTrexGame()">Start</button>
+  </div>
 
-    <div class="game" id="pacman-game">
-      <h3>Pac-Man Game</h3>
-      <div id="pacman-grid"></div>
-      <button id="pacman-start-button">Start</button>
-    </div>
+  <h1>Tetris</h1>
+  <div id="tetris" class="game-box">
+    <div id="game-board"></div>
+    <button class="start-button-tetris" onclick="startTetrisGame()">Start</button>
+  </div>
 
-    <div class="game" id="tetris-game">
-      <h3>Tetris</h3>
-      <div id="game-board"></div>
-      <button id="tetris-start-button">Start</button>
-    </div>
+  <h1>Pac-Man</h1>
+  <div id="pacman" class="game-box">
+    <div id="game-grid"></div>
+    <button class="start-button-pacman" onclick="startPacmanGame()">Start</button>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // T-Rex Game Code
-      const trexContainer = document.getElementById('trex-game');
+    // Tetris Game
+    // ... Tetris game code ...
 
-      function startTrexGame() {
-        trexContainer.innerHTML = '<h3>T-Rex Game</h3><p>Game started!</p>';
-        // Add your T-Rex game code here
-      }
+    // Pac-Man Game
+    // ... Pac-Man game code ...
 
-      const trexStartButton = document.getElementById('trex-start-button');
-      trexStartButton.addEventListener('click', startTrexGame);
+    // T-Rex Game
+    const gameContainer = document.getElementById('game-container');
+    const startButtonTrex = document.createElement('button');
+    startButtonTrex.classList.add('start-button-trex');
+    startButtonTrex.textContent = 'Start';
 
-      // Tetris Game Code
-      const tetrisGameBoard = document.getElementById('game-board');
-      let tetrisGrid = [];
+    gameContainer.appendChild(startButtonTrex);
 
-      function createTetrisGrid() {
-        for (let row = 0; row < 20; row++) {
-          tetrisGrid[row] = [];
-          for (let col = 0; col < 10; col++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            tetrisGameBoard.appendChild(cell);
-            tetrisGrid[row][col] = cell;
+    function startTrexGame() {
+      startButtonTrex.style.display = 'none';
+
+      const trex = document.createElement('div');
+      trex.id = 'trex';
+      gameContainer.appendChild(trex);
+
+      let isJumping = false;
+      let isGameOver = false;
+      let gravity = 0.9;
+      let position = 0;
+      let obstacleTimeout;
+
+      function jump() {
+        let count = 0;
+        isJumping = true;
+        let jumpInterval = setInterval(() => {
+          if (count === 15) {
+            clearInterval(jumpInterval);
+            let downInterval = setInterval(() => {
+              if (count === 0) {
+                clearInterval(downInterval);
+                isJumping = false;
+              }
+              position -= 5;
+              count--;
+              position = position * gravity;
+              trex.style.bottom = position + 'px';
+            }, 20);
           }
-        }
+          position += 30;
+          count++;
+          position = position * gravity;
+          trex.style.bottom = position + 'px';
+        }, 20);
       }
 
-      function clearTetrisGrid() {
-        for (let row = 0; row < 20; row++) {
-          for (let col = 0; col < 10; col++) {
-            tetrisGameBoard.removeChild(tetrisGrid[row][col]);
+      function generateObstacles() {
+        if (isGameOver) return;
+
+        let randomTime = Math.random() * 4000 + 1000;
+        let obstaclePosition = 1000;
+        const obstacle = document.createElement('div');
+        obstacle.classList.add('obstacle');
+        gameContainer.appendChild(obstacle);
+        obstacle.style.left = obstaclePosition + 'px';
+
+        obstacleTimeout = setTimeout(() => {
+          generateObstacles();
+        }, randomTime);
+
+        let obstacleInterval = setInterval(() => {
+          if (obstaclePosition > 0 && obstaclePosition < 60 && position < 60) {
+            clearInterval(obstacleInterval);
+            isGameOver = true;
+            clearTimeout(obstacleTimeout);
+            gameContainer.removeChild(obstacle);
+            startButtonTrex.style.display = 'block';
           }
+
+          obstaclePosition -= 10;
+          obstacle.style.left = obstaclePosition + 'px';
+        }, 20);
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.code === 'Space' && !isJumping) {
+          jump();
         }
-        tetrisGrid = [];
-      }
+      });
 
-      let tetrisCurrentTetromino = null;
-      let tetrisTimer;
-
-      function createTetromino() {
-        // Create a new tetromino shape
-        // Return the tetromino shape
-      }
-
-      function drawTetromino() {
-        // Draw the current tetromino on the grid
-      }
-
-      function moveTetrominoDown() {
-        // Move the current tetromino down
-      }
-
-      function spawnNewTetromino() {
-        // Spawn a new tetromino at the top center of the grid
-      }
-
-      function updateTetris() {
-        // Update the tetris game state
-      }
-
-      function startTetrisGame() {
-        clearTimeout(tetrisTimer);
-        clearTetrisGrid();
-        createTetrisGrid();
-        spawnNewTetromino();
-        drawTetromino();
-        updateTetris();
-      }
-
-      const tetrisStartButton = document.getElementById('tetris-start-button');
-      tetrisStartButton.addEventListener('click', startTetrisGame);
-
-      // Pac-Man Game Code
-      const pacmanGame = document.getElementById('pacman-game');
-      const pacmanGrid = document.getElementById('pacman-grid');
-
-      const pacmanGridSize = 14;
-      const pacmanGridCellSize = 30;
-      const pacmanWallCoordinates = [
-        { x: 1, y: 1 },
-        { x: 1, y: 2 },
-        { x: 1, y: 3 },
-        // Add more wall coordinates here...
-      ];
-
-      function createPacmanGrid() {
-        for (let row = 0; row < pacmanGridSize; row++) {
-          for (let col = 0; col < pacmanGridSize; col++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            pacmanGrid.appendChild(cell);
-          }
-        }
-      }
-
-      function drawPacmanWall() {
-        pacmanWallCoordinates.forEach(coordinate => {
-          const wall = document.createElement('div');
-          wall.classList.add('wall');
-          wall.style.left = `${coordinate.x * pacmanGridCellSize}px`;
-          wall.style.top = `${coordinate.y * pacmanGridCellSize}px`;
-          pacmanGrid.appendChild(wall);
-        });
-      }
-
-      function drawPacman() {
-        const pacman = document.createElement('div');
-        pacman.classList.add('pacman');
-        pacman.style.left = '0px';
-        pacman.style.top = '0px';
-        pacmanGrid.appendChild(pacman);
-      }
-
-      function startPacmanGame() {
-        pacmanGrid.innerHTML = '';
-        createPacmanGrid();
-        drawPacmanWall();
-        drawPacman();
-      }
-
-      const pacmanStartButton = document.getElementById('pacman-start-button');
-      pacmanStartButton.addEventListener('click', startPacmanGame);
-    });
+      generateObstacles();
+    }
   </script>
 </body>
 </html>
