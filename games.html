@@ -1,228 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simon Game</title>
+  <title>Tetris</title>
   <style>
-    /* CSS styling for the game */
+    /* CSS styling for the Tetris game */
     body {
       font-family: Arial, sans-serif;
-      background-color: #fafafa;
+      background-color: #f2f2f2;
     }
-    .game-container {
-      margin: 20px auto;
-      width: 300px;
-      height: 300px;
-      border: 1px solid #ccc;
+
+    #tetris {
       display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      padding: 5px;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    .game-button {
-      flex-basis: 50%;
-      height: 50%;
-      box-sizing: border-box;
-      cursor: pointer;
-      position: relative;
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(20, 30px);
+      border: 2px solid #333;
+      background-color: #fff;
     }
-    .red {
-      background-color: #ff4136;
+
+    .cell {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #ccc;
+      background-color: transparent;
     }
-    .green {
-      background-color: #2ecc40;
-    }
-    .blue {
-      background-color: #0074d9;
-    }
-    .yellow {
-      background-color: #ffdc00;
-    }
-    .red.shade {
-      background-color: #ff847c;
-    }
-    .green.shade {
-      background-color: #6adc81;
-    }
-    .blue.shade {
-      background-color: #79a3db;
-    }
-    .yellow.shade {
-      background-color: #ffe16b;
-    }
-    .score {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .game-over {
-      text-align: center;
-      font-size: 24px;
-      color: red;
-      display: none;
-    }
-    .btn-container {
-      text-align: center;
-      margin-bottom: 20px;
+
+    .tetromino {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 1px solid #333;
+      background-color: #333;
     }
   </style>
 </head>
 <body>
-  <div class="btn-container">
-    <button onclick="startGame()">Start Game</button>
+  <div id="tetris">
+    <div id="game-board"></div>
   </div>
-  <h1 class="score" id="score">Score: 0</h1>
-  <div class="game-container">
-    <div class="game-button red" onclick="handleClick('red')"></div>
-    <div class="game-button green" onclick="handleClick('green')"></div>
-    <div class="game-button blue" onclick="handleClick('blue')"></div>
-    <div class="game-button yellow" onclick="handleClick('yellow')"></div>
-  </div>
-  <div class="game-over" id="game-over">Game Over</div>
 
   <script>
-    // JavaScript code for the Simon Game
+    document.addEventListener('DOMContentLoaded', () => {
+      const board = document.getElementById('game-board');
+      const grid = createGrid();
+      let currentTetromino = createTetromino();
+      let timer;
 
-    // Game variables
-    var sequence = [];
-    var playerSequence = [];
-    var round = 0;
-    var score = 0;
-    var gameActive = false;
-    var buttons = document.getElementsByClassName("game-button");
-    var scoreDisplay = document.getElementById("score");
-    var gameOverDisplay = document.getElementById("game-over");
-
-    // Colors for the game buttons
-    var colors = {
-      red: "#ff4136",
-      green: "#2ecc40",
-      blue: "#0074d9",
-      yellow: "#ffdc00",
-    };
-
-    // Start the game
-    function startGame() {
-      resetGame();
-      nextRound();
-      gameActive = true;
-    }
-
-    // Reset the game state
-    function resetGame() {
-      sequence = [];
-      playerSequence = [];
-      round = 0;
-      score = 0;
-      scoreDisplay.textContent = "Score: " + score;
-      gameOverDisplay.style.display = "none";
-    }
-
-    // Start the next round
-    function nextRound() {
-      round++;
-      updateSequence();
-      playSequence();
-    }
-
-    // Update the game sequence
-    function updateSequence() {
-      var color = getRandomColor();
-      sequence.push(color);
-    }
-
-    // Play the game sequence
-    function playSequence() {
-      disableButtons();
-      var i = 0;
-      var interval = setInterval(function () {
-        flashButton(sequence[i]);
-        i++;
-        if (i >= sequence.length) {
-          clearInterval(interval);
-          enableButtons();
+      function createGrid() {
+        const cells = [];
+        for (let row = 0; row < 20; row++) {
+          for (let col = 0; col < 10; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cells.push(cell);
+            board.appendChild(cell);
+          }
         }
-      }, 1000);
-    }
-
-    // Flash the game button with the specified color
-    function flashButton(color) {
-      var button = getButtonByColor(color);
-      if (button) {
-        button.classList.add("shade");
-        setTimeout(function () {
-          button.classList.remove("shade");
-        }, 500);
+        return cells;
       }
-    }
 
-    // Handle button clicks
-    function handleClick(color) {
-      if (gameActive) {
-        playerSequence.push(color);
-        flashButton(color);
-
-        if (!checkSequence()) {
-          endGame();
-          return;
-        }
-
-        if (playerSequence.length === sequence.length) {
-          score++;
-          scoreDisplay.textContent = "Score: " + score;
-          playerSequence = [];
-          setTimeout(function () {
-            nextRound();
-          }, 1000);
-        }
+      function createTetromino() {
+        const tetromino = document.createElement('div');
+        tetromino.classList.add('tetromino');
+        return tetromino;
       }
-    }
 
-    // Check if the player's sequence matches the game sequence
-    function checkSequence() {
-      for (var i = 0; i < playerSequence.length; i++) {
-        if (playerSequence[i] !== sequence[i]) {
-          return false;
-        }
+      function drawTetromino() {
+        currentTetromino.style.left = '120px';
+        currentTetromino.style.top = '0px';
+        board.appendChild(currentTetromino);
       }
-      return true;
-    }
 
-    // End the game
-    function endGame() {
-      gameActive = false;
-      gameOverDisplay.style.display = "block";
-    }
-
-    // Disable game buttons
-    function disableButtons() {
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].style.pointerEvents = "none";
+      function moveDown() {
+        const currentPosition = parseInt(currentTetromino.style.top);
+        currentTetromino.style.top = `${currentPosition + 30}px`;
       }
-    }
 
-    // Enable game buttons
-    function enableButtons() {
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].style.pointerEvents = "auto";
+      function startGame() {
+        drawTetromino();
+        timer = setInterval(moveDown, 1000);
       }
-    }
 
-    // Get a random color from the available colors
-    function getRandomColor() {
-      var colorNames = Object.keys(colors);
-      var randomIndex = Math.floor(Math.random() * colorNames.length);
-      return colorNames[randomIndex];
-    }
-
-    // Get the game button element by color
-    function getButtonByColor(color) {
-      for (var i = 0; i < buttons.length; i++) {
-        if (buttons[i].classList.contains(color)) {
-          return buttons[i];
-        }
-      }
-      return null;
-    }
+      startGame();
+    });
   </script>
 </body>
 </html>
