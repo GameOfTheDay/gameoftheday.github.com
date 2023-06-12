@@ -3,102 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FitGirl Repacks</title>
+  <title>Wikipedia Article</title>
   <style>
     /* Add your CSS styles here */
     body {
-      background-color: #1e1e1e;
-      color: #d6d6d6;
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #000000;
       padding: 20px;
-      text-align: center;
     }
-
+    
     h1 {
-      margin: 0;
-      font-size: 32px;
-      color: #f0ecec;
+      font-size: 28px;
+      margin-bottom: 20px;
     }
-
-    nav ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    nav ul li {
-      margin: 0 10px;
-    }
-
-    nav ul li a {
-      color: #d6d6d6;
-      text-decoration: none;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    .post {
-      margin-bottom: 40px;
-    }
-
-    .post h2 {
+    
+    h2 {
       font-size: 24px;
-      margin: 0;
+      margin-bottom: 15px;
+    }
+    
+    p {
       margin-bottom: 10px;
     }
-
-    .post p {
-      margin: 0;
+    
+    a {
+      color: #0645ad;
+      text-decoration: none;
     }
-
-    footer {
-      background-color: #000000;
-      color: #d6d6d6;
-      padding: 20px;
-      text-align: center;
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+    }
+    
+    .table-of-contents {
+      margin-bottom: 20px;
+    }
+    
+    .table-of-contents ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .table-of-contents ul li {
+      margin-bottom: 5px;
+    }
+    
+    .table-of-contents ul li a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    
+    .table-of-contents ul li a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>FitGirl Repacks</h1>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Games</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <h1>Article Title</h1>
 
-  <main>
-    <div class="post">
-      <h2>Game Title 1</h2>
-      <p>Game description goes here...</p>
-    </div>
+  <div class="table-of-contents">
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#section1">Section 1</a></li>
+      <li><a href="#section2">Section 2</a></li>
+      <li><a href="#section3">Section 3</a></li>
+    </ul>
+  </div>
 
-    <div class="post">
-      <h2>Game Title 2</h2>
-      <p>Game description goes here...</p>
-    </div>
+  <div class="section" id="section1">
+    <h2>Section 1</h2>
+    <p>Content goes here...</p>
+  </div>
 
-    <!-- Add more post divs as needed -->
-  </main>
+  <div class="section" id="section2">
+    <h2>Section 2</h2>
+    <p>Content goes here...</p>
+  </div>
 
-  <footer>
-    <p>&copy; 2023 FitGirl Repacks. All rights reserved.</p>
-  </footer>
+  <div class="section" id="section3">
+    <h2>Section 3</h2>
+    <p>Content goes here...</p>
+  </div>
 </body>
 </html>
