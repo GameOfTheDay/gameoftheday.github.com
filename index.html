@@ -146,11 +146,11 @@
     <div class="header-box sign-out-box">
       <h2>Sign-Out</h2>
     </div>
-    <div class="header-box sign-in-box">
+    <div class="header-box sign-in-box" id="sign-in-box">
       <h2><a href="login.html">Sign-In</a></h2>
     </div>
-    <div class="header-box profile-box">
-      <h2>Profile</h2>
+    <div class="header-box profile-box" id="profile-box" style="display: none;">
+      <h2 id="profile-username"></h2>
     </div>
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
@@ -158,5 +158,33 @@
       <div class="bottom-line"></div>
     </div>
   </div>
+
+  <script>
+    // Check if the user is already signed in
+    document.addEventListener("DOMContentLoaded", function () {
+      var username = localStorage.getItem("username");
+      if (username) {
+        // User is signed in
+        showUserName(username);
+      }
+    });
+
+    // Function to show the username and hide the sign-in button
+    function showUserName(username) {
+      var signInBox = document.getElementById("sign-in-box");
+      var profileBox = document.getElementById("profile-box");
+      var profileUsername = document.getElementById("profile-username");
+
+      signInBox.style.display = "none";
+      profileBox.style.display = "block";
+      profileUsername.textContent = username;
+    }
+
+    // Function to sign out
+    function signOut() {
+      localStorage.removeItem("username");
+      location.reload(); // Refresh the page
+    }
+  </script>
 </body>
 </html>
