@@ -3,130 +3,29 @@
 <head>
   <title>Game Collection</title>
   <style>
-    /* CSS styling for the games */
+    /* Common CSS styling */
     body {
       font-family: Arial, sans-serif;
       background-color: #f2f2f2;
       padding: 20px;
-      height: 500vh;
-      overflow-y: scroll;
     }
 
-    .game-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 50px;
-    }
-
-    .game-box {
-      width: calc(33.33% - 10px);
-      background-color: #fff;
-      border: 2px solid #333;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-
-    .game-heading {
-      margin-bottom: 10px;
+    h1 {
       text-align: center;
-      font-weight: bold;
-    }
-
-    .start-button {
-      display: flex;
-      justify-content: center;
+      margin-bottom: 10px;
     }
 
     /* CSS styling for Tetris */
-    #tetris {
+    .game-box {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100%;
+      margin-bottom: 30px;
     }
 
-    #game-board {
-      display: grid;
-      grid-template-columns: repeat(10, 30px);
-      grid-template-rows: repeat(20, 30px);
-      border: 2px solid #333;
-      background-color: #fff;
-      position: relative;
-    }
-
-    .cell {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #ccc;
-      background-color: transparent;
-    }
-
-    .tetromino {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border: 1px solid #333;
-      background-color: #333;
-    }
-
-    .start-button-tetris {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-    }
-
-    /* CSS styling for Pac-Man */
-    #pacman {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-
-    #game-grid {
-      display: grid;
-      grid-template-columns: repeat(10, 30px);
-      grid-template-rows: repeat(10, 30px);
-      gap: 1px;
-      background-color: #000;
-      position: relative;
-      border: 2px solid #000;
-      width: fit-content;
-    }
-
-    .cell {
-      background-color: #fff;
-    }
-
-    .player {
-      background-color: yellow;
-      border-radius: 50%;
-      height: 30px;
-      width: 30px;
-      position: absolute;
-    }
-
-    .ghost {
-      background-color: red;
-      border-radius: 50%;
-      height: 30px;
-      width: 30px;
-      position: absolute;
-    }
-
-    .pellet {
-      background-color: #fff;
-      border-radius: 50%;
-      height: 6px;
-      width: 6px;
-      position: absolute;
-    }
-
+    .start-button-tetris,
     .start-button-pacman {
       margin-top: 10px;
-      display: flex;
-      justify-content: center;
     }
 
     /* CSS styling for T-Rex Game */
@@ -134,7 +33,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 20px;
     }
 
     #game-container {
@@ -151,7 +49,7 @@
       bottom: 0;
       width: 44px;
       height: 47px;
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACfCAMAAABqZnOyAAAADFBMVEX///+kiwD+MAD+tkS9WFqjAAABOUlEQVR4nO3ay27CMBBAUSj//8/dJZE6mo5rMsTpuUvHj4M3EYLH4zq90j6tC0PuCLkj5I6QO2olP7+GQ0ZGRkZGXpI87iy2IDk0IyMjIyPfkPxMi459RU+L+12IXN0PGRkZGbmH3PEqCVS/SVNyNg0ZGRkZGXkF8jCqOg8ZGRkZ+Y7k4rGhYLhlyDNQZGRkZGTkt5GDyuTi5zkNioyMjIzcTi6+oxYkH9r+bFOcdpg3A0VGRkZGvhZ5HFpE5fNyCjIyMjIy8pnkmV/nesn5N8gJcjVkZGRk5DuSJ8zj5L1ovzJ5K1gQHpFbtu2CocMYMjIyMvIdycHaXDdTlRzitzFkZGRkZOQB8l60dg8ZGRkZGXmOfJr4D+SOu61e2jvuFhkZGRkZeYj88+GnUBPkshkZGRkZ+X+QvwGFb3oRWXm6LwAAAABJRU5ErkJggg=='); /* Replace with the actual T-Rex image */
+      background-image: url('https://www.nicepng.com/png/detail/572-5725424_mario-jumping-png.png'); /* Replace with the actual T-Rex image */
       background-repeat: no-repeat;
       background-position: 0;
       animation: trex-run 0.6s infinite;
@@ -174,27 +72,31 @@
       background-color: #555;
     }
 
-    .start-button-trex {
+    .score-button {
       margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>T-Rex Game</h1>
-  <div id="trex-game">
-    <div id="game-container"></div>
-    <button class="start-button-trex" onclick="startTrexGame()">Start</button>
+  <h1>Game Collection</h1>
+
+  <div class="game-box">
+    <h2>T-Rex Game</h2>
+    <div id="trex-game">
+      <div id="game-container"></div>
+    </div>
+    <button class="score-button" onclick="showScore()">Score</button>
   </div>
 
-  <h1>Tetris</h1>
-  <div id="tetris" class="game-box">
-    <div id="game-board"></div>
+  <div class="game-box">
+    <h2>Tetris</h2>
+    <div id="tetris" class="game-container"></div>
     <button class="start-button-tetris" onclick="startTetrisGame()">Start</button>
   </div>
 
-  <h1>Pac-Man</h1>
-  <div id="pacman" class="game-box">
-    <div id="game-grid"></div>
+  <div class="game-box">
+    <h2>Pac-Man</h2>
+    <div id="pacman" class="game-container"></div>
     <button class="start-button-pacman" onclick="startPacmanGame()">Start</button>
   </div>
 
@@ -207,14 +109,10 @@
 
     // T-Rex Game
     const gameContainer = document.getElementById('game-container');
-    const startButtonTrex = document.createElement('button');
-    startButtonTrex.classList.add('start-button-trex');
-    startButtonTrex.textContent = 'Start';
-
-    gameContainer.appendChild(startButtonTrex);
+    const scoreButton = document.querySelector('.score-button');
 
     function startTrexGame() {
-      startButtonTrex.style.display = 'none';
+      scoreButton.style.display = 'none';
 
       const trex = document.createElement('div');
       trex.id = 'trex';
@@ -222,13 +120,15 @@
 
       let isJumping = false;
       let isGameOver = false;
-      let gravity = 0.9;
       let position = 0;
-      let obstacleTimeout;
+      let score = 0;
 
       function jump() {
-        let count = 0;
+        if (isJumping) return;
         isJumping = true;
+
+        let count = 0;
+        let gravity = 0.9;
         let jumpInterval = setInterval(() => {
           if (count === 15) {
             clearInterval(jumpInterval);
@@ -260,7 +160,7 @@
         gameContainer.appendChild(obstacle);
         obstacle.style.left = obstaclePosition + 'px';
 
-        obstacleTimeout = setTimeout(() => {
+        let obstacleTimeout = setTimeout(() => {
           generateObstacles();
         }, randomTime);
 
@@ -270,12 +170,16 @@
             isGameOver = true;
             clearTimeout(obstacleTimeout);
             gameContainer.removeChild(obstacle);
-            startButtonTrex.style.display = 'block';
+            scoreButton.style.display = 'block';
           }
 
           obstaclePosition -= 10;
           obstacle.style.left = obstaclePosition + 'px';
         }, 20);
+      }
+
+      function showScore() {
+        alert('Score: ' + score);
       }
 
       document.addEventListener('keydown', (event) => {
