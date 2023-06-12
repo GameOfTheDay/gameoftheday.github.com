@@ -29,7 +29,7 @@
       padding: 8px 16px;
       background-color: transparent;
       color: white;
-      border: 2px solid transparent;
+      border: none; /* Remove the border */
       text-decoration: none;
       font-size: 16px;
       cursor: pointer;
@@ -130,6 +130,7 @@
     <div class="header-box" id="game-header">
       <h2 id="game-of-the-day">The Game of Today is: X</h2>
       <div class="header-btn">
+        <a id="signin-btn" href="login.html">Sign In</a>
         <a id="sign-out-btn" onclick="signOut()" style="display: none;">Sign Out</a>
       </div>
       <div class="user-name" id="user-name"></div>
@@ -155,99 +156,8 @@
     <div class="header-box secondary-header-box" id="GameOfTheDay-Header">
       <div class="top-line"></div>
       <div class="line"></div>
-      <h2>Community</h2>
-      <h2>Feedback</h2>
+      <div class="bottom-line"></div>
     </div>
   </div>
-
-  <div id="sign-in-page" class="container">
-    <h2>Sign In</h2>
-    <div class="form-container">
-      <input type="text" id="username-input" class="form-input" placeholder="Username">
-      <input type="password" id="password-input" class="form-input" placeholder="Password" onfocus="showRandomPasswordPrompt()">
-      <button id="signin-submit" class="form-submit" onclick="signIn()">Sign In</button>
-    </div>
-  </div>
-
-  <script>
-    // Function to check if the user is signed in
-    function isUserSignedIn() {
-      // Replace this with your own logic to check if the user is signed in
-      // For example, you can use cookies, local storage, or a server-side check
-      // Here, we are assuming the user is signed in if a "user" cookie exists
-      return document.cookie.includes("user=");
-    }
-
-    // Function to update the UI based on the user's sign-in status
-    function updateUI() {
-      const signInBtn = document.getElementById("signin-btn");
-      const signOutBtn = document.getElementById("sign-out-btn");
-      const userName = document.getElementById("user-name");
-
-      if (isUserSignedIn()) {
-        signInBtn.style.display = "none";
-        signOutBtn.style.display = "inline-block";
-        userName.textContent = getUsernameFromStorage();
-      } else {
-        signInBtn.style.display = "inline-block";
-        signOutBtn.style.display = "none";
-        userName.textContent = "";
-      }
-    }
-
-    // Function to retrieve the username from wherever you store it (e.g., cookie, local storage)
-    function getUsernameFromStorage() {
-      // Replace this with your own logic to retrieve the username
-      // For example, if you store the username in a cookie called "user", you can retrieve it like this:
-      const cookie = document.cookie.split(";").find((c) => c.trim().startsWith("user="));
-      if (cookie) {
-        return cookie.split("=")[1];
-      }
-      return null;
-    }
-
-    // Run the updateUI function when the page loads
-    window.addEventListener("load", updateUI);
-
-    // Define an event listener for the sign-out button
-    document.getElementById("sign-out-btn").addEventListener("click", signOut);
-
-    // Function to sign out the user
-    function signOut() {
-      // Replace this with your own logic to sign out the user
-      // For example, you can clear the "user" cookie or perform any other necessary tasks
-      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      updateUI(); // Update the UI to reflect the sign-out status
-    }
-
-    // Function to sign in the user
-    function signIn() {
-      const username = document.getElementById("username-input").value;
-      const password = document.getElementById("password-input").value;
-
-      // Replace this with your own logic to sign in the user
-      // For example, you can send an HTTP request to a server-side endpoint
-      // to validate the username and password
-      // Here, we are assuming the sign-in is successful if the username is not empty
-      if (username.trim() !== "") {
-        // Store the username in a cookie called "user"
-        document.cookie = `user=${username.trim()}; path=/;`;
-        updateUI(); // Update the UI to reflect the sign-in status
-      }
-    }
-
-    // Function to show a random password prompt in the password field
-    function showRandomPasswordPrompt() {
-      // Replace this with your own logic to generate a random password prompt
-      const passwordPrompts = [
-        "Enter your password",
-        "Password required",
-        "Your secret password",
-        "Secure access only",
-      ];
-      const randomIndex = Math.floor(Math.random() * passwordPrompts.length);
-      document.getElementById("password-input").placeholder = passwordPrompts[randomIndex];
-    }
-  </script>
 </body>
 </html>
