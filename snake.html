@@ -18,7 +18,7 @@
     }
     .snake {
       position: absolute;
-      background-color: green;
+      background-color: blue;
       width: 20px;
       height: 20px;
     }
@@ -43,9 +43,17 @@
       right: 10px;
       font-size: 18px;
     }
+    .btn-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+  <div class="btn-container">
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="endGame()">End Game</button>
+  </div>
   <div class="game-container" id="game-container"></div>
   <div class="game-over" id="game-over"></div>
   <div class="score" id="score"></div>
@@ -67,6 +75,7 @@
     let food = getRandomFoodPosition();
     let direction = CONTROLS.RIGHT;
     let gameInterval;
+    let gameActive = false;
     let score = 0;
 
     // Get a random position for the food within the game container
@@ -78,12 +87,25 @@
 
     // Start the game
     function startGame() {
-      snake = [{ x: 0, y: 0 }];
-      food = getRandomFoodPosition();
-      direction = CONTROLS.RIGHT;
-      score = 0;
-      updateScore();
-      gameInterval = setInterval(update, 200); // Update the game every 200ms
+      if (!gameActive) {
+        snake = [{ x: 0, y: 0 }];
+        food = getRandomFoodPosition();
+        direction = CONTROLS.RIGHT;
+        score = 0;
+        updateScore();
+        gameActive = true;
+        gameInterval = setInterval(update, 200); // Update the game every 200ms
+      }
+    }
+
+    // End the game
+    function endGame() {
+      if (gameActive) {
+        clearInterval(gameInterval);
+        gameActive = false;
+        const gameOverElement = document.getElementById("game-over");
+        gameOverElement.innerText = "Game Over";
+      }
     }
 
     // Update the game state
@@ -92,22 +114,30 @@
       const head = { x: snake[0].x, y: snake[0].y };
       switch (direction) {
         case CONTROLS.UP:
-          head.y = (head.y - GRID_SIZE + GRID_SIZE * GRID_SIZE) % (GRID_SIZE * GRID_SIZE);
+          head.y -= GRID_SIZE;
           break;
         case CONTROLS.DOWN:
-          head.y = (head.y + GRID_SIZE) % (GRID_SIZE * GRID_SIZE);
+          head.y += GRID_SIZE;
           break;
         case CONTROLS.LEFT:
-          head.x = (head.x - GRID_SIZE + GRID_SIZE * GRID_SIZE) % (GRID_SIZE * GRID_SIZE);
+          head.x -= GRID_SIZE;
           break;
         case CONTROLS.RIGHT:
-          head.x = (head.x + GRID_SIZE) % (GRID_SIZE * GRID_SIZE);
+          head.x += GRID_SIZE;
           break;
       }
 
       // Check if the snake collides with itself or the walls
-      if (snake.some((segment) => segment.x === head.x && segment.y === head.y)) {
-        gameOver();
+      if (
+        snake.some(
+          (segment, index) => index !== 0 && segment.x === head.x && segment.y === head.y
+        ) ||
+        head.x < 0 ||
+        head.x >= GRID_SIZE * GRID_SIZE ||
+        head.y < 0 ||
+        head.y >= GRID_SIZE * GRID_SIZE
+      ) {
+        endGame();
         return;
       }
 
@@ -153,15 +183,6 @@
       gameContainer.appendChild(foodElement);
     }
 
-    // Game over
-    function gameOver() {
-      clearInterval(gameInterval);
-      const gameContainer = document.getElementById("game-container");
-      const gameOverElement = document.getElementById("game-over");
-      gameOverElement.innerText = "Game Over";
-      gameContainer.appendChild(gameOverElement);
-    }
-
     // Update the score display
     function updateScore() {
       const scoreElement = document.getElementById("score");
@@ -181,9 +202,6 @@
         direction = CONTROLS.RIGHT;
       }
     });
-
-    // Start the game when the page loads
-    startGame();
   </script>
 </body>
 </html>
