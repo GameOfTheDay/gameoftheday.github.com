@@ -94,7 +94,10 @@
         score = 0;
         updateScore();
         gameActive = true;
-        gameInterval = setInterval(update, 200); // Update the game every 200ms
+        gameInterval = setInterval(update, 100); // Update the game every 100ms
+
+        const gameOverElement = document.getElementById("game-over");
+        gameOverElement.innerText = ""; // Clear the game over message
       }
     }
 
